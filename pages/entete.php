@@ -2,7 +2,7 @@
 require_once "../modeles/modeles.php";
 require_once "../affichages/fonctionAffichageProf.php";
 require_once "../affichages/affichageEleve.php";
-
+// test
 
 ?>
 <!DOCTYPE html>
