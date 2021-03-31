@@ -1,0 +1,40 @@
+
+#connexion
+{
+    margin-bottom: 10%;
+    
+}
+#info
+{
+    /* margin-top: 10%; */
+    left:10;
+    border: solid 2px;
+    max-width: 50%;
+    height: 300px;
+    margin: auto;    
+    border-radius:5%;
+    padding:1%;
+}
+#info2
+{
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+}
+
+#accueil
+{
+    max-width:100%;
+    padding: 0%;
+    margin-top : 10%;
+}
+
+form
+{
+    padding: 3%;
+    border: solid 2px black;
+    border-radius:5%;
+    width:50%;
+    margin: auto;
+    text-align: center;
+}

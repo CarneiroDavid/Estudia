@@ -1,0 +1,9 @@
+Fonction.php : 
+- Ajouter un utilisateur dans la liste des eleves;
+- Afficher les infos élèves dans la page InfoEleve.php;
+- Affichage des élèves trier par classe dans la page listeEleve.php;
+- Affichage des élèves trier ordre alphabétique dans chaque classe dans la page modifClasse.
+
+listeEleve.php : Une page avec la liste des eleves classé par classe et par ordre alphabétique
+modifClasse.php : Une page avec la liste des classes et les eleves qui la compose quand une classe est selectionné pour y appliquer des modifs (supprEleve, infoEleve)
+InfoEleve.php : Une page info eleve, regroupant leurs infos personnelles et la possibilité de les modifier, sous forme de "Card"
