@@ -70,7 +70,7 @@ require_once "../affichages/affichageEleve.php";
          
         }
       
-      if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur" ||$_SESSION["statut"] == "Administration")
+      if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur" ||!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
       {
         ?>
       <li class="nav-item">

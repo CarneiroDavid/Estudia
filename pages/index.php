@@ -33,11 +33,12 @@ if(empty($_SESSION["nom"]))
     }
     require_once "formulaireConnexion.php";
 }else 
-{
+{    
+    $demain = date("Y-m-d", strtotime('-5 day'));?><br><?php
+    // echo $demain;
     #mise en page pour chaque user
-    ?><h1>test</h1><?php
-    // affichageDevoir(2, date(m.d.y));
-    echo date("m+1.d.y");
-    echo date("m.d.y");
+    
+    affichageDevoir(2, $demain);
+
 
 }
