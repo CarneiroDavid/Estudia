@@ -47,7 +47,7 @@ $classes = $requete -> fetchAll(PDO::FETCH_ASSOC);
             ?>
                 <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"];?>
                 <span style="float:right;">
-                <a class="btn btn-warning btn-sm" href="infoEleve.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
+                <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
                 <a class="btn btn-danger btn-sm" href="modifClasse.php?suppr=<?=$eleve["idUtilisateur"]?>">Supprimer</a>
                 </span>
                 </li>   

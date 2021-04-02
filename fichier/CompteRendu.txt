@@ -7,3 +7,16 @@ Fonction.php :
 listeEleve.php : Une page avec la liste des eleves classé par classe et par ordre alphabétique
 modifClasse.php : Une page avec la liste des classes et les eleves qui la compose quand une classe est selectionné pour y appliquer des modifs (supprEleve, infoEleve)
 InfoEleve.php : Une page info eleve, regroupant leurs infos personnelles et la possibilité de les modifier, sous forme de "Card"
+
+
+Séance du 02.04.21 :
+
+-Ajout d'une matiere a un enseignant (modifMatiere.php,enseignants.php);
+
+-mise en page devoirs, notes (index.php, affichageEleve.php);
+
+-lors de l'inscription si l'utilisateur est enregistrer entant que prof il sera inscrit dans la table enseignants;
+
+-Ajout d'une tables cours et edt ( emplois du temps ) pour de future ajout de fonctionnalités
+
+-pleins de petits correctifs en écho aux changements apportés lors de l'ajout de nouvelles fonctionnalités

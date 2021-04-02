@@ -57,9 +57,7 @@ require_once "../affichages/affichageEleve.php";
           <a class="btn" id="lien" href="index.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Cours</a>
         </li>
 
-        <li class="nav-item">
-          <a class="btn" id="lien" href="infoEleve.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">infoEleve</a>
-        </li>
+
         <li class="nav-item">
           <a class="btn" id="lien" href="modifClasse.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">modifClasse</a>
         </li>   
@@ -77,6 +75,12 @@ require_once "../affichages/affichageEleve.php";
         <a class="btn" id="lien" href="listeEleve.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">listeEleve</a>
       </li>
       <li class="nav-item">
+        <a class="btn" id="lien" href="listeEnseignant.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Enseignants</a>
+      </li>
+      <li class="nav-item">
+        <a class="btn" id="lien" href="formulaireInscription.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Inscription</a>
+      </li>
+      <li class="nav-item">
         <a class="btn" id="lien" href="prof.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Prof</a>
       </li>
  
@@ -91,4 +95,4 @@ require_once "../affichages/affichageEleve.php";
     </div>
 </nav>
 
-<div class="container">
+<div class="container" style="margin-left:1%;padding-left:1%;border-radius:5%">

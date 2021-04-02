@@ -8,19 +8,19 @@ if(!empty($_POST["envoi"]))
     {
         if(modifClasse($_POST["classe"], $_POST["envoi"]) == true)
         {
-            header("location:../pages/infoEleve.php?id=$id&succes=modifClasse");
+            header("location:../pages/infoUtilisateur.php?id=$id&succes=modifClasse");
         }
         else
         {
-            header("location:../pages/infoEleve.php?id=$id&erreur=modifClasse");
+            header("location:../pages/infoUtilisateur.php?id=$id&erreur=modifClasse");
         }
     }
     else
     {
-        header("location:../pages/infoEleve.php?id=$id&erreur=selectClasse");
+        header("location:../pages/infoUtilisateur.php?id=$id&erreur=selectClasse");
     }
 }
 else
 {
-    header("location:../pages/infoEleve.php?id=$id&erreur=boutonEnvoi");
+    header("location:../pages/infoUtilisateur.php?id=$id&erreur=boutonEnvoi");
 }

@@ -1,6 +1,6 @@
 <?php
 
-function affichageDevoir($idEtude = 2, $date)
+function affichageDevoir($idEtude, $date)
 {
     $requete = getBdd() -> prepare("SELECT * FROM devoirs INNER JOIN matieres USING (idMatiere) WHERE idEtude = ? AND laDate = ? ORDER BY matiere");
     $requete -> execute([$idEtude, $date]);
@@ -8,6 +8,36 @@ function affichageDevoir($idEtude = 2, $date)
 
     $listeDevoir = [];
     $i = 0;
+
+
+    ?>
+    <div style="border:2px solid;text-align:center;border-radius:5%;color:white;background-color : rgb(109, 19, 121);text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;">
+
+    <form method='get' style="width:100%">
+
+    <button type="submit"  
+    value="<?= !empty($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" 
+    name='Jour' 
+    style="float:left;margin-top:1%">
+
+    <
+
+    </button>
+
+    <button type="submit" 
+    value="<?= !empty($_GET['Jour']) ? $_GET['Jour']+1 : 1 ?>"
+    name='Jour' style="float:right;margin-top:1%">
+
+    >
+
+    </button>
+    
+    <h3 ><?=$date;?></h3>
+    </form>
+    </div>
+    <?php
+
+
     foreach($devoirs as $devoir)
     {
         $listeDevoir[$devoir["laDate"]][$devoir["matiere"]][$i]["titre"] = $devoir["Titre"];
@@ -16,30 +46,87 @@ function affichageDevoir($idEtude = 2, $date)
     }
     foreach ($listeDevoir as $x => $Devoirs)
     {
-        ?><h2><?=$x;?></h2><?php
-        foreach($Devoirs as $matieres => $Devoir)
-        {
-            ?>
-            <h3><?=$matieres;?></h3>
-            <ul> 
+        ?>
+        <div style="padding-left:2%;overflow: scroll;">
             <?php
-            foreach($Devoir as $a)
+            foreach($Devoirs as $matieres => $Devoir)
             {
                 ?>
-                
-                    <li><h5><?=$a["titre"];?></h5><p><?=$a["info"];?></p></li>
+                <h4 ><?=$matieres;?></h4>
+                <ul > 
+                <?php
+                foreach($Devoir as $a)
+                {
+                    ?>
+                    
+                        <li>
+                            <h5 ><?=$a["titre"];?></h5>
+                            <p style="font-size:1em"><?=$a["info"];?></p>
+                        </li>
+                    <?php
+                }
+                ?>
+                </ul>
                 <?php
             }
-            ?>
-            </ul>
-            <?php
-        }
+        ?>
+        </div>
+        <?php
+    }
+    
+}
+
+function affichageNote($idUtilisateur)
+    {
+    $requete = getBdd() -> prepare("SELECT matiere FROM matieres");
+    $requete -> execute();
+    $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
+
+    $requete = getBdd() -> prepare("SELECT Note, idUtilisateur, matieres.matiere, designation FROM notes INNER JOIN matieres USING(idMatiere) WHERE idUtilisateur = ?");
+    $requete -> execute([$idUtilisateur]);
+    $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $listenote = [];
+    $i = 0;
+    foreach($notes as $note)
+    {
+        $listenote[$note["matiere"]][$i]["notes"] = $note["Note"];
+        $listenote[$note["matiere"]][$i]["designation"] = $note["designation"];
+        $i++;
+    }
+    ?><div style="border:2px solid;text-align:center;border-radius:5%;color:white;background-color : rgb(109, 19, 121);text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;">
+
+             <h3> Notes de l'élève :</h3>
+
+</div>
+                        <ul>
+                        <?php
+                        foreach($matieres as $matiere)
+                        {
+                            ?>
+                            
+                                <h4><?=$matiere["matiere"];?></h4>
+                            <ul class="list-group-item">
+                            <?php
+                            foreach($listenote as $x => $note)
+                            {
+                                if($x == $matiere["matiere"])
+                                {
+                                    foreach($note as $Note)
+                                    {                      
+                                        ?>
+                                        <li><?=$Note["designation"]." : ".$Note["notes"];?></li>
+                                    <?php
+                                    }
+                                }
+                            }
+                                    ?>
+                            </ul>
+                            <?php
+                        }
+                            ?>
+                            
+                        </ul> 
+                </p>
+                    <?php
 
     }
-    ?>
-    <h2></h2>
-    <pre>
-    <?php
-    // print_r($listeDevoir);
-    ?></pre><?php
-}

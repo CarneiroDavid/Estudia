@@ -20,7 +20,19 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                         if(ajouterEleve($_POST["nom"], $_POST["prenom"], $id) == true)
                         {
                             
-                            header("location:../pages/formulaireInscription.php?success=InsertionEleve");
+                            header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
+                        }
+                        else
+                        {
+                            header("location:../pages/formulaireInscription.php?succes=Inscription");
+                        }
+                    }
+                    if($_POST["statut"] == "Professeur")
+                    {
+                        if(ajouterProf($_POST["nom"], $_POST["prenom"], $id) == true)
+                        {
+                            
+                            header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
                         }
                         else
                         {

@@ -8,15 +8,20 @@ function ajouterProf($nom, $prenom, $identifiant)
     try{
         $requete = getBdd() -> prepare("INSERT INTO enseignants (nom, prenom, idUtilisateur) VALUES (?, ?, ?)");
         $requete -> execute([$nom, $prenom, $idUtilisateur["idUtilisateur"]]);
+        return true;
     }catch(Exception $e)
     {
-        ?>
+        return false;
+    }
+}
 
-        <div class="alert alert-danger mt-3">
-            Erreur d'enregisrement.<br>
-            <?= $e -> getMessage();?>
-        </div>
-        
-        <?php
+function modifMatiere($idUtilisateur,$matiere)
+{
+    try{
+    $requete = getBdd()->prepare("UPDATE enseignants SET matiere = ? WHERE idUtilisateur = ?");
+    $requete->execute([$matiere,$idUtilisateur]);
+    return "success";
+    }catch(Exception $e){
+        return $e;
     }
 }

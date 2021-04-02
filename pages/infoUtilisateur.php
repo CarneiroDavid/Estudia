@@ -103,4 +103,63 @@ if(!empty($_GET["id"]))
     </div>
     <?php
 }
+
+if(!empty($_GET["idEnseignant"]))
+{
+
+    
+    $requete = getBdd() -> prepare("SELECT matiere FROM matieres");
+    $requete -> execute();
+    $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
+
+    $requete = getBdd() -> prepare("SELECT *  FROM enseignants  WHERE idUtilisateur = ? ");
+    $requete -> execute([$_GET["idEnseignant"]]);
+    $enseignant = $requete -> fetch(PDO::FETCH_ASSOC);
+
+    ?>
+
+    <div class="row"> 
+        <div class="col md-4">
+            <div class="card">
+                <div class="card-body">
+    
+                    <h5 class="card-title"><?=$enseignant["Nom"]. " ".$enseignant["Prenom"];?></h5>
+                    <h6 class="card-subtitle mb-2 text-muted"><?=$enseignant["matiere"];?></h6>
+
+                    <div class="text-center">                        
+                        <button onclick="afficherModif()" class="btn btn-warning my-2">Modifier</button>
+    
+                        <a href="supprimerProduit.php?id=<?=$_GET["idEnseignant"]?>" class="btn btn-danger my-2">Supprimer</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form method="POST" action="../traitements/modifMatiere.php" style="display:none;" id="ModifierClasse">
+                <label for="matiere">matière</label>
+                    <select name="matiere">
+                    <?php
+                    foreach($matieres as $matiere){
+                        
+                        ?>
+                        <option value="<?=$matiere["matiere"];?>" <?= $matiere["matiere"] == $enseignant["matiere"] ? "selected" : "";?>>
+                        
+                        
+                        <?= $matiere["matiere"];?>
+                    
+                    
+                        </option>
+                        <?php
+
+                    }
+
+                    ?>
+                    </select>
+                    <button type="submit" value="<?=$_GET["idEnseignant"];?>" name="envoi" class="btn">Valider</button>
+    </form>
+
+
+
+<?php
+}
 require_once "footer.php";

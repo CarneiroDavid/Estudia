@@ -15,7 +15,7 @@ require_once "entete.php";
         ?>
         <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"]." : ".$eleve["titre"]." ".$eleve["classe"];?>
         <span style="float:right;">
-        <a class="btn btn-warning btn-sm" href="infoEleve.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
+        <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
         </span>
         </li>   
         <?php

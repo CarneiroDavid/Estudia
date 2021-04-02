@@ -33,12 +33,27 @@ if(empty($_SESSION["nom"]))
     }
     require_once "formulaireConnexion.php";
 }else 
-{    
-    $demain = date("Y-m-d", strtotime('-5 day'));?><br><?php
+{   
+    if(!empty($_GET["Jour"])){
+        $jour = $_GET["Jour"]." day";
+    }else{
+        $jour = "+1 day";
+    }
+    $demain = date("Y-m-d", strtotime($jour));?><br><?php
     // echo $demain;
     #mise en page pour chaque user
+    ?>
+    <div style="float:left;border:2px solid;width:35%;margin-left:1%;">
+        <?php
+        affichageDevoir(2, $demain);
+        ?>
+    </div>
     
-    affichageDevoir(2, $demain);
-
+    <div style="border:2px solid;width:45%;margin-left:86%">
+        <?php
+        affichageNote($_SESSION["idUtilisateur"]);
+        ?>
+    </div>
+    <?php
 
 }
