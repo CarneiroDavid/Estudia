@@ -34,13 +34,14 @@ if(empty($_SESSION["nom"]))
     require_once "formulaireConnexion.php";
 }else 
 {   
-    if(!empty($_GET["Jour"])){
+    if(isset($_GET["Jour"])){
         $jour = $_GET["Jour"]." day";
     }else{
         $jour = "+1 day";
     }
     $demain = date("Y-m-d", strtotime($jour));?><br><?php
-    // echo $demain;
+    $demainn = date("Y-m-d", strtotime("+0 day"));?><br><?php
+    echo $demainn;
     #mise en page pour chaque user
     ?>
     <div style="float:left;border:2px solid;width:35%;margin-left:1%;">

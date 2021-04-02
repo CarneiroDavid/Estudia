@@ -16,7 +16,7 @@ function affichageDevoir($idEtude, $date)
     <form method='get' style="width:100%">
 
     <button type="submit"  
-    value="<?= !empty($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" 
+    value="<?= isset($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" 
     name='Jour' 
     style="float:left;margin-top:1%">
 
@@ -25,7 +25,7 @@ function affichageDevoir($idEtude, $date)
     </button>
 
     <button type="submit" 
-    value="<?= !empty($_GET['Jour']) ? $_GET['Jour']+1 : 1 ?>"
+    value="<?= isset($_GET['Jour']) ? $_GET['Jour']+1 : 2 ?>"
     name='Jour' style="float:right;margin-top:1%">
 
     >
