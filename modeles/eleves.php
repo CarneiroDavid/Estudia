@@ -1,4 +1,29 @@
 <?php
+class Eleves extends Modele
+{
+    private $nom;
+    private $prenom;
+    private $idUtilisateur;
+    private $idFiliere;
+    private $idEtude;
+
+    public function __construct($idUtilisateur = null)
+    {
+        if(!empty($idUtilisateur))
+        {
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idUtilisateur = ?");
+            $requete -> execute([$idUtilisateur]);
+            $eleve = $requete -> fetch(PDO::FETCH_ASSOC);
+
+            $this -> nom = $eleve["nom"];
+            $this -> prenom = $eleve["prenom"];
+            $this -> idUtilisateur = $eleve["idUtilisateur"];
+            $this -> idFiliere = $eleve["idFiliere"];
+            $this -> idEtude = $eleve["idEtude"];
+
+        }
+    }
+}
 
 
 

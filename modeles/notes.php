@@ -1,5 +1,10 @@
 <?php
 
+class Notes extends Modele
+{
+    
+}
+
 function insertionNote($idUtilisateur, $note, $matiere, $designation, $noteMax)
 {
     try

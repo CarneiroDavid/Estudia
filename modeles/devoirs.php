@@ -1,4 +1,8 @@
 <?php
+class Devoirs extends Modele
+{
+    
+}
 
 function insertionDevoir($idEtude, $matiere, $titre, $info, $date)
 {
