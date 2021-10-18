@@ -4,12 +4,10 @@ require_once "entete.php";
     $requete -> execute();
     $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
     
-    print_r($eleves);
     ?>
         
     <ul class="list-group">
     <?php
-    // print_r($eleves);
     foreach($eleves as $eleve)
     {   
         ?>

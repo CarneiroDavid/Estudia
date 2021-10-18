@@ -2,7 +2,7 @@
 
 require_once "../modeles/modeles.php";
 
-
+$user = new User();
 
 if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
 {
@@ -12,14 +12,12 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
         {
             if(strlen($_POST["nom"]) < 100 && strlen($_POST["prenom"]) < 100)
             {   
-                $id = randomId($_POST["nom"], $_POST["prenom"]);
-                if(insertionUser($_POST["mail"], $id, $_POST["nom"], $_POST["prenom"], $_POST["dateNaiss"], $_POST["statut"]) == true)
+                if($user -> insertionUser($_POST["mail"], $_POST["nom"], $_POST["prenom"], $_POST["dateNaiss"], $_POST["statut"]) == true)
                 {
                     if($_POST["statut"] == "Etudiant")
                     {
-                        if(ajouterEleve($_POST["nom"], $_POST["prenom"], $id) == true)
+                        if($user -> getStatut() -> ajouterEleve($_POST["nom"], $_POST["prenom"], $user -> getId()))
                         {
-                            
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
                         }
                         else
@@ -29,7 +27,7 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                     }
                     if($_POST["statut"] == "Professeur")
                     {
-                        if(ajouterProf($_POST["nom"], $_POST["prenom"], $id) == true)
+                        if($user -> getStatut() -> ajouterProf($user -> getId()))
                         {
                             
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");

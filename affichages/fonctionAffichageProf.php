@@ -1,7 +1,5 @@
 <?php
 
-
-
 function ListeClasse()
 {
     ?>
@@ -66,8 +64,8 @@ function formulaireNote($idClasse)
         ?>
     </select>
     <div>
-        <label for="libelle">Nom</label>
-        <input type="text" class="form-group" name="libelle" id="libelle">
+        <label for="designation">Nom</label>
+        <input type="text" class="form-group" name="designation" id="designation">
     </div>
     <div>
         <label for="NoteMax">Note Max</label>

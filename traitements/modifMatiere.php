@@ -3,7 +3,8 @@ require_once "../modeles/modeles.php";
 $id = $_POST["envoi"];
 if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
 {
-    $test = modifMatiere($_POST["envoi"], $_POST["matiere"]);
+    $prof = new Enseignant();
+    $test = $prof -> modifMatiere($_POST["envoi"], $_POST["matiere"]);
     if($test == "success"){
         header("location:../pages/infoUtilisateur.php?success=ModifMatiere&idEnseignant=$id");
     }else{

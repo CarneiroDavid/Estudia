@@ -1,6 +1,7 @@
 <?php
-
 require_once "../modeles/modeles.php";
+
+$utilisateur = new User();
 
 if(isset($_POST["bouton"]) && !empty($_POST["bouton"]) && $_POST["bouton"] == 1)
 {
@@ -8,28 +9,21 @@ if(isset($_POST["bouton"]) && !empty($_POST["bouton"]) && $_POST["bouton"] == 1)
     {
         if($_POST["mdp"] >= 0)
         {
-            $requete = getBdd() -> prepare("SELECT mdp FROM utilisateur WHERE identifiant = ?");
-            $requete -> execute([$_POST["identifiant"]]);
-            if($requete -> rowCount() > 0)
+            $verifConnexion = $utilisateur -> verifMdp($_POST["identifiant"], $_POST["mdp"]);
+            if($verifConnexion === true)
             {
-                $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
-                if(password_verify($_POST["mdp"], $utilisateur["mdp"]))
+                if($utilisateur -> connexion($_POST["identifiant"], $_POST["mdp"]) === true)
                 {
-                    if(connexion($_POST["identifiant"], $_POST["mdp"]) == true)
-                    {
-                        header("location:../pages/index.php?succes=Connexion");
-                    }
-                    else
-                    {
-                        header("location:../pages/index.php?error=Connexion");
-                    }
+                    header("location:../pages/index.php?succes=Connexion");
                 }
                 else
                 {
-                    header("location:../pages/index.php?error=FalseMdp");
+                    header("location:../pages/index.php?error=Connexion");
                 }
-            }else{
-                    header("location:../pages/index.php?error=FalseId");
+            }
+            else
+            {
+                header("$verifConnexion");
             }
         }
         else

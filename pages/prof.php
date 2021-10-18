@@ -5,7 +5,7 @@ require_once "entete.php";
 <br>
 
 <?php
-if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Administration")
+if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur")
 {
 
     ListeClasse();

@@ -11,6 +11,7 @@ require_once "../affichages/affichageEleve.php";
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecole</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="../Affichages/style.css">
     <link rel="shortcut icon" href="logo.png" type="image/x-icon">
@@ -28,7 +29,10 @@ require_once "../affichages/affichageEleve.php";
     {
       ?>
       <h2><?=$_SESSION["nom"]." ".$_SESSION["prenom"];?></h2>
-   
+      <a href="../traitements/deconnexion.php">Deconnexion</a>
+      <?php
+   }
+   ?>
 </nav>
 
 <nav class="navbar navbar-expand-md navbar-light" style="max-height:10% ; background-color : #C0BEBE;">
@@ -40,59 +44,63 @@ require_once "../affichages/affichageEleve.php";
 
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
-        <!-- <a class="nav-item nav-link" href="site.php">site</a> -->
-        <li class="nav-item">
-          <a class="btn" id="lien" href="index.php"  style="border-radius:0; border-right: solid 1px white; font-size:1.1em; font-weight : bold; color : white;">Emploi du temps</a>
-          </li>
-
-        <li class="nav-item">
-          <a class="btn" id="lien" href="index.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Résultat</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="btn" id="lien" href="formulaireInscription.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Vie scolaires</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="btn" id="lien" href="index.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Cours</a>
-        </li>
-
-
-        <li class="nav-item">
-          <a class="btn" id="lien" href="modifClasse.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">modifClasse</a>
-        </li>   
-        <li class="nav-item">
-        <a class="btn" id="lien" href="index.php"  style="font-size:1.1em; font-weight : bold; color : white;">Profil</a>
-      </li>
       <?php
-         
-        }
-      
-      if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur" ||!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
+
+      if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Professeur")
       {
         ?>
-      <li class="nav-item">
-        <a class="btn" id="lien" href="listeEleve.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">listeEleve</a>
-      </li>
-      <li class="nav-item">
-        <a class="btn" id="lien" href="listeEnseignant.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Enseignants</a>
-      </li>
-      <li class="nav-item">
-        <a class="btn" id="lien" href="formulaireInscription.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Inscription</a>
-      </li>
-      <li class="nav-item">
-        <a class="btn" id="lien" href="prof.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Prof</a>
-      </li>
- 
+            <!-- ?> -->
+          <li class="nav-item">
+            <a class="btn" id="lien" href="listeEleve.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">listeEleve</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn" id="lien" href="listeEnseignant.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Enseignants</a>
+          </li>
+          
+          <li class="nav-item">
+            <a class="btn" id="lien" href="prof.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Prof</a>
+          </li>
 
-      <!-- <a class="nav-item nav-link" href="#">Pricing</a> -->
-        
-      <!-- <a class="nav-item nav-link" href="#">Disabled</a> -->
-               <?php
+        <?php
+      }
+      if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
+      {
+        ?>
+          <li class="nav-item">
+            <a class="btn" id="lien" href="formulaireInscription.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Inscription</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn" id="lien" href="modifClasse.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Classe + creer classe</a>
+          </li>  
+
+          <li class="nav-item">
+            <a class="btn" id="lien" href="listeEnseignant.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Enseignants + creer enseignant</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="btn" id="lien" href="infoEleve.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Info Eleve</a>
+          </li>
+        <?php
+      }
+
+      if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant")
+      {
+        ?>
+        <li class="nav-item">
+            <a class="btn" id="lien" href="note.php?idUtilisateur=<?=$_SESSION["idUtilisateur"];?>"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Note</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn" id="lien" href="messagerie.php?idUtilisateur=<?=$_SESSION["idUtilisateur"];?>"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Messagerie</a>
+        </li>
+        <li class="nav-item">
+            <a class="btn" id="Profil" href="infoUtilisateur.php?id=<?=$_SESSION["idUtilisateur"];?>" style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Profil</a>
+        </li>
+        <?php 
       }
         ?>
       </ul>
     </div>
 </nav>
 
-<div class="container" style="margin-left:1%;padding-left:1%;border-radius:5%">
+<div>

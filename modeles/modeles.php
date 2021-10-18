@@ -1,5 +1,5 @@
 <?php
-// session_start();
+session_start();
 
 
 class Modele
@@ -22,15 +22,6 @@ class Modele
     }
 }
 
-// function getBdd()
-// {
-//     return new PDO('mysql:host=localhost;dbname=estudia;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-// }
-
-
-
-
-
 require_once "classes.php";
 require_once "eleves.php";
 require_once "enseignants.php";
@@ -40,6 +31,11 @@ require_once "notes.php";
 require_once "statuts.php";
 require_once "users.php";
 require_once "devoirs.php";
+require_once "conversations.php";
+require_once "messages.php";
+require_once "messVieSco.php";
+require_once "punitions.php";
+
 
 
 

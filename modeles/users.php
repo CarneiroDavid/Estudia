@@ -1,16 +1,16 @@
 <?php
 
-class Users extends Modele
+class User extends Modele
 {
-    private  $idUtilisateur;
-    private $email;
-    private $identifiant;
-    private $nom;
-    private $prenom;
-    private $dateNaiss;
-    private $mdp;
-    private $mdpTemp;
-    private $statut;
+    public  $idUtilisateur;
+    public $email;
+    public $identifiant;
+    public $nom;
+    public $prenom;
+    public $dateNaiss;
+    public $mdp;
+    public $mdpTemp;
+    public $statut;
 
     public function __construct($idUser = null)
     {
@@ -29,6 +29,19 @@ class Users extends Modele
             $this -> mdp = $infos["mdp"];
             $this -> mdpTemp = $infos["mdpTemp"];
             $this -> statut = $infos["statut"];
+            if($infos["statut"] == "Etudiant")
+            {
+                $this -> statut = new Eleves();
+            }
+            if($infos["statut"] == "Administration")
+            {
+                $this -> statut = new Administration();
+            }
+            if($infos["statut"] == "Professeur")
+            {
+                $this -> statut = new Enseignant();
+
+            }
         }
     }
 
@@ -72,15 +85,34 @@ class Users extends Modele
         $mdp2 = $this -> randomMdp();
         $mdp = password_hash($mdp2, PASSWORD_BCRYPT);
 
-        // try
-        // {
+        $this -> email = $email;
+        $this -> identifiant = $id;
+        $this -> nom = $nom;
+        $this -> prenom = $prenom;
+        $this -> dateNaiss = $dateNaiss;
+        $this -> mdp = $mdp;
+        $this -> mdpTemp = $mdp2;
+        if($statut == "Etudiant")
+            {
+                $this -> statut = new Eleves();
+            }
+            if($statut == "Administration")
+            {
+                $this -> statut = new Administration();
+            }
+            if($statut == "Professeur")
+            {
+                $this -> statut = new Enseignant();
+
+            }
         if(empty($email))
         {
             try{
             
             $sql = "INSERT INTO utilisateur (identifiant, nom, prenom, dateNaiss, mdp, mdpTemp, statut) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            $requete = getBdd() -> prepare($sql);
+            $requete = $this -> getBdd() -> prepare($sql);
             $requete -> execute([$id, $nom, $prenom, $dateNaiss, $mdp, $mdp2, $statut]);
+            
             return true;
             }
             catch(Exception $e){
@@ -91,7 +123,7 @@ class Users extends Modele
         {
             try{
             $sql = "INSERT INTO utilisateur (email, identifiant, nom, prenom, dateNaiss, mdp, mdpTemp, statut) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-            $requete = getBdd() -> prepare($sql);
+            $requete = $this -> getBdd() -> prepare($sql);
             $requete -> execute([$email, $id, $nom, $prenom, $dateNaiss, $mdp, $mdp2, $statut]);
             return true;
             }catch(Exception $e){
@@ -100,54 +132,61 @@ class Users extends Modele
         }
     }
 
-    function connexion($id, $mdp)
+    public function connexion($id)
     {
-        $erreurs = [];
+        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, nom, prenom, dateNaiss, mdp, statut FROM utilisateur WHERE identifiant = ?");
+        $requete -> execute([$id]);
+        $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
+        $nom = $utilisateur["nom"];
+        $prenom = $utilisateur["prenom"];
 
-        $requete = getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, nom, prenom, mdp, statut FROM utilisateur WHERE identifiant = ?");
+        $_SESSION["idUtilisateur"] = $utilisateur["idUtilisateur"];
+        $_SESSION["identifiant"] = $utilisateur["identifiant"];
+        $_SESSION["statut"] = $utilisateur["statut"];
+        $_SESSION["prenom"] = $prenom;
+        $_SESSION["nom"] = $nom;
+        $_SESSION["email"] = $utilisateur["email"];
+        $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
+
+        return true;
+    }   
+
+    public function verifMdp($id, $mdp)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT mdp FROM utilisateur WHERE identifiant = ?");
         $requete -> execute([$id]);
 
         if($requete -> rowCount() > 0)
         {
-            $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
-            $nom = $utilisateur["nom"];
-            $prenom = $utilisateur["prenom"];
-
-            if(!password_verify($mdp, $utilisateur["mdp"]))
-            {
-                $erreurs[] = "Le mot de passe saisie est incorrect"; 
-            }
+           $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
+           if(password_verify($mdp, $utilisateur["mdp"]))
+           {
+                return true;
+           }
+           else 
+           {
+               return "location:../pages/index.php?error=FalseMdp";
+           }
         }
         else
         {
-            $erreurs[] = "L'identifiant n'existe pas";
+            return "location:../pages/index.php?error=FalseId";
         }
+    }
 
-        if(count($erreurs) == 0)
-        {
-            $_SESSION["idUtilisateur"] = $utilisateur["idUtilisateur"];
-            $_SESSION["identifiant"] = $utilisateur["identifiant"];
-            $_SESSION["statut"] = $utilisateur["statut"];
-            $_SESSION["prenom"] = $prenom;
-            $_SESSION["nom"] = $nom;
-            $_SESSION["email"] = $utilisateur["email"];
-            return true;
-        // header("location:index.php");
-        }
-        else {
-        ?>
-        <div class="alert alert-danger">
-            Erreur<?= (count($erreurs) > 1 ? "s" : "")?> :<br>
-            <?php 
-            foreach($erreurs as $erreur)
-            {
-                ?>
-                <br><?= $erreur;?>
-            <?php
-            }
-            ?>
-        </div>
-        <?php
-        }
-    }   
+    public function rechercheNom($nom)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE nom LIKE ?");
+        $requete -> execute(['%'.$nom.'%']);
+        $allUsers = $requete ->fetchAll(PDO::FETCH_ASSOC);
+        return $allUsers;
+    }
+
+    public function selectNom($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT nom, prenom FROM utilisateur WHERE idUtilisateur = ?");
+        $requete -> execute([$id]);
+        $nom = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $nom;
+    }
 }

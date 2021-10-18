@@ -1,7 +1,12 @@
 <?php
+function getBdd()
+{
+    return new PDO('mysql:host=localhost;dbname=estudia;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+}
 
 function affichageDevoir($idEtude, $date)
 {
+    
     $requete = getBdd() -> prepare("SELECT * FROM devoirs INNER JOIN matieres USING (idMatiere) WHERE idEtude = ? AND laDate = ? ORDER BY matiere");
     $requete -> execute([$idEtude, $date]);
     $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
@@ -77,7 +82,7 @@ function affichageDevoir($idEtude, $date)
 }
 
 function affichageNote($idUtilisateur)
-    {
+{
     $requete = getBdd() -> prepare("SELECT matiere FROM matieres");
     $requete -> execute();
     $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
@@ -95,38 +100,50 @@ function affichageNote($idUtilisateur)
     }
     ?><div style="border:2px solid;text-align:center;border-radius:5%;color:white;background-color : rgb(109, 19, 121);text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;">
 
-             <h3> Notes de l'élève :</h3>
+        <h3> Notes de l'élève :</h3>
 
-</div>
-                        <ul>
-                        <?php
-                        foreach($matieres as $matiere)
-                        {
-                            ?>
-                            
-                                <h4><?=$matiere["matiere"];?></h4>
-                            <ul class="list-group-item">
-                            <?php
-                            foreach($listenote as $x => $note)
-                            {
-                                if($x == $matiere["matiere"])
-                                {
-                                    foreach($note as $Note)
-                                    {                      
-                                        ?>
-                                        <li><?=$Note["designation"]." : ".$Note["notes"];?></li>
-                                    <?php
-                                    }
-                                }
-                            }
-                                    ?>
-                            </ul>
-                            <?php
-                        }
-                            ?>
-                            
-                        </ul> 
-                </p>
+        </div>
+        <ul>
+        <?php
+        foreach($matieres as $matiere)
+        {
+            ?>
+            
+                <h4><?=$matiere["matiere"];?></h4>
+            <ul class="list-group-item" style="width:85%">
+            <?php
+            foreach($listenote as $x => $note)
+            {
+                if($x == $matiere["matiere"])
+                {
+                    foreach($note as $Note)
+                    {                      
+                        ?>
+                        <li><?=$Note["designation"]." : ".$Note["notes"];?></li>
                     <?php
+                    }
+                }
+            }
+                    ?>
+            </ul>
+            <?php
+        }
+            ?>
+            
+        </ul> 
+        <?php
+}
 
-    }
+function affichagePunition($idUtilisateur)
+{
+    ?>
+    <div style="border:2px solid;text-align:center;border-radius:5%;color:white;background-color : rgb(109, 19, 121);text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;">
+
+        <h3> Message :</h3>
+
+    </div>
+    <div style="height:150px; ">
+
+    </div>
+        <?php
+}

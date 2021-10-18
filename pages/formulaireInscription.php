@@ -105,11 +105,11 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
     </div>
     
     <?php
-    require_once "footer.php";
-    
 }   
 else
 {
-    header("location:index.php");
+
 }
+
+require_once "footer.php";
 ?>

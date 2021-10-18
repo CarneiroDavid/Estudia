@@ -7,6 +7,8 @@ class Classes extends Modele
     private $nom;
     private $eleves = [];
     private $professeur;
+    private $matiere = [];
+    private $devoirs = [];
 
     public function __construct($idEtude = null)
     {
@@ -28,14 +30,32 @@ class Classes extends Modele
                 $this -> eleves[] = new Eleves($eleves["idUtilisateur"]);
             }
             $this -> professeur = new Enseignant();
+
         }
     }
 
-    public function setEnseignant()
+    public function allClasse()
     {
-        
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM etudes");
+        $requete -> execute();
+        return $allClasse = $requete -> fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function insertionClasse($numClasse, $nomClasse)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("INSERT INTO etudes (classe, nom) VALUES (?, ?)");
+            $requete -> execute([$numClasse, $nomClasse]);
+            return true;
+        }
+        catch(Exception $e)
+        {
+            return $e -> getMessage();
+        }
+    }
+
+    /* GET*/
     public function getIdEtude()
     {
         return $this -> idEtude;
@@ -47,6 +67,20 @@ class Classes extends Modele
     public function getNom()
     {
         return $this -> nom;
+    }
+
+    /* SET*/
+    public function setIdEtude($idEtude)
+    {
+        $this -> idEtude = $idEtude;
+    }
+    public function setClasse($classe)
+    {
+        $this -> classe = $classe;
+    }
+    public function setNom($nom)
+    {
+        $this -> nom = $nom;
     }
 }
 
