@@ -12,6 +12,20 @@ class Enseignant extends Modele
     {
         
     }
+    public function infoEnseignant($idEnseignant)
+    {
+        $requete = getBdd() -> prepare("SELECT *  FROM enseignants  WHERE idUtilisateur = ? ");
+        $requete -> execute([$_GET["idEnseignant"]]);
+        $enseignant = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $enseignant;
+    }
+    public function listeEnseignants()
+    {
+        $requete = getBdd() -> prepare("SELECT *  FROM enseignants  ORDER BY Nom ASC ");
+        $requete -> execute();
+        $enseignants = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $enseignants;
+    }
     public function setEnseignant($idUser = null)
     {
         $requete = $this -> getBdd() -> prepare("SELECT * FROM enseignants WHERE idUtilisateur = ?");

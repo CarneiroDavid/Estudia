@@ -1,8 +1,7 @@
 <?php
 require_once "entete.php";
-    $requete = getBdd() -> prepare("SELECT *  FROM enseignants  ORDER BY Nom ASC ");
-    $requete -> execute();
-    $enseignants = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $objet_enseignant = new Enseignant();
+    $enseignants = $objet_enseignant->listeEnseignants();
     
     ?>
         
@@ -14,7 +13,7 @@ require_once "entete.php";
         ?>
         <li class="list-group-item"><?=$enseignant["Nom"]. " ". $enseignant["Prenom"];?>
         <span style="float:right;">
-        <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?idEnseignant=<?=$enseignant["idUtilisateur"]?>">Info</a>
+        <!-- <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?id=<?=$enseignant["idUtilisateur"]?>">Info</a> -->
         </span>
         </li>   
         <?php

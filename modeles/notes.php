@@ -34,7 +34,7 @@ class Notes extends Modele
     public function noteEleve($idUtilisateur)
     {
         // rajouter inner join pour avoir la matiere
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM notes WHERE idUtilisateur = ?");
+        $requete = getBdd() -> prepare("SELECT Note, idUtilisateur,idProf,idNote,NoteMax, matieres.matiere, designation, commentaire FROM notes INNER JOIN matieres USING(idMatiere) WHERE idUtilisateur = ?");
         $requete -> execute([$idUtilisateur]);
         $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $notes;

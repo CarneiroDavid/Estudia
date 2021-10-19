@@ -67,6 +67,22 @@ class Eleves extends Modele
         }
     }
 
+    public function affichageEleve($idEleve)
+    {
+        $requete = getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) WHERE idUtilisateur = ?");
+        $requete -> execute([$idEleve]);
+        $eleve = $requete -> fetch(PDO::FETCH_ASSOC); 
+
+        return $eleve;
+    }
+    public function listeEleves()
+    {
+        $requete = getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) ORDER BY eleve.nom ASC ");
+        $requete -> execute();
+        $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $eleves;
+    }
+
     /* GET */
     public function getNom()
     {

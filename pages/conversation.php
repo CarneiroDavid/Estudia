@@ -6,7 +6,7 @@ if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
 
     /* Affichage des messages */
     ?>
-        <div class="container" style="border: solid 1px lightgray; height:700px">
+        <div class="container" style="border: solid 1px lightgray; height:700px; margin-top:50px;">
             <div class="mb-3">
                 <div style="overflow-y:scroll; height: 550px">
                     <table>

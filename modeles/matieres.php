@@ -21,6 +21,14 @@ class Matieres extends Modele
             return $e -> getMessage();
         }
     }
+    public function listeMatiere()
+    {
+        
+        $requete = getBdd() -> prepare("SELECT matiere,idMatiere FROM matieres");
+        $requete -> execute();
+        $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $matieres;
+    }
 
     /* SET */
     public function setIdMatiere($idMatiere)

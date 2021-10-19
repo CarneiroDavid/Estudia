@@ -9,25 +9,21 @@ if(!empty($_GET["id"]))
     /////////////////////////////////////                                          REQUETE SQL                                                 /////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    $requete = getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) WHERE idUtilisateur = ?");
-    $requete -> execute([$_GET["id"]]);
-    $eleve = $requete -> fetch(PDO::FETCH_ASSOC);
+    $objet_eleve = new Eleves();
+    $eleve = $objet_eleve-> affichageEleve($_GET["id"]);
 
-    $requete = getBdd() -> prepare("SELECT matiere,idMatiere FROM matieres");
-    $requete -> execute();
-    $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $objet_matiere = new Matieres();
+    $matieres = $objet_matiere -> listeMatiere();
     
-    $requete = getBdd() -> prepare("SELECT * FROM etudes");
-    $requete -> execute();
-    $classes = $requete->fetchAll(PDO::FETCH_ASSOC);
+    $objet_classes = new Classes();
+    $classes = $objet_classes -> allClasse();
 
-    $requete = getBdd() -> prepare("SELECT Note, idUtilisateur,idProf,idNote,NoteMax, matieres.matiere, designation, commentaire FROM notes INNER JOIN matieres USING(idMatiere) WHERE idUtilisateur = ?");
-    $requete -> execute([$_GET["id"]]);
-    $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $objet_notes = new Notes();
+    $notes = $objet_notes -> noteEleve($_GET["id"]);
 
-    $requete = getBdd() -> prepare("SELECT motif,punition,ladate,idPunition,nom,prenom,statut,punition.idUtilisateur FROM punition INNER JOIN utilisateur USING(idUtilisateur) WHERE idEleve = ?");
-    $requete -> execute([$_GET["id"]]);
-    $punitions = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $objet_punitions = new Punition();
+    $punitions = $objet_punitions -> punitionEleve($_GET["id"]);
+    
     ?>
         <pre>
             <!-- <?= print_r($_SESSION);?> : <?= print_r($notes);?>  -->

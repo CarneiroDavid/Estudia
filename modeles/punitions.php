@@ -26,6 +26,14 @@ Class Punition extends Modele {
         }
     }
 
+    public function punitionEleve($idEleve)
+    {
+        $requete = getBdd() -> prepare("SELECT motif,punition,ladate,idPunition,nom,prenom,statut,punition.idUtilisateur FROM punition INNER JOIN utilisateur USING(idUtilisateur) WHERE idEleve = ?");
+        $requete -> execute([$idEleve]);
+        $punitions = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $punitions;
+    }
+    
     public function insertionPunition($idEleve, $idUtilisateur, $motif, $punition , $date)
     {
         

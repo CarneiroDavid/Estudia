@@ -109,4 +109,4 @@ require_once "../affichages/affichageEleve.php";
     </div>
 </nav>
 
-<div class="container" style="margin-left:1%; padding-left:1%; border-radius:5%; max-width:75%">
+<div class="container" style="border-radius:5%; max-width:100%">
