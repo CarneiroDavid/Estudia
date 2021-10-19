@@ -32,7 +32,12 @@ class Conversation extends Modele
         $conv = $requete ->fetch(PDO::FETCH_ASSOC);
         return $conv;
         // return $conv;
-
+    }
+    public function getConv($idReceveur, $idConv)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM conversations WHERE idReceveur = ? AND idConversation = ?");
+        $requete -> execute([$idReceveur, $idConv]);
+        $conv =$requete -> fetch(PDO::FETCH_ASSOC);
     }
 
     public function conversation($idEnvoyeur)

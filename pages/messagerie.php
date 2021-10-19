@@ -1,11 +1,34 @@
 <?php
 require_once "entete.php";
 
-if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant")
+if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration")
 {
-    if(!empty($_GET["idUtilisateur"]) && $_GET["idUtilisateur"] == $_SESSION["idUtilisateur"]
-    )
+    if(!empty($_GET["idUtilisateur"]) && $_GET["idUtilisateur"] == $_SESSION["idUtilisateur"])
     {
+        /* gestion erreur */
+        if(isset($_GET["error"]))
+        {
+            ?>
+            <div class="alert alert-danger">
+            <?php
+            
+            switch($_GET["error"])
+            {
+                case "messVide":
+                    echo "Le message que vous avez essayé d'envoyer etait vide, veuillez saisir un message valide.";
+                    break;
+                case "id":
+                    echo "Le message n'a pas pu être envoyé, veuillez réessayer ";
+                    break;
+                case "messLong" :
+                    echo "Le message saisit est trop long, veuillez saisir un message plus court";
+                    break;
+            }
+
+            ?>
+            </div>
+            <?php
+        }
         ?>
         <!-- Systeme recherche d'utilisateur pour conversation -->
             <div class="card" style="margin-top:20px;margin-left:11%; width:75%; ">

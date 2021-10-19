@@ -51,4 +51,48 @@ class Enseignant extends Modele
             return $e;
         }
     }
+    /* SET */
+    public function setIdUtilisateur($idUtilisateur)
+    {
+        $this -> idUtilisateur = $idUtilisateur;
+    }
+    public function setNom($nom)
+    {
+        $this -> nom = $nom;
+    }
+    public function setPrenom($prenom)
+    {
+        $this -> prenom = $prenom;
+    }
+    public function setIdFiliere($idFiliere)
+    {
+        $this -> idFiliere = $idFiliere;
+    }
+    public function setMatiere($matiere)
+    {
+        $this -> matiere = $matiere;
+    }
+
+    /* GET */
+    public function getIdUtilisateur()
+    {
+        return $this -> idUtilisateur;
+    }
+    public function getNom()
+    {
+        return $this -> nom;
+    }
+    public function getPrenom()
+    {
+        return $this -> prenom;
+    }
+    public function getIdFiliere()
+    {
+        return $this -> idFiliere;
+    }
+    public function getMatiere()
+    {
+        return $this -> matiere;
+    }
+
 }

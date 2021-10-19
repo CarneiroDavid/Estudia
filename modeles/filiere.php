@@ -10,4 +10,24 @@ class Filiere extends Modele
     {
         
     }
+
+    /* SET */
+    public function setIdFiliere($idFiliere)
+    {
+        $this -> idFiliere = $idFiliere;
+    }
+    public function setNom($nom)
+    {
+        $this -> nom = $nom;
+    }
+
+    /* GET */
+    public function getIdFiliere()
+    {
+        return $this -> idFiliere;
+    }
+    public function getNom()
+    {
+        return $this -> nom;
+    }
 }

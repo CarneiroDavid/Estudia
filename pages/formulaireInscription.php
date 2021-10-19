@@ -30,7 +30,6 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
                 echo "Une erreur est survenue lors de 'inscription de l'élève, veuillez réessayer";
                 break;
         }
-
     ?>
     </div>
     <?php
@@ -51,7 +50,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
     <br>
     <div class="container-xxl">
     
-    <form method="post" action="../traitements/Inscription.php">
+    <form method="post" id="formulaireIscription" action="../traitements/Inscription.php">
         
         <div class="form-group">
             <label for="mail">Adresse-mail</label>

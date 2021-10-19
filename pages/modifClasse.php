@@ -5,7 +5,7 @@ $classes = $objetClasse -> allClasse();
 ?>
 
 <br>
-
+<!-- Select Des classe -->
 <form method="post">
     <div class="form-group">
         <label for="classe">Classes</label>
@@ -25,7 +25,7 @@ $classes = $objetClasse -> allClasse();
         <button type="submit" value="1" name="envoi" class="btn">Valider</button>
     </div>
 </form>
-<form method="post" action="../traitements/verifClasse.php">
+<!-- <form method="post" action="../traitements/verifClasse.php">
     <div class="mb-3">
         <label for="creerClasse" class="form-label">Créer une classe</label>
         <input type="text" name="classe" class="form-control" id="creerClasse">
@@ -33,9 +33,10 @@ $classes = $objetClasse -> allClasse();
         <input type="number" name="numClasse" class="form-control" id="numClasse">
     </div>
     <button type="submit" class="btn btn-primary">Creer</button>
-</form>
+</form> -->
 <br>
 <?php
+/* Affichage des eleves a partir de la classe */
     if(!empty($_POST["classe"]))
     {
         $requete = getBdd() -> prepare("SELECT nom, prenom, idUtilisateur FROM eleve WHERE idEtude = ? ORDER BY nom ASC");

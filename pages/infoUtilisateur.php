@@ -95,7 +95,7 @@ if(!empty($_GET["id"]))
                                                         {
                                                             ?>
                                                             
-                                                            <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a>
+                                                            <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
                                                             <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right'>Modifier</button>
                                                             <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
                                                             <?php
@@ -118,6 +118,7 @@ if(!empty($_GET["id"]))
                             ?>
                         </ul> 
                     </p>
+                
         <!--
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         ////////////////////////////////////                                    Affichage Rapport disciplinaire                                    /////////////////////////////////////////////////
@@ -142,7 +143,7 @@ if(!empty($_GET["id"]))
                                         if($_SESSION["statut"] == "Administration")
                                         {
                                         ?>
-                                        <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a>
+                                        <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
 
                                         <?php
                                         }
@@ -171,6 +172,7 @@ if(!empty($_GET["id"]))
                             }
                             ?>
                         </ul>
+                    </p>
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
         <!-- -------------------------------------------------FORMULAIRE DE MODIFICATION DE CLASSE------------------------------------------------------------------------------------------- -->
@@ -232,44 +234,32 @@ if(!empty($_GET["id"]))
 
 
         <form method="post" id="modifNote" style="display:none;" name="modifNote" action="../traitements/verifNote.php">
-            <div class="form-group">
-                <label for="matiere">Matiere</label>
-                <select class="form-control" name="matiere" id="matiere" aria-label="Default select example">
-                <?php 
-                foreach($matieres as $matiere)
-                {
-                    ?>
+    <div class="form-group">
+        
+        <h5>Modification de la note</h5>
 
-                    <option value="<?=$matiere["idMatiere"];?>">
-                        <?=$matiere["matiere"];?>
-                    </option>
-                    <?php
-                }
-                ?>
-                </select>
-                <br>
-                <div class="form-group">
-                    <label for="designation">Nom</label>
-                    <input type="note" class="form-control" name="designation" id="designation"/>
-                </div>
-                <div class="form-group">
-                    <label for="noteMax">NoteMax</label>
-                    <input type="note" class="form-control" name="noteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
-                </div>
-                <div class="form-group">
-                    <label for="note">Note</label>
-                    <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
-                </div>
+        <div class="form-group">
+            <label for="designation">Nom</label>
+            <input  class="form-control" name="designation" id="designation"/>
+        </div>
+        <div class="form-group">
+            <label for="noteMax">NoteMax</label>
+            <input type="number" class="form-control" name="noteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
+        </div>
+        <div class="form-group">
+            <label for="note">Note</label>
+            <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
+        </div>
 
-                <div class="form-group">
-                    <label for="commentaire">Commentaires</label>
-                    <input type="note" class="form-control" name="commentaire" id="commentaire"/>
-                </div>
-                    <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
-                <button type="submit" value="" name="modif" id="modif" class="btn">Valider</button>
-            </div>
+        <div class="form-group">
+            <label for="commentaire">Commentaires</label>
+            <input  class="form-control" name="commentaire" id="commentaire"/>
+        </div>
+            <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
+        <button type="submit" value="" name="modif" id="modif" class="btn">Valider</button>
+    </div>
 
-        </form>
+</form>
 
 
         <!-- -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- -->
@@ -283,8 +273,11 @@ if(!empty($_GET["id"]))
                     {
                         ?>
                         <div class="text-center">
-                        <a href="supprimerProduit.php?id=<?=$_GET["id"]?>" class="btn btn-success my-2">Envoyer un message</a>
-                        <button onclick="formulairePunition()" class="btn btn-danger my-2">Ajouter un rapport disciplinaire</button>
+                            <form style="width:100%;border:none; margin:0" method="post" action="../traitements/verifConversation.php">
+                                <input type="hidden" name="idEnvoyeur" value="<?=$_SESSION["idUtilisateur"];?>">
+                                <button class="btn btn-success" name="idReceveur" value="<?=$_GET["id"];?>">Envoyer un message</button>
+                            </form>
+                            <button onclick="formulairePunition()" class="btn btn-danger my-2">Ajouter un rapport disciplinaire</button>                       
                         
                         <?php
                     }
@@ -301,6 +294,7 @@ if(!empty($_GET["id"]))
                         
                         
                     </div>
+                </div>
                 </div>
             </div>
         </div>

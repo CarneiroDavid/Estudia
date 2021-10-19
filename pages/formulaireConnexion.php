@@ -23,12 +23,6 @@ if(empty($_SESSION["nom"]))
         </form>
     </div>
 
-    <div id="info" style="background-color: white" class="container-sm">
-        <div id="info2">
-            <h5 style="text-align: center;">Actualitées</h5>
-        </div>
-    </div>
-
 </div>
 <?php
 }else 

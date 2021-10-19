@@ -4,12 +4,11 @@ require_once "entete.php";
     $requete -> execute();
     $enseignants = $requete -> fetchAll(PDO::FETCH_ASSOC);
     
-    print_r($enseignants);
     ?>
         
     <ul class="list-group">
     <?php
-    // print_r($eleves);
+    /* Affichage des enseignants */
     foreach($enseignants as $enseignant)
     {   
         ?>

@@ -56,7 +56,6 @@ function modifierNote($idNote)
     document.getElementById("note").value = document.getElementById("note"+$idNote).innerHTML;
     document.getElementById("note").max = document.getElementById("noteMax"+$idNote).innerHTML;
     document.getElementById("designation").value = document.getElementById("designation"+$idNote).innerHTML;
-    document.getElementById("matiere").value = document.getElementById("matiere"+$idNote).value;
     document.getElementById("commentaire").value = document.getElementById("commentaire"+$idNote).innerHTML;
     document.getElementById("noteMax").value = document.getElementById("noteMax"+$idNote).innerHTML;
     document.getElementById("modif").value = document.getElementById("id"+$idNote).value;

@@ -1,9 +1,10 @@
 <?php
 
+// Select des classe pour ajouter note et formulaire
 function ListeClasse()
 {
     ?>
-    <form method="post">
+    <form method="post" id="formListeClasse">
     <div class="form-group">
         <label for="classe">Classes</label>
         <select class="form-control" name="classe" id="classe" aria-label="Default select example">
@@ -36,9 +37,10 @@ function ListeClasse()
 
     </form>
 
-<?php
+    <?php
 }
 
+// Ajouter des notes
 function formulaireNote($idClasse)
 {
     $requete = getBdd() -> prepare("SELECT nom, prenom, idUtilisateur FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
@@ -51,7 +53,7 @@ function formulaireNote($idClasse)
     
     ?>
 
-    <form method="post" action="../traitements/VerifNote.php">
+    <form method="post" id="formulaireNote" action="../traitements/VerifNote.php">
     <label for="matiere">Matieres</label>
     <select class="form-group" name="matiere">
         <?php
@@ -71,6 +73,7 @@ function formulaireNote($idClasse)
         <label for="NoteMax">Note Max</label>
         <input type="number" min=5 max=20 class="form-group" name="noteMax" id="noteMax">
     </div>
+
     <ul class="list-group">
     
     <?php
@@ -80,9 +83,14 @@ function formulaireNote($idClasse)
         ?>
             <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"];?>
             <!-- <span style="float:right;"> -->
-            <input type="text" class="form-group" name="note[<?=$eleve["idUtilisateur"];?>]" id="note">
+            <input type="number" class="form-group" name="note[<?=$eleve["idUtilisateur"];?>]" id="note">
             <!-- </span> -->
-            </li>   
+              
+            <div class="form-group">
+            <label for="commentaire">Commentaires</label>
+            <input type="note" class="form-control" name="commentaire[<?=$eleve["idUtilisateur"];?>]" id="commentaire"/>
+            </div>
+            </li> 
         <?php
     }
     ?></ul><button type="submit" name="envoi" value="1">Valider</button></form><?php
@@ -95,13 +103,14 @@ function ListeStatut(){
     return $statuts;
 }
 
+// Ajouter des devoirs
 function formulaireDevoir($idClasse)
 {
     $requete = getBdd() -> prepare("SELECT * FROM matieres");
     $requete -> execute();
     $matieres = $requete ->fetchAll(PDO::FETCH_ASSOC);
     ?>
-    <form method="post" action="../traitements/verifDevoir.php">
+    <form method="post" id="formulaireDevoir" action="../traitements/verifDevoir.php">
         <label for="matiere">Matiere</label>
         <select class="form-group" name="matiere">
                 <?php

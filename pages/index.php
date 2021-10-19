@@ -1,6 +1,5 @@
 <?php
 require_once "entete.php";
-print_r($_SESSION);
 if(empty($_SESSION["nom"]))
 {
     if(isset($_GET["error"]))
@@ -36,6 +35,7 @@ if(empty($_SESSION["nom"]))
     require_once "formulaireConnexion.php";
 }else 
 {   
+    /* Affichage index Eleve */
     if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
     {
         
@@ -49,7 +49,7 @@ if(empty($_SESSION["nom"]))
         }
         $demain = date("Y-m-d", strtotime($jour));?><br><?php
         $demainn = date("Y-m-d", strtotime("+0 day"));?><br><?php
-        // echo $demainn;
+        
         #mise en page pour chaque user
         ?>
         <div style="float:left;border:2px solid;width:35%;margin-left:1%;">
@@ -58,20 +58,26 @@ if(empty($_SESSION["nom"]))
             ?>
         </div>
         
-        <div style="float:left;border:2px solid;width:35%;margin-left:10%;">
+        <br>
+
+        <div style="border:2px solid;width:35%;margin-left:86%;">
             <?php
             affichageNote($_SESSION["idUtilisateur"]);
             ?>
         </div>
-        <div style="float:left;border:2px solid;width:35%;margin-left:46%; margin-top:2%">
+
+        <br>
+
+        <div style="border:2px solid;width:100%;margin-left:5%;height:22vh;padding-left:0.2%;">
             <?php
-            affichagePunition($_SESSION["idUtilisateur"]);
+            affichageEDT(2, $demain);
             ?>
         </div>
+
         <?php
     }
     if(!empty($_SESSION) && $_SESSION["statut"] == "Administration")
     {
-        echo "test";
+        
     }
 }

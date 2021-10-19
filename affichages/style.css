@@ -29,7 +29,7 @@
     margin-top : 10%;
 }
 
-form
+#devoir, #formPunition, #ModifierClasse, #modifNote, #formulaireNote,#formListeClasse, #formulaireDevoir, #formulaireIscription
 {
     padding: 3%;
     border: solid 2px black;

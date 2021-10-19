@@ -21,4 +21,24 @@ class Matieres extends Modele
             return $e -> getMessage();
         }
     }
+
+    /* SET */
+    public function setIdMatiere($idMatiere)
+    {
+        $this -> $idMatiere = $idMatiere;
+    }
+    public function setNom($matiere)
+    {
+        $this -> matiere = $matiere;
+    }
+
+    /* GET */
+    public function getIdFiliere()
+    {
+        return $this -> idMatiere;
+    }
+    public function getNom()
+    {
+        return $this -> matiere;
+    }
 }

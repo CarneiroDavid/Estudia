@@ -9,7 +9,9 @@ if(!empty($_POST["classe"]))
     {
         if(is_numeric($_POST["numClasse"]))
         {
-            if(insertionClasse($_POST["numClasse"], $_POST["nomClasse"]) == true)
+            $objetClasse= new Classes();
+            
+            if($objetClasse->insertionClasse($_POST["numClasse"], $_POST["nomClasse"]) == true)
             {
                 header("location:../pages/modifClasse.php?success=classeAjout");
             }

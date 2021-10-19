@@ -8,6 +8,7 @@ require_once "entete.php";
         
     <ul class="list-group">
     <?php
+    /* Affichage des eleves */
     foreach($eleves as $eleve)
     {   
         ?>

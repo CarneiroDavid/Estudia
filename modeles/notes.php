@@ -40,12 +40,13 @@ class Notes extends Modele
         return $notes;
     }
     
-    public function insertionNote($idUtilisateur, $note, $matiere, $designation, $noteMax)
+    public function insertionNote($idUtilisateur, $idProf ,$note, $matiere, $designation, $noteMax, $commentaire)
     {
         try
         {
-            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, Note, idMatiere, designation, NoteMax) VALUES (?, ?, ?, ?, ?)");
-            $requete -> execute([$idUtilisateur, $note, $matiere, $designation, $noteMax]);
+            
+            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, designation, NoteMax, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?)");
+            $requete -> execute([$idUtilisateur, $idProf,$note, $matiere, $designation, $noteMax, $commentaire]);
             return true;
         }
         catch(Exception $e)
@@ -54,12 +55,12 @@ class Notes extends Modele
         }
 
     }
-    public function modifierNote($idNote, $note, $matiere, $designation, $noteMax, $commentaire)
+    public function modifierNote($idNote, $note, $designation, $noteMax, $commentaire)
     {
         try
         {
-            $requete = $this->getBdd()->prepare("UPDATE notes SET Note = ?, idMatiere = ? , designation = ? , NoteMax = ?, Commentaire = ? WHERE idNote = ?");
-            $requete -> execute([$note, $matiere, $designation, $noteMax, $commentaire ,$idNote]);
+            $requete = $this->getBdd()->prepare("UPDATE notes SET Note = ?, designation = ? , NoteMax = ?, Commentaire = ? WHERE idNote = ?");
+            $requete -> execute([$note, $designation, $noteMax, $commentaire ,$idNote]);
             return true;
         }catch(Exception $e){
             return $e -> getMessage(); 

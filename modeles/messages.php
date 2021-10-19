@@ -42,4 +42,56 @@ class Message extends Modele
         $verifConv = $requete ->fetchAll(PDO::FETCH_ASSOC);
         return $verifConv;
     }
+
+    /* SET */
+    public function setIdMessage($idMessage)
+    {
+        $this -> idMessage = $idMessage;
+    }
+    public function setIdEnvoyeur($idEnvoyeur)
+    {
+        $this -> idEnvoyeur = $idEnvoyeur;
+    }
+    public function setIdReceveur($idReceveur)
+    {
+        $this -> idReceveur = $idReceveur;
+    }
+    public function setMessage($message)
+    {
+        $this -> message = $message;
+    }
+    public function setDateEnvoie($date_envoie)
+    {
+        $this -> date_envoie = $date_envoie;
+    }
+    public function setHeureEnvoie($heure_envoie)
+    {
+        $this -> heure_envoie = $heure_envoie;
+    }
+
+    /* GET */
+    public function getIdMessage()
+    {
+        return $this -> idMessage;
+    }
+    public function getIdEnvoyeur()
+    {
+        return $this -> idEnvoyeur;
+    }
+    public function getIdReceveur()
+    {
+        return $this -> idReceveur;
+    }
+    public function getMessage()
+    {
+        return $this -> message;
+    }
+    public function getDateEnvoie()
+    {
+        return $this -> date_envoie;
+    }
+    public function getHeureEnvoie()
+    {
+        return $this -> heure_envoie;
+    }
 }
