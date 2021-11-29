@@ -40,13 +40,13 @@ class Notes extends Modele
         return $notes;
     }
     
-    public function insertionNote($idUtilisateur, $idProf ,$note, $matiere, $designation, $noteMax, $commentaire)
+    public function insertionNote($idUtilisateur, $idProf ,$note, $matiere, $idExam, $designation, $noteMax, $commentaire)
     {
         try
         {
             
-            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, designation, NoteMax, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?)");
-            $requete -> execute([$idUtilisateur, $idProf,$note, $matiere, $designation, $noteMax, $commentaire]);
+            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, idExamen, designation, NoteMax, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?,?)");
+            $requete -> execute([$idUtilisateur, $idProf,$note, $matiere,$idExam, $designation, $noteMax, $commentaire]);
             return true;
         }
         catch(Exception $e)
@@ -65,6 +65,14 @@ class Notes extends Modele
         }catch(Exception $e){
             return $e -> getMessage(); 
         }
+    }
+
+    public function NoteClasse($idUtilisateur, $idExam)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT examen.idExamen, examen.nom, examen.idProf, examen.idEtude, notes.idUtilisateur, utilisateur.nom, utilisateur.prenom, notes.Note, notes.NoteMax FROM notes INNER JOIN utilisateur ON notes.idUtilisateur = utilisateur.idUtilisateur INNER JOIN examen USING(idExamen) WHERE notes.idProf = ? and idExamen = ?");
+        $requete->execute([$idUtilisateur, $idExam]);
+        $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $notes;
     }
     public function suppressionNote($idNote)
     {

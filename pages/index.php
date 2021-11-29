@@ -33,7 +33,8 @@ if(empty($_SESSION["nom"]))
         <?php
     }
     require_once "formulaireConnexion.php";
-}else 
+}
+else 
 {   
     /* Affichage index Eleve */
     if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
@@ -52,27 +53,35 @@ if(empty($_SESSION["nom"]))
         
         #mise en page pour chaque user
         ?>
-        <div style="float:left;border:2px solid;width:35%;margin-left:1%;">
-            <?php
-            affichageDevoir(2, $demain);
-            ?>
-        </div>
-        
-        <br>
-
-        <div style="border:2px solid;width:35%;margin-left:86%;">
-            <?php
-            affichageNote($_SESSION["idUtilisateur"]);
-            ?>
-        </div>
-
-        <br>
-
-        <div style="border:2px solid;width:100%;margin-left:5%;height:22vh;padding-left:0.2%;">
+        <div style="float:left;border:2px solid;width:400px;height:850px;">
             <?php
             affichageEDT(2, $demain);
             ?>
         </div>
+        <div style="margin-left:50%; width:40%">
+            <div style="border:2px solid;width:100%; height:250px">
+                <?php
+                affichageDevoir(2, $demain);
+                ?>
+            </div>
+            <br>
+            <div style="border:2px solid;width:100%;height:320px">
+                <?php
+                affichageNote($_SESSION["idUtilisateur"]);
+                ?>
+            </div>
+            <br>
+            <div id="divAbsence" style="border:2px solid;width:100%;height:320px">
+                <?php
+                    affichageAbsence();
+                ?>
+            </div>
+        </div>
+        
+
+        <br>
+
+        
 
         <?php
     }
@@ -81,3 +90,4 @@ if(empty($_SESSION["nom"]))
         
     }
 }
+require_once "footer.php";

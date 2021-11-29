@@ -1,8 +1,9 @@
 <?php
 
 require_once "../modeles/modeles.php";
-
-
+?><pre><?php
+print_r($_POST);
+?></pre><?php
 if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
 {
     print_r($_POST);
@@ -34,24 +35,31 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                 
                 $i = 0;
                 $erreurs = "";
+                $objetExamen = new Examen();
+                $insertExam = $objetExamen -> insertExam($_POST["designation"], $_SESSION["idUtilisateur"], $_POST["matiere"], $_POST["idClasse"]);
                 foreach($_POST["note"] as $idEleve => $note)
                 {
                     
                     if(is_numeric($note) && $note <= $_POST["noteMax"] && $note >= 0)
                     {
                         
-                        if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"][$idEleve]) == true)
-                        {   echo "<br>";
-                            echo $idEleve ."  " .$_SESSION["idUtilisateur"] ."  " .$note."  " .$_POST["matiere"]. "  " .$_POST["designation"]."  " .$_POST["noteMax"]."  " .$_POST["commentaire"][$idEleve];
-                            
-                            $i++;
+                        if($insertExam == true)
+                        {
+                            $idExam = $objetExamen -> idExam($_POST["designation"]);
+                            if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $idExam["idExamen"], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"][$idEleve]) == true)
+                            {   echo "<br>";
+                                echo $idEleve ."  " .$_SESSION["idUtilisateur"] ."  " .$note."  " .$_POST["matiere"]. "  " .$_POST["designation"]."  " .$_POST["noteMax"]."  " .$_POST["commentaire"][$idEleve];
+                                $i++;
+                            }
+                            else
+                            {   
+                                
+                                $erreurs += "Erreur Insertion Bdd : Utilisateur ".$idEleve.".";
+    
+                            }
                         }
-                        else
-                        {   
-                            
-                            $erreurs += "Erreur Insertion Bdd : Utilisateur ".$idEleve.".";
-
-                        }
+                        
+                        
                     }else
                     {
                         header("location:../pages/prof.php?error=NotePasUnChiffre");
@@ -60,8 +68,7 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                     echo $inserNote;
                 }
                 
-                if($i == count($_POST["note"])){
-                    echo $erreurs;
+                if($i == count($_POST["note"])){                    
                     header("location:../pages/prof.php?success=Note");
                 }else{
                     echo $erreurs;

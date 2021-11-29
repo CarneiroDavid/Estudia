@@ -125,7 +125,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
     }
     else
     {
-        header("location:index.php");
+        echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
     }
 }
 ?>

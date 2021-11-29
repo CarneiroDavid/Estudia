@@ -9,8 +9,8 @@ if(!empty($_POST["ajoutDevoir"]) && $_POST["ajoutDevoir"] == 1)
         {
             if(empty($_POST["info"]) || $_POST["info"] <= 250)
             {
-                $devoirs = new Devoirs();
-                if($devoirs -> insertionDevoir($_POST["idEtude"], $_POST["matiere"], $_POST["titre"], $_POST["info"], $_POST["date"]) == true)
+                $devoirs = new Devoir();
+                if($devoirs -> insertionDevoir($_POST["idEtude"],$_SESSION["idUtilisateur"], $_POST["matiere"], $_POST["titre"], $_POST["info"], $_POST["date"]) == true)
                 {
                     header("location:../pages/prof.php?success=Devoir");
                 }

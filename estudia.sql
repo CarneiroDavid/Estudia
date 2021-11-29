@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mar. 19 oct. 2021 à 07:16
+-- Généré le : lun. 29 nov. 2021 à 11:19
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -24,6 +24,32 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Structure de la table `absence`
+--
+
+DROP TABLE IF EXISTS `absence`;
+CREATE TABLE IF NOT EXISTS `absence` (
+  `idAbsence` int(11) NOT NULL AUTO_INCREMENT,
+  `idUtilisateur` int(11) NOT NULL,
+  `idEtude` int(11) NOT NULL,
+  `idProf` int(11) NOT NULL,
+  `idMatiere` int(11) NOT NULL,
+  `laDate` datetime NOT NULL,
+  `justification` varchar(100) NOT NULL,
+  `verifJustification` varchar(3) NOT NULL,
+  PRIMARY KEY (`idAbsence`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `absence`
+--
+
+INSERT INTO `absence` (`idAbsence`, `idUtilisateur`, `idEtude`, `idProf`, `idMatiere`, `laDate`, `justification`, `verifJustification`) VALUES
+(1, 3, 2, 5, 2, '2021-11-26 23:20:50', 'transport', 'non');
+
+-- --------------------------------------------------------
+
+--
 -- Structure de la table `conversations`
 --
 
@@ -33,16 +59,18 @@ CREATE TABLE IF NOT EXISTS `conversations` (
   `idEnvoyeur` int(11) NOT NULL,
   `idReceveur` int(11) NOT NULL,
   PRIMARY KEY (`idConversation`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `conversations`
 --
 
 INSERT INTO `conversations` (`idConversation`, `idEnvoyeur`, `idReceveur`) VALUES
-(1, 16, 2),
-(2, 16, 3),
-(3, 5, 3);
+(1, 5, 3),
+(2, 5, 2),
+(3, 5, 16),
+(4, 5, 5),
+(5, 4, 16);
 
 -- --------------------------------------------------------
 
@@ -68,25 +96,27 @@ DROP TABLE IF EXISTS `devoirs`;
 CREATE TABLE IF NOT EXISTS `devoirs` (
   `idDevoir` int(11) NOT NULL AUTO_INCREMENT,
   `idEtude` int(11) NOT NULL,
+  `idProf` int(11) NOT NULL,
   `idMatiere` int(11) NOT NULL,
   `Titre` varchar(100) NOT NULL,
   `Info` text,
   `laDate` date NOT NULL,
   PRIMARY KEY (`idDevoir`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `devoirs`
 --
 
-INSERT INTO `devoirs` (`idDevoir`, `idEtude`, `idMatiere`, `Titre`, `Info`, `laDate`) VALUES
-(1, 2, 1, 'Controle', 'PHP, JS', '2021-03-26'),
-(2, 2, 1, 'Controle', 'Matrice', '2021-03-26'),
-(3, 2, 2, 'Controle', 'Ecriture perso', '2021-03-27'),
-(4, 2, 2, 'test', 'test', '2021-03-27'),
-(5, 2, 1, 'test', 'Ecriture perso', '2021-03-27'),
-(6, 2, 2, 'DST: Suite arithmétique', 'Revoir le chapitre 1 et 2 sur les suites arithmétique', '2021-09-21'),
-(7, 2, 1, 'Controle', '', '2021-10-19');
+INSERT INTO `devoirs` (`idDevoir`, `idEtude`, `idProf`, `idMatiere`, `Titre`, `Info`, `laDate`) VALUES
+(1, 2, 0, 1, 'Controle', 'PHP, JS', '2021-03-26'),
+(2, 2, 0, 1, 'Controle', 'Matrice', '2021-03-26'),
+(3, 2, 0, 2, 'Controle', 'Ecriture perso', '2021-03-27'),
+(4, 2, 0, 2, 'test', 'test', '2021-03-27'),
+(5, 2, 0, 1, 'test', 'Ecriture perso', '2021-03-27'),
+(6, 2, 0, 2, 'DST: Suite arithmétique', 'Revoir le chapitre 1 et 2 sur les suites arithmétique', '2021-09-21'),
+(7, 2, 0, 1, 'Controle', 'Synthèse', '2021-10-19'),
+(8, 2, 5, 2, 'Controle', 'Conversion binaire', '2021-11-30');
 
 -- --------------------------------------------------------
 
@@ -106,7 +136,7 @@ CREATE TABLE IF NOT EXISTS `edt` (
   `horaireFin` time NOT NULL,
   `groupe` varchar(2) DEFAULT NULL,
   PRIMARY KEY (`idCours`)
-) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `edt`
@@ -115,9 +145,10 @@ CREATE TABLE IF NOT EXISTS `edt` (
 INSERT INTO `edt` (`idCours`, `idUtilisateur`, `idSalle`, `idClasse`, `matiere`, `date`, `horaireDebut`, `horaireFin`, `groupe`) VALUES
 (1, 4, 1, 2, 'Histoire', '2021-10-19', '08:00:00', '10:00:00', NULL),
 (2, 4, 2, 2, 'Mathématique', '2021-10-19', '10:00:00', '11:00:00', NULL),
-(3, 4, 3, 2, 'Français', '2021-10-19', '12:00:00', '14:00:00', NULL),
+(3, 5, 3, 2, 'Français', '2021-10-19', '12:00:00', '14:00:00', NULL),
 (4, 4, 4, 2, 'Anglais', '2021-10-19', '14:00:00', '15:00:00', NULL),
-(5, 4, 5, 2, 'Mathématique', '2021-10-19', '15:00:00', '16:00:00', NULL);
+(5, 4, 5, 2, 'Mathématique', '2021-10-19', '15:00:00', '16:00:00', NULL),
+(6, 2, 5, 2, 'Sport', '2021-10-19', '16:00:00', '17:00:00', NULL);
 
 -- --------------------------------------------------------
 
@@ -142,7 +173,8 @@ INSERT INTO `eleve` (`nom`, `prenom`, `idUtilisateur`, `IDfiliere`, `idEtude`) V
 ('Dupont', 'Gilbert', 2, NULL, 2),
 ('Dufour', 'Alexis', 3, NULL, 2),
 ('Macron', 'David', 16, NULL, 2),
-('Vallée', 'Nicole', 19, NULL, NULL);
+('Vallée', 'Nicole', 19, NULL, NULL),
+('Rapahal', 'Tisba', 21, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -152,20 +184,22 @@ INSERT INTO `eleve` (`nom`, `prenom`, `idUtilisateur`, `IDfiliere`, `idEtude`) V
 
 DROP TABLE IF EXISTS `enseignants`;
 CREATE TABLE IF NOT EXISTS `enseignants` (
+  `idEnseigant` int(11) NOT NULL AUTO_INCREMENT,
   `Nom` varchar(100) NOT NULL,
   `Prenom` varchar(100) NOT NULL,
   `idUtilisateur` int(11) NOT NULL,
   `idFiliere` int(11) DEFAULT NULL,
-  `matiere` varchar(100) DEFAULT NULL
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `idMatiere` int(11) NOT NULL,
+  `matiere` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`idEnseigant`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `enseignants`
 --
 
-INSERT INTO `enseignants` (`Nom`, `Prenom`, `idUtilisateur`, `idFiliere`, `matiere`) VALUES
-('Laforest', 'Roxanne', 18, NULL, 'Francais'),
-('Labossière', 'Didiane', 20, NULL, NULL);
+INSERT INTO `enseignants` (`idEnseigant`, `Nom`, `Prenom`, `idUtilisateur`, `idFiliere`, `idMatiere`, `matiere`) VALUES
+(1, 'Leraut', 'Bastien', 5, NULL, 2, 'Mathématiques');
 
 -- --------------------------------------------------------
 
@@ -179,7 +213,7 @@ CREATE TABLE IF NOT EXISTS `etudes` (
   `classe` int(11) NOT NULL,
   `nom` varchar(100) NOT NULL,
   PRIMARY KEY (`idEtude`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `etudes`
@@ -191,7 +225,35 @@ INSERT INTO `etudes` (`idEtude`, `classe`, `nom`) VALUES
 (3, 1, 'Terminale'),
 (4, 2, 'Seconde'),
 (5, 2, 'Première'),
-(6, 2, 'Terminale');
+(6, 2, 'Terminale'),
+(7, 3, 'Seconde'),
+(8, 3, 'Terminale'),
+(14, 3, 'Terminale'),
+(15, 4, 'Terminale');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `examen`
+--
+
+DROP TABLE IF EXISTS `examen`;
+CREATE TABLE IF NOT EXISTS `examen` (
+  `idExamen` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL,
+  `idProf` int(11) NOT NULL,
+  `matiere` varchar(100) NOT NULL,
+  `idEtude` int(11) NOT NULL,
+  PRIMARY KEY (`idExamen`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `examen`
+--
+
+INSERT INTO `examen` (`idExamen`, `nom`, `idProf`, `matiere`, `idEtude`) VALUES
+(1, 'Controle Francais', 5, '1', 2),
+(2, 'DST', 5, '1', 2);
 
 -- --------------------------------------------------------
 
@@ -217,7 +279,7 @@ CREATE TABLE IF NOT EXISTS `matieres` (
   `idMatiere` int(11) NOT NULL AUTO_INCREMENT,
   `matiere` varchar(100) NOT NULL,
   PRIMARY KEY (`idMatiere`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `matieres`
@@ -230,7 +292,9 @@ INSERT INTO `matieres` (`idMatiere`, `matiere`) VALUES
 (4, 'Physique-Chimie'),
 (5, 'Histoire-Géographie'),
 (6, 'Anglais'),
-(7, 'Espagnol');
+(7, 'Espagnol'),
+(8, ''),
+(9, 'Sport');
 
 -- --------------------------------------------------------
 
@@ -248,7 +312,17 @@ CREATE TABLE IF NOT EXISTS `messages` (
   `date_envoie` date DEFAULT NULL,
   `heure_envoie` time DEFAULT NULL,
   PRIMARY KEY (`idMessage`)
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `messages`
+--
+
+INSERT INTO `messages` (`idMessage`, `idConversation`, `idEnvoyeur`, `idReceveur`, `message`, `date_envoie`, `heure_envoie`) VALUES
+(1, 4, 5, 5, 'test', '2021-10-19', '17:07:50'),
+(2, 5, 4, 16, 'Bonjour', '2021-11-29', '10:37:40'),
+(3, 5, 4, 16, 'bonjour sa2', '2021-11-29', '10:44:21'),
+(4, 5, 16, 4, 'rest', '2021-11-29', '10:45:25');
 
 -- --------------------------------------------------------
 
@@ -263,32 +337,48 @@ CREATE TABLE IF NOT EXISTS `notes` (
   `idProf` int(11) NOT NULL,
   `Note` float NOT NULL,
   `idMatiere` int(11) NOT NULL,
+  `idExamen` int(11) NOT NULL,
   `designation` varchar(255) NOT NULL,
   `NoteMax` int(2) NOT NULL DEFAULT '20',
   `Commentaire` text,
   PRIMARY KEY (`idNote`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `notes`
 --
 
-INSERT INTO `notes` (`idNote`, `idUtilisateur`, `idProf`, `Note`, `idMatiere`, `designation`, `NoteMax`, `Commentaire`) VALUES
-(1, 3, 0, 15, 1, 'TPE', 20, NULL),
-(2, 2, 0, 16, 1, 'TPE', 20, NULL),
-(3, 16, 0, 17, 1, 'TPE', 20, NULL),
-(4, 3, 0, 9, 2, 'Addition et soustraction ', 10, NULL),
-(5, 2, 0, 8, 2, 'Addition et soustraction ', 10, NULL),
-(6, 16, 0, 3, 2, 'Addition et soustraction ', 10, NULL),
-(7, 3, 0, 5, 2, 'TPE', 20, NULL),
-(8, 2, 0, 9, 2, 'TPE', 20, NULL),
-(9, 16, 0, 12, 2, 'TPE', 20, NULL),
-(10, 3, 0, 10, 2, 'TPE', 20, NULL),
-(11, 2, 0, 8, 2, 'TPE', 20, NULL),
-(12, 16, 0, 12, 2, 'TPE', 20, NULL),
-(13, 3, 5, 16, 6, 'controle anglais', 20, 'Commentaire 1'),
-(14, 2, 5, 12, 6, 'controle anglais', 20, 'Commentaire 2'),
-(15, 16, 5, 10, 6, 'controle anglais', 20, '');
+INSERT INTO `notes` (`idNote`, `idUtilisateur`, `idProf`, `Note`, `idMatiere`, `idExamen`, `designation`, `NoteMax`, `Commentaire`) VALUES
+(1, 3, 5, 15, 1, 1, 'Controle Francais', 20, ''),
+(2, 2, 5, 18, 1, 1, 'Controle Francais', 20, ''),
+(3, 16, 5, 19, 1, 1, 'Controle Francais', 20, ''),
+(4, 3, 5, 5, 1, 2, 'DST', 20, ''),
+(5, 2, 5, 15, 1, 2, 'DST', 20, ''),
+(6, 16, 5, 12, 1, 2, 'DST', 20, '');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `presence`
+--
+
+DROP TABLE IF EXISTS `presence`;
+CREATE TABLE IF NOT EXISTS `presence` (
+  `idPresence` int(11) NOT NULL AUTO_INCREMENT,
+  `idUtilisateur` int(11) NOT NULL,
+  `idEtude` int(11) NOT NULL,
+  `idProf` int(11) NOT NULL,
+  `idMatiere` int(11) NOT NULL,
+  `laDate` datetime NOT NULL,
+  PRIMARY KEY (`idPresence`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `presence`
+--
+
+INSERT INTO `presence` (`idPresence`, `idUtilisateur`, `idEtude`, `idProf`, `idMatiere`, `laDate`) VALUES
+(1, 2, 2, 5, 2, '2021-11-26 23:20:50');
 
 -- --------------------------------------------------------
 
@@ -313,6 +403,32 @@ CREATE TABLE IF NOT EXISTS `punition` (
 
 INSERT INTO `punition` (`idPunition`, `idEleve`, `idUtilisateur`, `motif`, `ladate`, `punition`) VALUES
 (1, 16, 5, 'Manque de respect ', '2021-10-18', '2 heures de colles');
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `retards`
+--
+
+DROP TABLE IF EXISTS `retards`;
+CREATE TABLE IF NOT EXISTS `retards` (
+  `idRetard` int(11) NOT NULL AUTO_INCREMENT,
+  `idUtilisateur` int(11) NOT NULL,
+  `idEtude` int(11) NOT NULL,
+  `idProf` int(11) NOT NULL,
+  `idMatiere` int(11) NOT NULL,
+  `laDate` datetime NOT NULL,
+  `justification` varchar(100) NOT NULL,
+  `verifJustification` varchar(3) NOT NULL,
+  PRIMARY KEY (`idRetard`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+
+--
+-- Déchargement des données de la table `retards`
+--
+
+INSERT INTO `retards` (`idRetard`, `idUtilisateur`, `idEtude`, `idProf`, `idMatiere`, `laDate`, `justification`, `verifJustification`) VALUES
+(1, 16, 2, 5, 2, '2021-11-26 23:20:50', '25min / rdv medical', 'oui');
 
 -- --------------------------------------------------------
 
@@ -384,7 +500,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `mdpTemp` varchar(100) NOT NULL,
   `statut` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`idUtilisateur`)
-) ENGINE=MyISAM AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=23 DEFAULT CHARSET=utf8;
 
 --
 -- Déchargement des données de la table `utilisateur`
@@ -410,7 +526,9 @@ INSERT INTO `utilisateur` (`idUtilisateur`, `email`, `identifiant`, `nom`, `pren
 (17, 'CamilleAudet@armyspy.com', 'CAudet49', 'Audet', 'Camille', '1957-02-06', '$2y$10$Q8yQypg6IK3.LPqpH/Nvg.vslmmQ4.sNbFkXXOL.BxHXXcoiHJ2IS', 'L1P9op7l', 'Professeur'),
 (18, 'RoxanneLaforest@armyspy.com', 'RLaforest68', 'Laforest', 'Roxanne', '1956-03-19', '$2y$10$Q8Hw48NHt2XxVokIouBgF.BCKo43eBUDe5PEjZ0fSowUx62wXZJJO', 't0hO6rng', 'Professeur'),
 (19, 'NicoleVallee@jourrapide.com', 'NVallée96', 'Vallée', 'Nicole', '2003-07-01', '$2y$10$tUdLduBOhggSZWcH/VV0G.KjIQZKz42GmCaP9YCBrB10TK160zdzy', 'hZfKNia6', 'Etudiant'),
-(20, 'DidianeLabossiere@jourrapide.com', 'DLabossière29', 'Labossière', 'Didiane', '1987-12-04', '$2y$10$q42R8X4ofdQ3u3X9igsDGOtzX99nR8A8WWRmDTOV.FQLVSrgf.suq', 'b5LUnBzj', 'Professeur');
+(20, 'DidianeLabossiere@jourrapide.com', 'DLabossière29', 'Labossière', 'Didiane', '1987-12-04', '$2y$10$q42R8X4ofdQ3u3X9igsDGOtzX99nR8A8WWRmDTOV.FQLVSrgf.suq', 'b5LUnBzj', 'Professeur'),
+(21, 'dadada@gmial.com', 'TRapahal19', 'Rapahal', 'Tisba', '2000-08-23', '$2y$10$cN.pUwwHUtT9Hw5tsiCSa.j6uqNKBiIn8Q0pZfb7YFfeNZe3JFUKK', 'lpgey4vf', 'Etudiant'),
+(22, 'ProfMath@gmail.com', 'TCavaille-Col47', 'Cavaille-Col', 'Théodore', '1985-05-05', '$2y$10$08Dcbb4/f0PM6sV2JeHDe.q1Q8TKmKsSfaHDiv3C.EJEIpnA2gtti', 'xsuzmnU2', 'Professeur');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

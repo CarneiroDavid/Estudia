@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-
 class Modele
 {
     public function getBdd()
@@ -35,20 +34,9 @@ require_once "conversations.php";
 require_once "messages.php";
 require_once "messVieSco.php";
 require_once "punitions.php";
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+require_once "edt.php";
+require_once "absence.php";
+require_once "presence.php";
+require_once "retard.php";
+require_once "examen.php";
 ?>

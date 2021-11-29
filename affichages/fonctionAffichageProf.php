@@ -55,6 +55,7 @@ function formulaireNote($idClasse)
 
     <form method="post" id="formulaireNote" action="../traitements/VerifNote.php">
     <label for="matiere">Matieres</label>
+    <input type="hidden" value="<?=$_POST["classe"];?>" name="idClasse">
     <select class="form-group" name="matiere">
         <?php
             foreach($matieres as $matiere)

@@ -1,5 +1,5 @@
 <?php
-class Devoirs extends Modele
+class Devoir extends Modele
 {
     private $idEtude;
     private $matiere;
@@ -24,11 +24,27 @@ class Devoirs extends Modele
         }
     }
     
-    public function insertionDevoir($idEtude, $matiere, $titre, $info, $date)
+    public function listeDevoir($idEtude, $date)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs INNER JOIN matieres USING (idMatiere) WHERE idEtude = ? AND laDate = ? ORDER BY matiere");
+        $requete -> execute([$idEtude, $date]);
+        $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $devoirs;
+    }
+
+    public function devoir($idEtude)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs INNER JOIN matieres USING (idMatiere) WHERE idEtude = ? ORDER BY matiere");
+        $requete -> execute([$idEtude]);
+        $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $devoirs;
+    }
+
+    public function insertionDevoir($idEtude, $idProf, $matiere, $titre, $info, $date)
     {
         try{
-            $requete = $this -> getBdd() -> prepare("INSERT INTO devoirs (idEtude, idMatiere, Titre, Info, laDate) VALUES (?, ?, ?, ?, ?)");
-            $requete -> execute([$idEtude, $matiere, $titre, $info, $date]);
+            $requete = $this -> getBdd() -> prepare("INSERT INTO devoirs (idEtude, idProf, idMatiere, Titre, Info, laDate) VALUES (?,?, ?, ?, ?, ?)");
+            $requete -> execute([$idEtude, $idProf, $matiere, $titre, $info, $date]);
             return true;
         }catch (Exception $e)
         {
@@ -45,6 +61,14 @@ class Devoirs extends Modele
         }catch(Exception $e){
             return $e -> getMessage(); 
         }
+    }
+
+    public function devoirProf($idProf, $idEtude)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idProf = ? && idEtude = ?");
+        $requete -> execute([$idProf, $idEtude]);
+        $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $devoirs;   
     }
 
 

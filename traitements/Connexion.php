@@ -36,3 +36,7 @@ if(isset($_POST["bouton"]) && !empty($_POST["bouton"]) && $_POST["bouton"] == 1)
         header("location:../pages/index.php?error=FormConnec");
     }
 }
+else
+{
+    header("location:../pages/index.php?error=FormConnec");
+}

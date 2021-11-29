@@ -38,7 +38,8 @@ class Classes extends Modele
     {
         $requete = $this -> getBdd() -> prepare("SELECT * FROM etudes");
         $requete -> execute();
-        return $allClasse = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        $allClasse = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $allClasse;
     }
 
     public function insertionClasse($numClasse, $nomClasse)

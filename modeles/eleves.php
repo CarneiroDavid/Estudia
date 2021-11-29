@@ -82,6 +82,21 @@ class Eleves extends Modele
         $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $eleves;
     }
+    public function listeEleveClasse($idEtude)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ?");
+        $requete -> execute([$idEtude]);
+        $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $eleves;
+    }
+
+    public function infoEleve($idUser)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idUtilisateur = ?");
+        $requete -> execute([$idUser]);
+        $idEtude = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $idEtude;
+    }
 
     /* GET */
     public function getNom()

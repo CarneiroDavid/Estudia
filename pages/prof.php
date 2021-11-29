@@ -24,5 +24,9 @@ if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur")
         formulaireDevoir($_POST["classe"]);
     }
 }   
+else
+{
+    echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
+}
 require_once "footer.php";
 ?>

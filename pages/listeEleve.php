@@ -1,6 +1,8 @@
 <?php
 require_once "entete.php";
-
+if($_SESSION["statut"] == "Administration")
+{
+    
     $objet_eleves = new Eleves();
     $eleves = $objet_eleves->listeEleves();
     
@@ -18,5 +20,14 @@ require_once "entete.php";
         </span>
         </li>   
         <?php
-        }
+    }
         ?></ul>
+        <?php
+        require_once "footer.php";
+}
+else
+{
+    echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
+
+}
+

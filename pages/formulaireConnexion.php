@@ -27,7 +27,7 @@ if(empty($_SESSION["nom"]))
 <?php
 }else 
 {
-    header("location:index.php");
+    echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
 }
 ?>
 

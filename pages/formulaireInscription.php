@@ -107,6 +107,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
 }   
 else
 {
+    echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
 
 }
 

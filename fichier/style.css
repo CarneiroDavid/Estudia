@@ -1,0 +1,92 @@
+#connexion
+{
+    margin-bottom: 10%;
+    
+}
+#info
+{
+    margin-top: 10%;
+    left:10;
+    border: solid 2px;
+    max-width: 50%;
+    height: 300px;
+    margin: auto;    
+    border-radius:5%;
+    padding:1%;
+}
+#info2
+{
+    overflow-y: scroll;
+    width: 100%;
+    height: 100%;
+}
+
+#accueil
+{
+    max-width:100%;
+    padding: 0%;
+    margin-top : 10%;
+}
+
+#devoir, #formPunition, #ModifierClasse, #modifNote, #formulaireNote,#formListeClasse, #formulaireDevoir, #formulaireIscription
+{
+    padding: 3%;
+    border: solid 2px black;
+    border-radius:5%;
+    width:40%;
+    margin: auto;
+    text-align: center;
+}
+.enteteAccueil
+{
+    border:2px solid;
+    text-align:center;
+    color:white;
+    background-color : rgb(109, 19, 121);
+    text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000, 0 0 2px #000;
+}
+.information
+{
+    font-size:1em;
+}
+.boutonDroite
+{
+    float:right;
+    margin-top:1%;
+}
+.boutonGauche
+{
+    float:left;
+    margin-top:1%
+}
+#absence
+{
+    overflow-y: scroll;
+}
+#absenceInjustif
+{
+    color:red;
+}
+.divAbsence
+{
+    border:2px solid;
+    width:100%;
+    height:320px
+}
+
+#absenceJustif
+{
+    color : green;
+}
+
+#titre
+{
+    text-align: center;
+}
+
+/* #nomEleve
+{
+
+} */
+/*Edt*/
+
