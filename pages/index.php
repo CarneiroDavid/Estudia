@@ -83,9 +83,10 @@ else
         </div>
         <?php
     }
-    if(!empty($_SESSION) && $_SESSION["statut"] == "Administration")
+    
+    if(!empty($_SESSION) && $_SESSION["statut"] == "Professeur")
     {
-        
+        echo "<script type='text/javascript'>document.location.replace('appel.php');</script>";
     }
 }
 require_once "footer.php";

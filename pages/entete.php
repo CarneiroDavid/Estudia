@@ -58,9 +58,9 @@ require_once "../affichages/affichageEleve.php";
                         ?>
                         <!-- Lien Professeur -->
                         
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="btn nav-link" id="lien" href="appel.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Emploi du temps</a>
-                        </li>
+                        </li> -->
 
                         <li class="nav-item">
                             <a class="btn nav-link" id="lien" href="prof.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Prof</a>
@@ -81,6 +81,12 @@ require_once "../affichages/affichageEleve.php";
                         <li class="nav-item">
                             <a class="btn nav-link" id="lien" href="appel.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">Profil</a>
                         </li>
+
+                        <li class="nav-item">
+                        <a class="btn nav-link" id="lien" href="modifClasse.php"  style="border-radius:0; border-right: solid 1px white;font-size:1.1em; font-weight : bold; color : white;">liste Classe</a>
+                        </li>  
+
+
 
                         <?php
                     }
