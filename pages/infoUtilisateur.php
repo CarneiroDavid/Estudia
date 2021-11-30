@@ -263,7 +263,6 @@ if(!empty($_GET))
             {
                 ?>
                 <button onclick="afficherModif()" class="btn btn-warning my-2">Modifier la classe</button>
-                <a href="supprimerProduit.php?id=<?=$_GET["id"]?>" class="btn btn-danger my-2">Supprimer l'élève de la classe</a>
                 <?php
             }
             ?>              
@@ -274,12 +273,9 @@ if(!empty($_GET))
             echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
         }
     }
-    else
-    {
-        echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
-    }
 
-    if($_SESSION["statut"] == "Administration")
+
+    else if($_SESSION["statut"] == "Administration")
     {
         if(!empty($_GET["idEnseignant"]))
         {
@@ -304,11 +300,9 @@ if(!empty($_GET))
                             <h5 class="card-title"><?=$enseignant["Nom"]. " ".$enseignant["Prenom"];?></h5>
                             <h6 class="card-subtitle mb-2 text-muted">Professeur de <?=$enseignant["matiere"];?></h6>
         
-                            <div class="text-center">                        
+                            <!-- <div class="text-center">                        
                                 <button onclick="afficherModif()" class="btn btn-warning my-2">Modifier</button>
-            
-                                <a href="supprimerProduit.php?id=<?=$_GET["idEnseignant"]?>" class="btn btn-danger my-2">Supprimer</a>
-                            </div>
+                            </div> -->
                         </div>
                     </div>
                 </div>
@@ -339,7 +333,10 @@ if(!empty($_GET))
         
         
             <?php
-        }
+        }    
+    }else
+    {
+        echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
     }
 }
 else
