@@ -1,145 +1,11 @@
 <?php
 require_once "entete.php";
+require_once "../modeles/modeles.php";
 
 function getBdd()
 {
     return new PDO('mysql:host=localhost;dbname=estudia;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 }
-
-function affichageEDT($idEtude,$date)
-{
-    // $objetEdt = new Edt();
-    // $edt = $objetEdt -> selectEDT($idEtude,$date);
-    $requete = getBdd() -> prepare("SELECT idCours, idUtilisateur, idSalle, idClasse, edt.matiere, date, horaireDebut, horaireFin, enseignants.Nom, numero from edt LEFT JOIN enseignants using(idUtilisateur) INNER JOIN salle using(idSalle) WHERE idClasse = ? AND date = ?");
-    $requete->execute([$idEtude,$date]);
-    $edt = $requete->fetchAll(PDO::FETCH_ASSOC)
-    ?>
-    <div class="enteteAccueil">
-        <form method='get' style="width:100%;height:80px;">
-            <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" name='Jour'style="float:left;">
-
-            <
-
-            </button>
-
-            <button type="submit" 
-            value="<?= isset($_GET['Jour']) ? $_GET['Jour']+1 : 2 ?>"
-            name='Jour' style="float:right;">
-
-            >
-
-            </button>
-            <div>
-                <h3>Emploi du temps</h3>
-                
-                <h4 ><?=$date;?></h4>
-            </div>
-        </form>
-    </div>
-    <br>
-    <div id="jour" style="width:100%; height:100px">
-        <?php
-            $horaireSave = 0;
-            $first=0;
-            foreach($edt as $jour)
-            {   
-                $horaireDebut = (int)substr($jour["horaireDebut"], 0, -6);
-                $horaireFin = (int)substr($jour["horaireFin"], 0, -6);
-                if($first == 0)
-                {
-                    for($i = 8; $i<$horaireDebut;$i++)
-                    {
-                        ?>
-                        <div id="<?=$i;?>h" style="width:60%;height:80%;">
-                            <span id="18h"><?=$i;?>h</span>
-                        </div>
-                        <?php
-                    }
-                }
-                
-                if($horaireDebut - $horaireSave != 0 && $first > 0)
-                {
-                    ?>
-                    <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" style="width:100%;height:80%;">
-                        <span id="midi" style="float:left"><?=$horaireSave;?>h</span>
-                        <div style=" margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;background:gray;">
-                            <span>Permanence</span>
-                            <br>
-                            <span> / / </span>
-                        </div>
-                    </div>
-                    <?php
-                }
-                if($horaireFin - $horaireDebut == 1)
-                {
-                    ?>
-                        <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%">
-                        
-                    <?php
-                }else
-                {
-                    ?>
-                    <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%"><?php
-                }
-                ?>
-                
-                
-                    <span style="float:left" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
-
-                    <div style="margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;
-                        <?php 
-                            if($jour["matiere"] == 'Français')
-                            {
-                                echo 'background:cadetblue';
-                            }
-                            if($jour["matiere"] == 'Mathématique')
-                            {
-                                echo 'background:yellowgreen';
-                            }
-                            if($jour["matiere"] == 'Anglais')
-                            {
-                                echo 'background:tomato';
-                            }
-                            if($jour["matiere"] == 'Histoire')
-                            {
-                                echo 'background:wheat';
-                            }
-                            if($jour["matiere"] == 'Physique-Chimie')
-                            {
-                                echo 'background:orangered';
-                            }
-                            if($jour["matiere"] == 'Science')
-                            {
-                                echo 'background:salmon';
-                            }
-                            if($jour["matiere"] == 'Espagnol')
-                            {
-                                echo 'background:turquoise';
-                            }
-                        
-                        ?>
-
-                        ">
-                        <span><?= $jour["matiere"];?></span>
-                        <br>
-                        <span>Salle <?= $jour["numero"];?></span>
-                    </div>
-                    
-                </div>
-                
-                <?php
-                $first++;
-                $horaireSave = $horaireFin;
-            }
-
-        ?>
-        <span id="<?= $jour["horaireFin"]?>"><?=$horaireFin?>h</span>
-    </div>
-    
-    <?php 
-
-}
-
 function affichageDevoir($idEtude, $date)
 {
     $objetDevoir = new Devoir();
@@ -163,7 +29,7 @@ function affichageDevoir($idEtude, $date)
 
             </button>
             
-            <h3 ><?=$date;?></h3>
+            <h3 >Devoir : <?=$date;?></h3>
         </form>
     </div>
     <?php
@@ -206,6 +72,146 @@ function affichageDevoir($idEtude, $date)
     }
     
 }
+function affichageEDT($idEtude,$date)
+{
+    $objetEdt = new Edt();
+    $edt = $objetEdt -> selectEDT($idEtude,$date);
+
+        ?>
+        <div class="enteteAccueil">
+            <form method='get' style="width:100%;height:80px;">
+                <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" name='Jour'style="float:left;">
+
+                <
+
+                </button>
+
+                <button type="submit" 
+                value="<?= isset($_GET['Jour']) ? $_GET['Jour']+1 : 2 ?>"
+                name='Jour' style="float:right;">
+
+                >
+
+                </button>
+                <div>
+                    <h3>Emploi du temps</h3>
+                    
+                    <h4 ><?=$date;?></h4>
+                </div>
+            </form>
+        </div>
+        <br>
+        <?php
+        if($edt == null){
+
+        }else{
+            ?>
+            <div id="jour" style="width:100%;">
+                <?php
+                    $horaireSave = 0;
+                    $first=0;
+                    foreach($edt as $jour)
+                    {   
+                        $horaireDebut = (int)substr($jour["horaireDebut"], 0, -6);
+                        $horaireFin = (int)substr($jour["horaireFin"], 0, -6);
+                        if($first == 0)
+                        {
+                            for($i = 8; $i<$horaireDebut;$i++)
+                            {
+                                ?>
+                                <div id="<?=$i;?>h" style="width:60%;height:80%;">
+                                    <span id="18h"><?=$i;?>h</span>
+                                </div>
+                                <?php
+                            }
+                        }
+                        
+                        if($horaireDebut - $horaireSave != 0 && $first > 0)
+                        {
+                            ?>
+                            <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" style="width:100%;height:80%;">
+                                <span id="midi" style="float:left"><?=$horaireSave;?>h</span>
+                                <div style=" margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;background:gray;">
+                                    <span>Permanence</span>
+                                    <br>
+                                    <span> / / </span>
+                                </div>
+                            </div>
+                            <?php
+                        }
+                        if($horaireFin - $horaireDebut == 1)
+                        {
+                            ?>
+                                <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%">
+                                
+                            <?php
+                        }else
+                        {
+                            ?>
+                            <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%"><?php
+                        }
+                        ?>
+                        
+                        
+                            <span style="float:left" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
+
+                            <div style="margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;
+                                <?php 
+                                    if($jour["matiere"] == 'Français')
+                                    {
+                                        echo 'background:cadetblue';
+                                    }
+                                    if($jour["matiere"] == 'Mathématique')
+                                    {
+                                        echo 'background:yellowgreen';
+                                    }
+                                    if($jour["matiere"] == 'Anglais')
+                                    {
+                                        echo 'background:tomato';
+                                    }
+                                    if($jour["matiere"] == 'Histoire')
+                                    {
+                                        echo 'background:wheat';
+                                    }
+                                    if($jour["matiere"] == 'Physique-Chimie')
+                                    {
+                                        echo 'background:orangered';
+                                    }
+                                    if($jour["matiere"] == 'Science')
+                                    {
+                                        echo 'background:salmon';
+                                    }
+                                    if($jour["matiere"] == 'Espagnol')
+                                    {
+                                        echo 'background:turquoise';
+                                    }
+                                
+                                ?>
+
+                                ">
+                                <span><?= $jour["matiere"];?></span>
+                                <br>
+                                <span><?= substr($jour["prenom"], 0, 1); ?>.<?= $jour["nom"]?></span>
+                                <br>
+                                <span>Salle <?= $jour["numero"];?></span>
+                            </div>
+                            
+                        </div>
+                        
+                        <?php
+                        $first++;
+                        $horaireSave = $horaireFin;
+                    }
+
+                ?>
+                <span id="<?= $jour["horaireFin"]?>"><?=$horaireFin?>h</span>
+            </div>
+            
+        <?php 
+    }
+}
+
+
 
 function affichageNote($idUtilisateur)
 {
@@ -276,8 +282,6 @@ function affichagePunition($idUtilisateur)
 
 function affichageAbsence()
 {
-    // $objetMatiere = new Matieres();
-    // $matieres = $objetMatiere -> listeMatiere();
 
     $objetAbsence = new Absence();
     $absenses = $objetAbsence -> absenceEleve($_SESSION["idUtilisateur"]);

@@ -48,41 +48,39 @@ else
         {
             $jour = "+1 day";
         }
-        $demain = date("Y-m-d", strtotime($jour));?><br><?php
-        $demainn = date("Y-m-d", strtotime("+0 day"));?><br><?php
+        $demain = date("Y-m-d", strtotime($jour));?><?php
+        $demainn = date("Y-m-d", strtotime("+0 day"));
         
         #mise en page pour chaque user
         ?>
-        <div style="float:left;border:2px solid;width:400px;height:850px;">
-            <?php
-            affichageEDT(2, $demain);
-            ?>
-        </div>
-        <div style="margin-left:50%; width:40%">
-            <div style="border:2px solid;width:100%; height:250px">
-                <?php
-                affichageDevoir(2, $demain);
-                ?>
-            </div>
-            <br>
-            <div style="border:2px solid;width:100%;height:320px">
-                <?php
-                affichageNote($_SESSION["idUtilisateur"]);
-                ?>
-            </div>
-            <br>
-            <div id="divAbsence" style="border:2px solid;width:100%;height:320px">
-                <?php
-                    affichageAbsence();
-                ?>
-            </div>
-        </div>
-        
-
         <br>
+        <div>
+            <div class="etu-index-edt-block">
+                <?php
+                affichageEDT(2, $demain);
+                ?>
+            </div>
+            <div class="etu-index-contain-ndabs">
+                <div class="etu-index-note-block" >
+                        <?php
+                    affichageNote($_SESSION["idUtilisateur"]);
+                        ?>
+                </div>
+                <div class="etu-index-devoir-block">
+                        <?php
+                    affichageDevoir(2, $demain);
+                        ?>
+                </div>
 
-        
-
+            </div>
+        </div>
+        <br>
+        <br>
+        <div id="divAbsence" class="etu-index-abs-block">
+                <?php
+            affichageAbsence();
+                ?>
+        </div>
         <?php
     }
     if(!empty($_SESSION) && $_SESSION["statut"] == "Administration")

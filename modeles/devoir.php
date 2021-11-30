@@ -65,7 +65,7 @@ class Devoir extends Modele
 
     public function devoirProf($idProf, $idEtude)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idProf = ? && idEtude = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT *,matieres.matiere FROM devoirs LEFT JOIN matieres using(idMatiere) WHERE idProf = ? && idEtude = ?");
         $requete -> execute([$idProf, $idEtude]);
         $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $devoirs;   

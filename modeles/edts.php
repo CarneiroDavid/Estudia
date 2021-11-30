@@ -13,7 +13,7 @@ class Edt extends Modele
 
     function selectEDT($idEtude,$date)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT idCours, idUtilisateur, idSalle, idClasse, edt.matiere, date, horaireDebut, horaireFin, enseignants.Nom, numero from edt LEFT JOIN enseignants using(idUtilisateur) INNER JOIN salle using(idSalle) WHERE idClasse = ? AND date = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT idCours, edt.idUtilisateur, idSalle, idClasse, edt.matiere, date, horaireDebut, horaireFin, utilisateur.nom, utilisateur.prenom ,numero from edt INNER JOIN utilisateur on edt.idUtilisateur = utilisateur.idUtilisateur INNER JOIN salle using(idSalle) WHERE idClasse = ? AND date = ? ORDER BY horaireDebut");
         $requete->execute([$idEtude,$date]);
         $edt = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $edt;

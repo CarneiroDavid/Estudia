@@ -35,18 +35,53 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
         if(!empty($_POST["classe"]))
         {
             $objetDevoir = new Devoir();
-            $exams = $objetDevoir -> devoirProf($_SESSION["idUtilisateur"], $_POST["classe"]);
+            $devoirs = $objetDevoir -> devoirProf($_SESSION["idUtilisateur"], $_POST["classe"]);
+            $i=0;
             ?>
-            <h4 id="titre">Selectionner un Examen</h4>
-            <form method="post" action="noteProf.php">
+            <h4 id="titre">Selectionner un devoir</h4>
+            <form method="post" action="devoirs.php">
                 <?php
-                foreach($exams as $exam)
+                foreach($devoirs as $devoir)
+                {
+                    $listeDevoir[$devoir["laDate"]][$devoir["matiere"]][$i]["titre"] = $devoir["Titre"];
+                    $listeDevoir[$devoir["laDate"]][$devoir["matiere"]][$i]["info"] = $devoir["Info"];
+                    $i++;
+                }
+
+                foreach ($listeDevoir as $x => $Devoirs)
                 {
                     ?>
-                    <input type="hidden" name="idClasse" value="<?=$_POST["classe"];?>">
-                    <button class="btn btn-primary" name="idExamen" value="<?=$exam["idExamen"];?>"><?=$exam["nom"];?></button>
+                    <div style="margin-left:10px;overflow-y: scroll;height:150px">
+                        <?php
+                        
+                        foreach($Devoirs as $matieres => $Devoir)
+                        {
+                            ?>
+                            <h4 ><?=$matieres;?></h4>
+                            <ul > 
+                            <?php
+                            foreach($Devoir as $a)
+                            {
+                                ?>
+                                
+                                    <li>
+                                        <h5 ><?=$a["titre"];?></h5>
+                                        <p class="information"><?=$a["info"];?></p>
+                                        <!-- <a href="" class="btn btn-warning">Modifier</a>
+                                        <a href="" class="btn btn-danger">Supprimer</a> -->
+
+                                    </li>
+                                <?php
+                            }
+                            ?>
+                            </ul>
+                            <?php
+                        }
+                        ?>
+                    </div>
                     <?php
                 }
+
                 ?>
             </form>
             <?php           

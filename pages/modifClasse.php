@@ -1,6 +1,6 @@
 <?php 
 require_once "entete.php";
-if($_SESSION["statut"] == "Administration")
+if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur")
 {
     $objetClasse = new Classes();
     $classes = $objetClasse -> allClasse();
@@ -24,7 +24,7 @@ if($_SESSION["statut"] == "Administration")
             }
             ?>
             </select>
-            <button type="submit" value="1" name="envoi" class="btn">Valider</button>
+            <button type="submit" value="1" name="envoi" class="btn btn-primary">Valider</button>
         </div>
     </form>
     <!-- <form method="post" action="../traitements/verifClasse.php">
