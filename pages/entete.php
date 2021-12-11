@@ -137,4 +137,4 @@ require_once "../affichages/affichageEleve.php";
     </div>
 </nav>
 
-<div class="container" style="max-width: 100%;">
+<div class="container">

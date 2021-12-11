@@ -127,3 +127,8 @@
     float:right;
     width:50%
 }
+.div_messagerie
+{
+    display: flex!important;
+    flex-wrap: wrap;
+}

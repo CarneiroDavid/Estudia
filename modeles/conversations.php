@@ -48,6 +48,14 @@ class Conversation extends Modele
         return $conversations;
     }
 
+    // public function testnbConv($idUser)
+    // {
+    //     $pdo = mysqli_connect($this -> getBdd());
+    //     $result = mysqli_query($pdo, "CALL recupConvUser($idUser)");
+    //     return $result;
+
+    // }
+
     /* SET */
     public function setIdConversation($idConversation)
     {

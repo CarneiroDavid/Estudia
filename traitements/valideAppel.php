@@ -42,3 +42,7 @@ if(!empty($_POST["valideAppel"]) && $_POST["valideAppel"] == 1)
         }           
     }    
 }
+else
+{
+    header("location:../pages/index.php");
+}
