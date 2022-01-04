@@ -114,6 +114,7 @@ function affichageEDT($idEtude,$date)
                     {   
                         $horaireDebut = (int)substr($jour["horaireDebut"], 0, -6);
                         $horaireFin = (int)substr($jour["horaireFin"], 0, -6);
+                        
                         if($first == 0)
                         {
                             for($i = 8; $i<$horaireDebut;$i++)
