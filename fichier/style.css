@@ -127,3 +127,14 @@
     float:right;
     width:50%
 }
+
+.cookie-block{
+    position: absolute;
+    bottom: 0;
+}
+.cookie-info{
+    float:left;
+}
+.cookie-button{
+    float:right;
+}

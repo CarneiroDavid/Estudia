@@ -32,7 +32,12 @@ if(empty($_SESSION["nom"]))
         </div>
         <?php
     }
-    require_once "formulaireConnexion.php";
+    if(!empty($_COOKIE["cookie-id"]) && !empty($_COOKIE["cookie-token"]))
+    {
+        header("location: ../traitements/Connexion.php");
+    }else{
+        require_once "formulaireConnexion.php";
+    }
 }
 else 
 {   

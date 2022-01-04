@@ -32,14 +32,14 @@ class Eleves extends Modele
             }
         }
     }
-    public function ajouterEleve($nom, $prenom, $identifiant)
+    public function ajouter($identifiant)
         {
-        $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur FROM utilisateur WHERE identifiant = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur,nom,prenom FROM utilisateur WHERE identifiant = ?");
         $requete -> execute([$identifiant]);
         $idUtilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
         try{
             $requete = $this -> getBdd() -> prepare("INSERT INTO eleve (nom, prenom, idUtilisateur) VALUES (?, ?, ?)");
-            $requete -> execute([$nom, $prenom, $idUtilisateur["idUtilisateur"]]);
+            $requete -> execute([$idUtilisateur["nom"], $idUtilisateur["prenom"], $idUtilisateur["idUtilisateur"]]);
         }catch(Exception $e)
         {
             ?>
