@@ -1,42 +1,70 @@
-<?php
+<pre><?php print_r($_COOKIE)?></pre><?php
 require_once "../modeles/modeles.php";
 
 $utilisateur = new User();
-
-if(isset($_POST["bouton"]) && !empty($_POST["bouton"]) && $_POST["bouton"] == 1)
+if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
 {
-    if(!empty($_POST["identifiant"]) && !empty($_POST["mdp"]))
+    if(isset($_POST["bouton"]) && !empty($_POST["bouton"]) && $_POST["bouton"] == 1)
     {
-        if($_POST["mdp"] >= 0)
+        if(!empty($_POST["identifiant"]) && !empty($_POST["mdp"]))
         {
-            $verifConnexion = $utilisateur -> verifMdp($_POST["identifiant"], $_POST["mdp"]);
-            if($verifConnexion === true)
+            if($_POST["mdp"] >= 0)
             {
-                if($utilisateur -> connexion($_POST["identifiant"], $_POST["mdp"]) === true)
+                $verifConnexion = $utilisateur -> verifMdp($_POST["identifiant"], $_POST["mdp"]);
+                if($verifConnexion === true)
                 {
-                    header("location:../pages/index.php?succes=Connexion");
+                
+                    if($utilisateur -> connexion($_POST["identifiant"], $_POST["mdp"]) === true)
+                    {
+                        if(!empty($_COOKIE["accept-cookie"]))
+                        {
+                            if(isset($_POST["cookie-connection"]))
+                            {
+                                if($utilisateur->generate_token_connection($utilisateur->getIdUser())){
+                                    header("location:../pages/index.php?succes=Connexion");
+                                }else{
+                                    echo "dslkdmlkfdsmlfksdmlfkdsf";
+                                }
+                            }else{
+                                header("location:../pages/index.php?succes=Connexion");
+                            }
+                        }
+                        
+                    }
+                    else
+                    {
+                        header("location:../pages/index.php?error=Connexion");
+                    }
                 }
                 else
                 {
-                    header("location:../pages/index.php?error=Connexion");
+                    header("$verifConnexion");
                 }
             }
             else
             {
-                header("$verifConnexion");
-            }
+                header("location:../pages/index.php?error=TailleMdp");
+            } 
         }
         else
         {
-            header("location:../pages/index.php?error=TailleMdp");
-        } 
+            header("location:../pages/index.php?error=FormConnec");
+        }
     }
     else
     {
         header("location:../pages/index.php?error=FormConnec");
     }
-}
-else
-{
-    header("location:../pages/index.php?error=FormConnec");
+}else{
+
+    if(!empty($_COOKIE["cookie-id"]) && !empty($_COOKIE["cookie-token"]))
+    {
+        
+        if($utilisateur->connection_by_token($_COOKIE["cookie-id"],$_COOKIE["cookie-token"]))
+        {
+            header("location:../pages/index.php?succes=AutoConnexion");
+        }  
+    }
+
+
 }

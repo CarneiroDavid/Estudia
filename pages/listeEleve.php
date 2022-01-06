@@ -23,11 +23,11 @@ if($_SESSION["statut"] == "Administration")
     }
         ?></ul>
         <?php
-        require_once "footer.php";
+        
 }
 else
 {
     echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
 
 }
-
+require_once "footer.php";

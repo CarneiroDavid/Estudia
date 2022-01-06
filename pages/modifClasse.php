@@ -66,7 +66,7 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
     ?>
             
     <?php
-    require_once "footer.php";
+    
 }
 else
 {
@@ -74,3 +74,4 @@ else
 
 }
 
+require_once "footer.php";

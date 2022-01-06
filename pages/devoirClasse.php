@@ -92,3 +92,4 @@ else
 {
     echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
 }
+require_once "footer.php";

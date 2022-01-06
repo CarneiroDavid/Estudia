@@ -28,20 +28,22 @@ class User extends Modele
             $this -> dateNaiss = $infos["dateNaiss"];
             $this -> mdp = $infos["mdp"];
             $this -> mdpTemp = $infos["mdpTemp"];
-            $this -> statut = $infos["statut"];
-            if($infos["statut"] == "Etudiant")
-            {
-                $this -> statut = new Eleves();
-            }
-            if($infos["statut"] == "Administration")
-            {
-                $this -> statut = new Administration();
-            }
+            
+
             if($infos["statut"] == "Professeur")
             {
                 $this -> statut = new Enseignant();
 
             }
+            if($infos["statut"] == "Etudiant")
+            {
+                $this -> statut = new Eleves();
+            }
+            // if($infos["statut"] == "Administration")
+            // {
+            //     $this -> statut = "Administration";
+            // }
+
         }
     }
 
@@ -78,10 +80,29 @@ class User extends Modele
     {
         return $this -> statut; 
     }
-
+    public function verif_identifiant($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE identifiant = ?");
+        $requete -> execute([$id]);
+        if($requete->rowCount() == 0){
+            return true;
+        }
+        return false;
+    }
     public function insertionUser($email, $nom, $prenom, $dateNaiss, $statut)
     {      
-        $id = $this -> randomId($nom, $prenom);
+        $validation = 0;
+        while($validation == 0){
+            $id = $this -> randomId($nom, $prenom);
+            
+            if($this->verif_identifiant($id))
+            {
+                $validation++;
+            }
+            
+        }
+        
+
         $mdp2 = $this -> randomMdp();
         $mdp = password_hash($mdp2, PASSWORD_BCRYPT);
 
@@ -93,18 +114,15 @@ class User extends Modele
         $this -> mdp = $mdp;
         $this -> mdpTemp = $mdp2;
         if($statut == "Etudiant")
-            {
-                $this -> statut = new Eleves();
-            }
-            if($statut == "Administration")
-            {
-                $this -> statut = new Administration();
-            }
-            if($statut == "Professeur")
-            {
-                $this -> statut = new Enseignant();
+        {
+            $this -> statut = new Eleves();
+        }
 
-            }
+        if($statut == "Professeur")
+        {
+            $this -> statut = new Enseignant();
+
+        }
         if(empty($email))
         {
             try{
@@ -148,6 +166,7 @@ class User extends Modele
         $_SESSION["email"] = $utilisateur["email"];
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
 
+        $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
     }   
 
@@ -184,9 +203,47 @@ class User extends Modele
 
     public function selectNom($id)
     {
+        
         $requete = $this -> getBdd() -> prepare("SELECT nom, prenom FROM utilisateur WHERE idUtilisateur = ?");
         $requete -> execute([$id]);
         $nom = $requete -> fetch(PDO::FETCH_ASSOC);
         return $nom;
+    }
+    public function generate_token_connection($idUser)
+    {
+        echo "<h1>aAa</h1>";
+        $token = $this->randomMdp(26);
+        setCookie("cookie-id", $idUser, time()+60*60*24*30);
+        setCookie("cookie-token", $token, time()+60*60*24*30);
+        try{
+            $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET token = ? WHERE idUtilisateur = ?");
+            $requete->execute([$token,$idUser]);
+            
+            return true;
+        }catch(Exception $e)
+        {
+            return false;
+        }
+    }
+    public function connection_by_token($id, $token)
+    {
+        try{
+            $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur, identifiant, statut, prenom, nom FROM utilisateur WHERE idUtilisateur = ? AND token = ?");
+            $requete->execute([$id,$token]);
+            if($requete->rowCount() == 1){
+               
+                $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
+                $_SESSION["idUtilisateur"] = $utilisateur["idUtilisateur"];
+                $_SESSION["identifiant"] = $utilisateur["identifiant"];
+                $_SESSION["statut"] = $utilisateur["statut"];
+                $_SESSION["prenom"] = $utilisateur["prenom"];
+                $_SESSION["nom"] = $utilisateur["nom"];
+
+                return true;
+            }
+        }catch(Exception $e)
+        {
+            return false;
+        }
     }
 }

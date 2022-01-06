@@ -127,8 +127,21 @@
     float:right;
     width:50%
 }
+<<<<<<< HEAD
 .div_messagerie
 {
     display: flex!important;
     flex-wrap: wrap;
+=======
+
+.cookie-block{
+    position: absolute;
+    bottom: 0;
+}
+.cookie-info{
+    float:left;
+}
+.cookie-button{
+    float:right;
+>>>>>>> 2a46ed31e9603dfcef3d653578336b7795e675ea
 }

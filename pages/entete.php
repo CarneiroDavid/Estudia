@@ -8,6 +8,12 @@ require_once "../affichages/affichageEleve.php";
 <!DOCTYPE html>
 <html lang="fr">
 <head>
+    <?php    
+    if(isset($_GET["cookie-accept"]) && !isset($_COOKIE["accept-cookie"])){
+        setCookie("accept-cookie", 1, time()+60*60*24*30);
+        
+
+    }?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecole</title>

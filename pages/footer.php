@@ -1,7 +1,25 @@
         </div>
+<<<<<<< HEAD
         <div style="background-color: lightgray; height : 150px; text-align:center;">
             <a href="mentionsLegale.php">Mentions Légale</a>
         </div>
+=======
+        <footer>
+                <?php 
+                if(!isset($_COOKIE["accept-cookie"]) && !isset($_GET["cookie-accept"]))
+                {
+                    ?>
+                        <div class="cookie-block">
+                            <div class="cookie-info"><p>Ce site web utilise les cookies pour faciliter votre navigation...</p></div>
+                            <div class="cookie-button">
+                                <a href="?cookie-accept=1" class="btn btn-info">Accepter les cookies</a>
+                            </div>
+                        </div>
+                    <?php
+                }
+            ?>
+        </footer>
+>>>>>>> 2a46ed31e9603dfcef3d653578336b7795e675ea
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

@@ -39,7 +39,7 @@ class Enseignant extends Modele
         $this -> idFiliere = $enseignant["idFiliere"];
         $this -> matiere = $enseignant["matiere"];
     }
-    public function ajouterProf($identifiant)
+    public function ajouter($identifiant)
     {
         $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur, nom, prenom FROM utilisateur WHERE identifiant = ?");
         $requete -> execute([$identifiant]);
