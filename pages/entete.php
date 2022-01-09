@@ -10,7 +10,7 @@ require_once "../affichages/affichageEleve.php";
 <head>
     <?php    
     if(isset($_GET["cookie-accept"]) && !isset($_COOKIE["accept-cookie"])){
-        setCookie("accept-cookie", 1, time()+60*60*24*30);
+        setCookie("accept-cookie", 1, time()+60*60*24*30, "/");
         
 
     }?>
