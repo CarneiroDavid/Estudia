@@ -93,11 +93,13 @@
 
 .etu-index-edt-block{
 
-    float:left;
-    border:2px solid;
-    width:35%;
-    height:850px;
-    
+float:left;
+
+border:2px solid;
+
+width:35%;
+
+height: 80vh;
 }
 
 .etu-index-note-block{
@@ -127,11 +129,13 @@
     float:right;
     width:50%
 }
+
 .div_messagerie
 {
     display: flex!important;
     flex-wrap: wrap;
 }
+
 
 .cookie-block{
     position: absolute;

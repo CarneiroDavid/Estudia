@@ -1,3 +1,5 @@
+
+
 function afficherModif()
 {
 
@@ -33,9 +35,9 @@ function formulairePunition()
     
 }
 function modifAppel(){
-    var x = document.getElementById("appel-state");
-    x.style.backgroundColor = "darkred";
-  }
+  var x = document.getElementById("appel-state");
+  x.style.backgroundColor = "darkred";
+}
 function modifierPunition($idPunition)
 {
 
@@ -108,7 +110,7 @@ function SaveListing(idCours){
            document.getElementById("etd-cour-appel-block").innerHTML = xhr.responseText;
        }
     }
-   xhr.open("POST", "../traitements/valideAppel.php?cour="+id, true);
+   xhr.open("POST", "../traitements/valideAppel.php?cour="+idCours, true);
    xhr.send("");
 }
 
@@ -227,3 +229,5 @@ var AJAXSubmit = (function () {
     };
   
   })();
+
+

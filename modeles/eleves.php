@@ -34,6 +34,7 @@ class Eleves extends Modele
     }
     public function ajouter($identifiant)
     {
+
         $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur,nom,prenom FROM utilisateur WHERE identifiant = ?");
         $requete -> execute([$identifiant]);
         $idUtilisateur = $requete -> fetch(PDO::FETCH_ASSOC);

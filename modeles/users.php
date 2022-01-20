@@ -203,6 +203,7 @@ class User extends Modele
 
     public function selectNom($id)
     {
+        
         $requete = $this -> getBdd() -> prepare("SELECT nom, prenom FROM utilisateur WHERE idUtilisateur = ?");
         $requete -> execute([$id]);
         $nom = $requete -> fetch(PDO::FETCH_ASSOC);

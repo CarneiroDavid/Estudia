@@ -86,7 +86,7 @@ if(!empty($_GET))
                                                                         ?>
                                                                         
                                                                         <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
-                                                                        <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right'>Modifier</button>
+                                                                        <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right' data-toggle="modal" data-target="#FormNote">Modifier</button>
                                                                         <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
                                                                         <?php
                                                                     }
@@ -142,7 +142,7 @@ if(!empty($_GET))
                                             if($_SESSION["idUtilisateur"] == $punition["idUtilisateur"] || $_SESSION["statut"] == "Administration")
                                             {
                                             ?>
-                                                <button onclick=modifierPunition(this.id) class='btn btn-warning btn-sm mb-2' id="<?=$punition["idPunition"]?>" style='float:right'>Modifier</button>
+                                                <button onclick=modifierPunition(this.id) class='btn btn-warning btn-sm mb-2' id="<?=$punition["idPunition"]?>" style='float:right' data-toggle="modal" data-target="#FormPunition">Modifier</button>
 
                                             <?php
                                             }
@@ -164,8 +164,6 @@ if(!empty($_GET))
                                 ?>
                             </ul>
                         </p>
-            <!-- --FORMULAIRE DE MODIFICATION DE CLASSE -- -->
-
 
             <div class="modal fade" id="FormClass" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered" role="document">
@@ -291,11 +289,9 @@ if(!empty($_GET))
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                     </div>
                     </div>
+
                 </div>
             </div>
-
-
-
             <!-- -- FIN FORMULAIRE -- -->                      
                         
             <?php 
@@ -307,7 +303,7 @@ if(!empty($_GET))
                         <input type="hidden" name="idEnvoyeur" value="<?=$_SESSION["idUtilisateur"];?>">
                         <button class="btn btn-success" name="idReceveur" value="<?=$_GET["id"];?>">Envoyer un message</button>
                     </form>
-                    <button onclick="formulairePunition()" class="btn btn-danger my-2">Ajouter un rapport disciplinaire</button>                       
+                    <button onclick="formulairePunition()" class="btn btn-danger my-2" data-toggle="modal" data-target="#FormPunition">Ajouter un rapport disciplinaire</button>                       
                 
                 <?php
             }
