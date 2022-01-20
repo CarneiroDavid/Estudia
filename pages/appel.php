@@ -69,6 +69,7 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
                                         </select>
                                     </td>
                                     <td>
+                                        <input type="hidden" name="idCours" value="3">
                                         <input type="hidden" name="Classe[eleve][<?=$i;?>][idUtilisateur]" value="<?=$eleve["idUtilisateur"];?>">
                                         <input type="hidden" name="Classe[eleve][<?=$i;?>][idEtude]" value="<?=$_POST["classe"];?>">
                                         <input type="hidden" name="Classe[eleve][<?=$i;?>][idProf]" value="<?=$_SESSION["idUtilisateur"];?>">

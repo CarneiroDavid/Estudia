@@ -28,23 +28,25 @@ class User extends Modele
             $this -> dateNaiss = $infos["dateNaiss"];
             $this -> mdp = $infos["mdp"];
             $this -> mdpTemp = $infos["mdpTemp"];
-            $this -> statut = $infos["statut"];
-            if($infos["statut"] == "Etudiant")
-            {
-                $this -> statut = new Eleves();
-            }
-            if($infos["statut"] == "Administration")
-            {
-                $this -> statut = new Administration();
-            }
+            
+
             if($infos["statut"] == "Professeur")
             {
                 $this -> statut = new Enseignant();
 
             }
+            if($infos["statut"] == "Etudiant")
+            {
+                $this -> statut = new Eleves();
+            }
+            // if($infos["statut"] == "Administration")
+            // {
+            //     $this -> statut = "Administration";
+            // }
+
         }
     }
-
+    
     public function getIdUser()
     {
         return $this -> idUtilisateur; 
@@ -78,10 +80,29 @@ class User extends Modele
     {
         return $this -> statut; 
     }
-
+    public function verif_identifiant($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE identifiant = ?");
+        $requete -> execute([$id]);
+        if($requete->rowCount() == 0){
+            return true;
+        }
+        return false;
+    }
     public function insertionUser($email, $nom, $prenom, $dateNaiss, $statut)
     {      
-        $id = $this -> randomId($nom, $prenom);
+        $validation = 0;
+        while($validation == 0){
+            $id = $this -> randomId($nom, $prenom);
+            
+            if($this->verif_identifiant($id))
+            {
+                $validation++;
+            }
+            
+        }
+        
+
         $mdp2 = $this -> randomMdp();
         $mdp = password_hash($mdp2, PASSWORD_BCRYPT);
 
@@ -93,18 +114,15 @@ class User extends Modele
         $this -> mdp = $mdp;
         $this -> mdpTemp = $mdp2;
         if($statut == "Etudiant")
-            {
-                $this -> statut = new Eleves();
-            }
-            if($statut == "Administration")
-            {
-                $this -> statut = new Administration();
-            }
-            if($statut == "Professeur")
-            {
-                $this -> statut = new Enseignant();
+        {
+            $this -> statut = new Eleves();
+        }
 
-            }
+        if($statut == "Professeur")
+        {
+            $this -> statut = new Enseignant();
+
+        }
         if(empty($email))
         {
             try{
@@ -134,7 +152,7 @@ class User extends Modele
 
     public function connexion($id)
     {
-        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, nom, prenom, dateNaiss, mdp, statut FROM utilisateur WHERE identifiant = ?");
+        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
         $requete -> execute([$id]);
         $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
         $nom = $utilisateur["nom"];
@@ -147,9 +165,10 @@ class User extends Modele
         $_SESSION["nom"] = $nom;
         $_SESSION["email"] = $utilisateur["email"];
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
-
+        $_SESSION["idEtude"] = $utilisateur["idEtude"];
+        $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
-    }   
+    }    
 
     public function verifMdp($id, $mdp)
     {
@@ -188,5 +207,45 @@ class User extends Modele
         $requete -> execute([$id]);
         $nom = $requete -> fetch(PDO::FETCH_ASSOC);
         return $nom;
+    }
+    public function generate_token_connection($idUser)
+    {
+        $token = $this->randomMdp(26);
+        $cookie= $idUser.'-'.$token;
+        setCookie("cookie-token", $cookie, time()+60*60*24*30, "/");
+        try{
+            $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET token = ? WHERE idUtilisateur = ?");
+            $requete->execute([$token,$idUser]);
+            
+            return true;
+        }catch(Exception $e)
+        {
+            return false;
+        }
+    }
+    public function connection_by_token($cookie)
+    {
+        $token = substr($cookie, -26, 26);
+        $id = stristr($cookie, '-', true);
+        try{
+            $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur, identifiant, statut, prenom, nom FROM utilisateur WHERE idUtilisateur = ? AND token = ?");
+            $requete->execute([$id,$token]);
+            if($requete->rowCount() == 1){
+               
+                $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
+                $_SESSION["idUtilisateur"] = $utilisateur["idUtilisateur"];
+                $_SESSION["identifiant"] = $utilisateur["identifiant"];
+                $_SESSION["statut"] = $utilisateur["statut"];
+                $_SESSION["prenom"] = $utilisateur["prenom"];
+                $_SESSION["nom"] = $utilisateur["nom"];
+
+                return true;
+            }else{
+                return false;
+            }
+        }catch(Exception $e)
+        {
+            return false;
+        }
     }
 }

@@ -16,7 +16,7 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                 {
                     if($_POST["statut"] == "Etudiant")
                     {
-                        if($user -> getStatut() -> ajouterEleve($_POST["nom"], $_POST["prenom"], $user -> getId()))
+                        if($user -> getStatut() -> ajouter($user -> getId()))
                         {
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
                         }
@@ -27,7 +27,7 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                     }
                     if($_POST["statut"] == "Professeur")
                     {
-                        if($user -> getStatut() -> ajouterProf($user -> getId()))
+                        if($user -> getStatut() -> ajouter($user -> getId()))
                         {
                             
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");

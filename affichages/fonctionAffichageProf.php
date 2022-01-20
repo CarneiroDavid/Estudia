@@ -9,11 +9,10 @@ function ListeClasse()
         <label for="classe">Classes</label>
         <select class="form-control" name="classe" id="classe" aria-label="Default select example">
         <?php 
-        $objetClasse = new Classes();
-        $classes = $objetClasse -> allClasse();
-        // $requete = getBdd() -> prepare("SELECT * FROM etudes");
-        // $requete -> execute();
-        // $classes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        
+        $requete = getBdd() -> prepare("SELECT * FROM etudes");
+        $requete -> execute();
+        $classes = $requete -> fetchAll(PDO::FETCH_ASSOC);
 
         foreach($classes as $classe)
         {

@@ -132,3 +132,21 @@
     display: flex!important;
     flex-wrap: wrap;
 }
+
+.cookie-block{
+    position: absolute;
+    background-color: #d6d6d6;
+    border-style:solid;
+    margin-left:1px;
+    margin-bottom:1px;
+    padding:2%;
+    bottom: 0;
+    width:40%;
+}
+.cookie-info{
+    
+    float:left;
+}
+.cookie-button{
+    margin-top:1%;
+}
