@@ -32,7 +32,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
         ?>
         <div>
             <!-- Systeme recherche d'utilisateur pour conversation -->
-            <div class="card" style="margin-top:20px; margin-left:10%; width:80%;">
+            <div class="card mt-5">
                 
                 <button style="border: none;" onclick="contactProf()" class="card-header">
                     Contacter un utilisateur ▼
@@ -80,19 +80,21 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
             /* Affichage des conversations disponible / créer */
             $objetConversation = new Conversation();
             $conversations = $objetConversation -> conversation($_SESSION["idUtilisateur"]);
-            ?>
             
-            <div style="height:150px;width:80%; margin-left:10%; margin-top:30px">
-                <h5 style="text-align: center;">Conversation déjà en cours</h5>
+            ?>
+            <h5 style="text-align: center;">Conversation déjà en cours</h5>
+                <h6>Vous avez </h6>
+            <div class="div_messagerie">
+                
                 <?php
                 foreach($conversations as $conversation)
                 {
                     ?>
                     
-                        <div class="card" style="width:33%;float:left; margin-left:0.3%">
+                        <div class="card col-12 col-lg-4 col-md-6 text-center">
                             <div class="card-body">
                                 <?php
-                                $objetUser = new User();
+                                    $objetUser = new User();
                                 
                                     if($_GET["idUtilisateur"] == $conversation["idEnvoyeur"])
                                     {

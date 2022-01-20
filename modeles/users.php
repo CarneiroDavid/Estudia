@@ -46,7 +46,7 @@ class User extends Modele
 
         }
     }
-
+    
     public function getIdUser()
     {
         return $this -> idUtilisateur; 
@@ -168,7 +168,7 @@ class User extends Modele
         $_SESSION["idEtude"] = $utilisateur["idEtude"];
         $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
-    }   
+    }    
 
     public function verifMdp($id, $mdp)
     {

@@ -14,7 +14,7 @@ if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
                         <?php
                             $objetConversation = new Message();
                             $messages = $objetConversation -> recupMessage($_SESSION["idUtilisateur"], $_GET["idReceveur"]);
-                            
+
                             foreach($messages as $message)
                             {
                                 if($message["idEnvoyeur"] == $_SESSION["idUtilisateur"])

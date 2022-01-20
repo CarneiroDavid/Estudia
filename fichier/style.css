@@ -130,6 +130,13 @@ height: 80vh;
     width:50%
 }
 
+.div_messagerie
+{
+    display: flex!important;
+    flex-wrap: wrap;
+}
+
+
 .cookie-block{
     position: absolute;
     background-color: #d6d6d6;

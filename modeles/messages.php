@@ -13,10 +13,10 @@ class Message extends Modele
 
     }
 
-    public function recupMessage($idEnvoyeur)
+    public function recupMessage($idEnvoyeur, $idReceveur)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT idEnvoyeur, idReceveur, message, date_envoie, heure_envoie FROM messages WHERE idEnvoyeur = ? || idReceveur = ?");
-        $requete -> execute([$idEnvoyeur, $idEnvoyeur]);
+        $requete = $this -> getBdd() -> prepare("SELECT idEnvoyeur, idReceveur, message, date_envoie, heure_envoie FROM messages WHERE idEnvoyeur = ? && idReceveur = ?");
+        $requete -> execute([$idEnvoyeur, $idReceveur]);
         $messages = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $messages;
     }
@@ -28,7 +28,6 @@ class Message extends Modele
             $requete = $this -> getBdd() -> prepare("INSERT INTO messages (idConversation, idEnvoyeur, idReceveur, message, date_envoie, heure_envoie) VALUES (?, ?, ?, ?, NOW(), NOW())");
             $requete -> execute([$idConversation, $idEnvoyeur, $idReceveur, $message]);
             return true;
-
         }
         catch(Exception $e)
         {
