@@ -110,7 +110,7 @@ function SaveListing(idCours){
            document.getElementById("etd-cour-appel-block").innerHTML = xhr.responseText;
        }
     }
-   xhr.open("POST", "../traitements/valideAppel.php?cour="+id, true);
+   xhr.open("POST", "../traitements/valideAppel.php?cour="+idCours, true);
    xhr.send("");
 }
 

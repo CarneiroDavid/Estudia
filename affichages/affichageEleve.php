@@ -29,7 +29,7 @@ function affichageDevoir($idEtude, $date)
 
             </button>
             
-            <h3 >Devoir : <?=$date;?></h3>
+            <h5 >Devoir : <?=$date;?></h5>
         </form>
     </div>
     <?php
@@ -101,9 +101,9 @@ function affichageEDT($idEtude,$date,$statut= 'Etudiant')
 
                 </button>
                 <div>
-                    <h3>Emploi du temps</h3>
+                    <h5>Emploi du temps</h5>
                     
-                    <h4 ><?=$date;?></h4>
+                    <h6 ><?=$date;?></h6>
                 </div>
             </form>
         </div>
@@ -238,7 +238,7 @@ function affichageNote($idUtilisateur)
     }
     ?>
     <div class="enteteAccueil">
-        <h3> Notes de l'élève :</h3>
+        <h5> Notes de l'élève :</h5>
     </div>
     <div style="overflow-y:scroll; height:85%">
         <ul>
@@ -247,7 +247,7 @@ function affichageNote($idUtilisateur)
             {
 
                 ?>
-                <h4><?=$matiere["matiere"];?></h4>
+                <h6><?=$matiere["matiere"];?></h6>
                 <ul class="list-group-item">
                     <?php
                     foreach($listenote as $x => $note)
