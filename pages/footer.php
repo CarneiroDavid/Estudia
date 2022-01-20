@@ -10,9 +10,15 @@
                 {
                     ?>
                         <div class="cookie-block">
-                            <div class="cookie-info"><p>Ce site web utilise les cookies pour faciliter votre navigation...</p></div>
+                            <div class="cookie-info">
+                                <p>Ce site web utilise les cookies pour faciliter votre navigation</p>
+                                <a href="mentionsLegale.php">Consultez notre Politique d’utilisation des cookies</a>
+                            
+                                
+                            </div>
+                            <br>
                             <div class="cookie-button">
-                                <a href="?cookie-accept=1" class="btn btn-info">Accepter les cookies</a>
+                                    <a href="?cookie-accept=1" class="btn btn-info">Accepter les cookies</a>
                             </div>
                         </div>
                     <?php

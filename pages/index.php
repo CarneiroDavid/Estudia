@@ -42,8 +42,7 @@ if(empty($_SESSION["nom"]))
 else 
 {   
     /* Affichage index Eleve */
-    if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
-    {
+    
         
         if(isset($_GET["Jour"]))
         {
@@ -53,8 +52,7 @@ else
         {
             $jour = "+1 day";
         }
-        $demain = date("Y-m-d", strtotime($jour));?><?php
-        $demainn = date("Y-m-d", strtotime("+0 day"));
+        $demain = date("Y-m-d", strtotime($jour));
         
         #mise en page pour chaque user
         ?>
@@ -62,9 +60,19 @@ else
         <div>
             <div class="etu-index-edt-block">
                 <?php
-                affichageEDT(2, $demain);
+                if($_SESSION["statut"] == 'Professeur')
+                {
+                    
+                    affichageEDT($_SESSION["idUtilisateur"], $demain, 'Professeur');
+                }else if($_SESSION["statut"] == 'Etudiant'){
+                    affichageEDT($_SESSION["idEtude"], $demain);
+                }
                 ?>
             </div>
+            <?php
+            if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
+            {
+        ?>
             <div class="etu-index-contain-ndabs">
                 <div class="etu-index-note-block" >
                         <?php
@@ -78,6 +86,7 @@ else
                 </div>
 
             </div>
+             
         </div>
         <br>
         <br>
@@ -86,12 +95,35 @@ else
             affichageAbsence();
                 ?>
         </div>
-        <?php
-    }
+        <?php } 
+   
     
-    if(!empty($_SESSION) && $_SESSION["statut"] == "Professeur")
-    {
-        echo "<script type='text/javascript'>document.location.replace('appel.php');</script>";
-    }
+?>
+
+<div class="modal fade" id="CourDetail" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FormClassCenterLongTitle"></h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <div class='etd-cour-detail-block'></div>
+            <div id='etd-cour-appel-block'>  
+            </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<?php
 }
 require_once "footer.php";

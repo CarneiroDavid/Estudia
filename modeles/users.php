@@ -152,7 +152,7 @@ class User extends Modele
 
     public function connexion($id)
     {
-        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, nom, prenom, dateNaiss, mdp, statut FROM utilisateur WHERE identifiant = ?");
+        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
         $requete -> execute([$id]);
         $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
         $nom = $utilisateur["nom"];
@@ -165,7 +165,7 @@ class User extends Modele
         $_SESSION["nom"] = $nom;
         $_SESSION["email"] = $utilisateur["email"];
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
-
+        $_SESSION["idEtude"] = $utilisateur["idEtude"];
         $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
     }   
@@ -211,10 +211,9 @@ class User extends Modele
     }
     public function generate_token_connection($idUser)
     {
-        echo "<h1>aAa</h1>";
         $token = $this->randomMdp(26);
-        setCookie("cookie-id", $idUser, time()+60*60*24*30);
-        setCookie("cookie-token", $token, time()+60*60*24*30);
+        $cookie= $idUser.'-'.$token;
+        setCookie("cookie-token", $cookie, time()+60*60*24*30, "/");
         try{
             $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET token = ? WHERE idUtilisateur = ?");
             $requete->execute([$token,$idUser]);
@@ -225,8 +224,10 @@ class User extends Modele
             return false;
         }
     }
-    public function connection_by_token($id, $token)
+    public function connection_by_token($cookie)
     {
+        $token = substr($cookie, -26, 26);
+        $id = stristr($cookie, '-', true);
         try{
             $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur, identifiant, statut, prenom, nom FROM utilisateur WHERE idUtilisateur = ? AND token = ?");
             $requete->execute([$id,$token]);
@@ -240,6 +241,8 @@ class User extends Modele
                 $_SESSION["nom"] = $utilisateur["nom"];
 
                 return true;
+            }else{
+                return false;
             }
         }catch(Exception $e)
         {

@@ -72,10 +72,17 @@ function affichageDevoir($idEtude, $date)
     }
     
 }
-function affichageEDT($idEtude,$date)
+function affichageEDT($idEtude,$date,$statut= 'Etudiant')
 {
     $objetEdt = new Edt();
-    $edt = $objetEdt -> selectEDT($idEtude,$date);
+    if($statut === 'Etudiant')
+    {
+       $edt = $objetEdt -> selectEDT($idEtude,$date);
+    }else if ( $statut === 'Professeur')
+    {
+        $edt = $objetEdt -> selectEDT_Prof($_SESSION['idUtilisateur'],$date);
+    }
+        
 
         ?>
         <div class="enteteAccueil">
@@ -100,13 +107,13 @@ function affichageEDT($idEtude,$date)
                 </div>
             </form>
         </div>
-        <br>
+        
         <?php
         if($edt == null){
 
         }else{
             ?>
-            <div id="jour" style="width:100%;">
+            <div id="jour" style="width:100%;height:100%;padding:1%;">
                 <?php
                     $horaireSave = 0;
                     $first=0;
@@ -120,17 +127,17 @@ function affichageEDT($idEtude,$date)
                             for($i = 8; $i<$horaireDebut;$i++)
                             {
                                 ?>
-                                <div id="<?=$i;?>h" style="width:60%;height:80%;">
+                                <div id="<?=$i;?>h" style="width:60%;height:10%;<?php if($i == 8){ echo ''; } ?>">
                                     <span id="18h"><?=$i;?>h</span>
                                 </div>
                                 <?php
                             }
                         }
-                        
-                        if($horaireDebut - $horaireSave != 0 && $first > 0)
+                        $valeurTest = $horaireDebut - $horaireSave;
+                        if($valeurTest != 0 && $first > 0)
                         {
                             ?>
-                            <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" style="width:100%;height:80%;">
+                            <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" style="width:100%;height:<?php if($valeurTest == 1){ echo '10%'; }else{ echo '14%';}?>">
                                 <span id="midi" style="float:left"><?=$horaireSave;?>h</span>
                                 <div style=" margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;background:gray;">
                                     <span>Permanence</span>
@@ -143,20 +150,20 @@ function affichageEDT($idEtude,$date)
                         if($horaireFin - $horaireDebut == 1)
                         {
                             ?>
-                                <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%">
+                                <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:10%" data-toggle="modal" data-target="#CourDetail">
                                 
                             <?php
                         }else
                         {
                             ?>
-                            <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:100%"><?php
+                            <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:14%" data-toggle="modal" data-target="#CourDetail"><?php
                         }
                         ?>
                         
                         
-                            <span style="float:left" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
+                            <span style="float:left;position:relative;top:-12px" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
 
-                            <div style="margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;
+                            <div id='<?= $jour['idCours']?>' style="margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;
                                 <?php 
                                     if($jour["matiere"] == 'Français')
                                     {
@@ -187,9 +194,9 @@ function affichageEDT($idEtude,$date)
                                         echo 'background:turquoise';
                                     }
                                 
-                                ?>
+                                ?>"
+                                onclick='CoursDetail(this.id)'>
 
-                                ">
                                 <span><?= $jour["matiere"];?></span>
                                 <br>
                                 <span><?= substr($jour["prenom"], 0, 1); ?>.<?= $jour["nom"]?></span>
@@ -205,7 +212,7 @@ function affichageEDT($idEtude,$date)
                     }
 
                 ?>
-                <span id="<?= $jour["horaireFin"]?>"><?=$horaireFin?>h</span>
+                <span id="<?= $jour["horaireFin"]?>" style="position:relative;top:-18px;"><?=$horaireFin?>h</span>
             </div>
             
         <?php 

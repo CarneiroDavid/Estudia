@@ -93,11 +93,13 @@
 
 .etu-index-edt-block{
 
-    float:left;
-    border:2px solid;
-    width:35%;
-    height:850px;
-    
+float:left;
+
+border:2px solid;
+
+width:35%;
+
+height: 80vh;
 }
 
 .etu-index-note-block{
@@ -127,21 +129,28 @@
     float:right;
     width:50%
 }
-<<<<<<< HEAD
+
 .div_messagerie
 {
     display: flex!important;
     flex-wrap: wrap;
-=======
-
+}
 .cookie-block{
     position: absolute;
+    background-color: #d6d6d6;
+    border-style:solid;
+    margin-left:1px;
+    margin-bottom:1px;
+    padding:2%;
     bottom: 0;
+    width:40%;
 }
 .cookie-info{
+    
     float:left;
 }
 .cookie-button{
+
     float:right;
->>>>>>> 2a46ed31e9603dfcef3d653578336b7795e675ea
+    margin-top:1%;
 }

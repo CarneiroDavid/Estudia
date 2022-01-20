@@ -1,6 +1,6 @@
 <?php
 require_once "entete.php";
-$objetEleve = new Eleves();
+// $objetEleve = new Eleves();
 $eleves = $objetEleve -> listeEleves();
 
 $objetClasse = new Classes();

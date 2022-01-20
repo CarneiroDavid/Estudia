@@ -23,7 +23,7 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
                                 if($utilisateur->generate_token_connection($utilisateur->getIdUser())){
                                     header("location:../pages/index.php?succes=Connexion");
                                 }else{
-                                    echo "dslkdmlkfdsmlfksdmlfkdsf";
+                                    echo "";
                                 }
                             }else{
                                 header("location:../pages/index.php?succes=Connexion");
@@ -57,13 +57,17 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
     }
 }else{
 
-    if(!empty($_COOKIE["cookie-id"]) && !empty($_COOKIE["cookie-token"]))
+    if(!empty($_COOKIE["cookie-token"]))
     {
         
-        if($utilisateur->connection_by_token($_COOKIE["cookie-id"],$_COOKIE["cookie-token"]))
+        if($utilisateur->connection_by_token($_COOKIE["cookie-token"]))
         {
             header("location:../pages/index.php?succes=AutoConnexion");
-        }  
+            
+            
+        }else{
+            header("location:../pages/index.php?error=AutoConnexion");
+        }
     }
 
 
