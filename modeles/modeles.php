@@ -28,7 +28,7 @@ require_once "eleves.php";
 require_once "enseignants.php";
 require_once "filiere.php";
 require_once "matieres.php";
-require_once "notes.php";
+require_once "note.php";
 require_once "statuts.php";
 require_once "users.php";
 require_once "devoir.php";

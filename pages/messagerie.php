@@ -84,6 +84,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
             ?>
             <h5 style="text-align: center;">Conversation déjà en cours</h5>
                 <h6>Vous avez </h6>
+                
             <div class="div_messagerie">
                 
                 <?php
@@ -91,31 +92,31 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
                 {
                     ?>
                     
-                        <div class="card col-12 col-lg-4 col-md-6 text-center">
-                            <div class="card-body">
-                                <?php
-                                    $objetUser = new User();
-                                
-                                    if($_GET["idUtilisateur"] == $conversation["idEnvoyeur"])
-                                    {
-                                        $noms = $objetUser -> selectNom($conversation["idReceveur"]);
-                                        ?>
-                                        <h5 class="card-title"><?=$noms["nom"]?> <?=$noms["prenom"]?></h5>
-                                        <a class="btn btn-success" href="conversation.php?idReceveur=<?=$conversation["idReceveur"];?>&idConversation=<?=$conversation["idConversation"];?>">Afficher la conversation</a>
-                                        <?php
-                                    }
-                                    else
-                                    {
-                                        $noms = $objetUser -> selectNom($conversation["idEnvoyeur"]);
-                                        ?>
-                                        <h5 class="card-title"><?=$noms["nom"]?> <?=$noms["prenom"]?></h5>
-                                        <a class="btn btn-success" href="conversation.php?idReceveur=<?=$conversation["idEnvoyeur"];?>&idConversation=<?=$conversation["idConversation"];?>">Afficher la conversation</a>
-                                        <?php
-                                    }
-                                ?>
+                    <div class="card col-12 col-lg-4 col-md-6 text-center">
+                        <div class="card-body">
+                            <?php
+                                $objetUser = new User();
                             
-                            </div>
+                                if($_GET["idUtilisateur"] == $conversation["idEnvoyeur"])
+                                {
+                                    $noms = $objetUser -> selectNom($conversation["idReceveur"]);
+                                    ?>
+                                    <h5 class="card-title"><?=$noms["nom"]?> <?=$noms["prenom"]?></h5>
+                                    <a class="btn btn-success" href="conversation.php?idReceveur=<?=$conversation["idReceveur"];?>&idConversation=<?=$conversation["idConversation"];?>">Afficher la conversation</a>
+                                    <?php
+                                }
+                                else
+                                {
+                                    $noms = $objetUser -> selectNom($conversation["idEnvoyeur"]);
+                                    ?>
+                                    <h5 class="card-title"><?=$noms["nom"]?> <?=$noms["prenom"]?></h5>
+                                    <a class="btn btn-success" href="conversation.php?idReceveur=<?=$conversation["idEnvoyeur"];?>&idConversation=<?=$conversation["idConversation"];?>">Afficher la conversation</a>
+                                    <?php
+                                }
+                            ?>
+                        
                         </div>
+                    </div>
                             
                     <?php
                 }

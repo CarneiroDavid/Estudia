@@ -152,7 +152,7 @@ class User extends Modele
 
     public function connexion($id)
     {
-        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
+        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude, PremiereConnexion FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
         $requete -> execute([$id]);
         $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
         $nom = $utilisateur["nom"];
@@ -166,6 +166,7 @@ class User extends Modele
         $_SESSION["email"] = $utilisateur["email"];
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
         $_SESSION["idEtude"] = $utilisateur["idEtude"];
+        $_SESSION["PremiereConnexion"] = $utilisateur["PremiereConnexion"];
         $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
     }   
@@ -248,5 +249,33 @@ class User extends Modele
         {
             return false;
         }
+    }
+    public function premiere_connexion($idUtilisateur)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT PremiereConnexion FROM utilisateur WHERE idUtilisateur = ?");
+        $requete -> execute([$idUtilisateur]);
+        $info = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $info; 
+    }
+    public function accept_CGU($idUser)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET PremiereConnexion = true WHERE idUtilisateur = ?");
+            $requete -> execute([$idUser]);
+            return true;
+        }
+        catch(Exception $e)
+        {
+            echo $e -> getMessage();
+        }
+    }
+
+    public function recupInfoUser($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT utilisateur.nom, utilisateur.prenom, dateNaiss, statut, idFiliere, classe, etudes.nom, idEtude FROM utilisateur INNER JOIN eleve USING(idUtilisateur) INNER JOIN etudes USING (idEtude) WHERE idUtilisateur = ?");
+        $requete -> execute([$id]);
+        $info = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $info;
     }
 }

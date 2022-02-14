@@ -1,9 +1,4 @@
         </div>
-<<<<<<< HEAD
-        <div style="background-color: lightgray; height : 150px; text-align:center;">
-            <a href="mentionsLegale.php">Mentions Légale</a>
-        </div>
-=======
         <footer>
                 <?php 
                 if(!isset($_COOKIE["accept-cookie"]) && !isset($_GET["cookie-accept"]))
@@ -25,7 +20,6 @@
                 }
             ?>
         </footer>
->>>>>>> 2a46ed31e9603dfcef3d653578336b7795e675ea
     </body>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>

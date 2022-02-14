@@ -1,4 +1,4 @@
-<pre><?php print_r($_COOKIE)?></pre><?php
+<?php
 require_once "../modeles/modeles.php";
 
 $utilisateur = new User();
@@ -23,13 +23,13 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
                                 if($utilisateur->generate_token_connection($utilisateur->getIdUser())){
                                     header("location:../pages/index.php?succes=Connexion");
                                 }else{
-                                    echo "";
+                                    
                                 }
                             }else{
                                 header("location:../pages/index.php?succes=Connexion");
                             }
-                        }
-                        
+                        }  
+                        header("location:../pages/premiereConnexion.php");                      
                     }
                     else
                     {

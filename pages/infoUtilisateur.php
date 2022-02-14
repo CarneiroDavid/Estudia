@@ -43,73 +43,71 @@ if(!empty($_GET))
             <!-- Affichage note -->
             <div class="row"> 
                 <div class="col md-4">
-                    <div class="card">
-                        <div class="card-body">
+                    
                             
-                            <h4 class="card-title"><?=$eleve["nom"]. " ".$eleve["prenom"];?></h4>
-            
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                <?=$eleve["titre"]." ".$eleve["classe"];?>
-                            </h6>
-                            <div>
-                                <h5>Notes de l'élève :</h5>
-                                <ul>
-                                    <?php
-                                        foreach($matieres as $matiere)
+                    <h4 class="card-title"><?=$eleve["nom"]. " ".$eleve["prenom"];?></h4>
+
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <?=$eleve["titre"]." ".$eleve["classe"];?>
+                    </h6>
+                    <div>
+                        <h5>Notes de l'élève :</h5>
+                        <ul>
+                            <?php
+                                foreach($matieres as $matiere)
+                                {
+                                    ?>
+                                    <ul class="list-group-item" style="padding-left:5%">
+                                        <h5><?=$matiere["matiere"];?></h5>
+                                        
+                                        <?php
+                                        foreach($listenote as $x => $note)
                                         {
-                                            ?>
-                                            <ul class="list-group-item" style="padding-left:5%">
-                                                <h5><?=$matiere["matiere"];?></h5>
-                                                
-                                                <?php
-                                                foreach($listenote as $x => $note)
-                                                {
-                                                    if($x == $matiere["matiere"])
-                                                    {
+                                            if($x == $matiere["matiere"])
+                                            {
 
-                                                        foreach($note as $Note)
-                                                        {   
-                                                            $idNote = $Note["idNote"];      
-                                                            
-                                                            ?>
-                                                            
-                                                            <li>
-                                                                <b><span id="designation<?=$idNote?>"><?=$Note["designation"];?></span></b>
-                                                                : <span id="note<?=$idNote?>"><?=$Note["notes"];?></span>/<span id="noteMax<?=$Note["idNote"]?>"><?=$Note["noteMax"]?></span>
-                                                                <br>
+                                                foreach($note as $Note)
+                                                {   
+                                                    $idNote = $Note["idNote"];      
+                                                    
+                                                    ?>
+                                                    
+                                                    <li>
+                                                        <b><span id="designation<?=$idNote?>"><?=$Note["designation"];?></span></b>
+                                                        : <span id="note<?=$idNote?>"><?=$Note["notes"];?></span>/<span id="noteMax<?=$Note["idNote"]?>"><?=$Note["noteMax"]?></span>
+                                                        <br>
 
-                                                                <?= !empty($Note["commentaire"]) ? "<b>Appréciation :</b><br><span id='commentaire".$idNote."'>".$Note["commentaire"] : "<span id='commentaire".$idNote."'></span>" ;?></span>
-                                                                
-                                                                <?php 
-                                                                    if($_SESSION["idUtilisateur"] == $Note["idProf"] || $_SESSION["statut"] == "Administration")
-                                                                    {
-                                                                        ?>
-                                                                        
-                                                                        <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
-                                                                        <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right' data-toggle="modal" data-target="#FormNote">Modifier</button>
-                                                                        <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
-                                                                        <?php
-                                                                    }
+                                                        <?= !empty($Note["commentaire"]) ? "<b>Appréciation :</b><br><span id='commentaire".$idNote."'>".$Note["commentaire"] : "<span id='commentaire".$idNote."'></span>" ;?></span>
+                                                        
+                                                        <?php 
+                                                            if($_SESSION["idUtilisateur"] == $Note["idProf"] || $_SESSION["statut"] == "Administration")
+                                                            {
                                                                 ?>
                                                                 
-                                                                        
-                                                            </li>
-                                                            
-                                                            <br>
-                                                            
-                                                            <?php
-                                                        }
-                                                    }
+                                                                <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
+                                                                <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right' data-toggle="modal" data-target="#FormNote">Modifier</button>
+                                                                <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                                
+                                                    </li>
+                                                    
+                                                    <br>
+                                                    
+                                                    <?php
                                                 }
-                                                ?>
-                                            </ul>
-                                            <?php
+                                            }
                                         }
-                                    ?>
-                                </ul> 
-                            </div>
-                        </div>
-                    </div> 
+                                        ?>
+                                    </ul>
+                                    <?php
+                                }
+                            ?>
+                        </ul> 
+                    </div>
+                        
                 </div>
             </div>       
                     

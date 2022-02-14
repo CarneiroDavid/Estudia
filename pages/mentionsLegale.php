@@ -1,13 +1,13 @@
 <?php
 require_once "entete.php";
 // $objetEleve = new Eleves();
-$eleves = $objetEleve -> listeEleves();
+// $eleves = $objetEleve -> listeEleves();
 
-$objetClasse = new Classes();
-$classes = $objetClasse -> allClasse();
+// $objetClasse = new Classes();
+// $classes = $objetClasse -> allClasse();
 
 ?>
-<h3 id="titre">Fiche d'appel</h3>
+<!-- <h3 id="titre">Fiche d'appel</h3> -->
 <?php
 if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration")
 {

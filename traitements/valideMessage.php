@@ -1,6 +1,6 @@
 <?php
 require_once "../modeles/modeles.php";
-print_r($_POST);
+// print_r($_POST);
 $idUtilisateur = $_SESSION["idUtilisateur"];
 
 if(!empty($_POST["message"]))

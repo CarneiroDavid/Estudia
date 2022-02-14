@@ -1,101 +1,78 @@
 <?php
 require_once "entete.php";
-if(empty($_SESSION["nom"]))
+$objetUser = new User();
+$info = $objetUser -> premiere_connexion($_SESSION["idUtilisateur"]);
+// print_r($_SESSION);
+// print_r($info["PremiereConnexion"]);
+if(!empty($_SESSION["nom"]) && $info["PremiereConnexion"] == 1)
 {
-    if(isset($_GET["error"]))
-    {
-        ?>
-        <div class="alert alert-danger">
-        <?php
+    /* Affichage index Eleve */
         
-        switch($_GET["error"])
-        {
-            case "FalseMdp":
-                echo "Le mot de passe saisit ne correspond a aucun mot de passe connue";
-                break;
-            case "TailleMdp":
-                echo "Le mot de passe saisit doit faire 8 caractères ou plus ";
-                break;
-            case "FalseId" :
-                echo "L'identifiant saisit n'existe pas";
-                break;
-            case "FormConnec" :
-                echo "Le formulaire de connexion est vide";
-                break;
-            case "Connexion" :
-                echo "Nous n'arrivons pas a vous connecter";
-                break;
-
-        }
-
-        ?>
+            
+    if(isset($_GET["Jour"]))
+    {
+        $jour = $_GET["Jour"]." day";
+    }
+    else
+    {
+        $jour = "+1 day";
+    }
+    $demain = date("Y-m-d", strtotime($jour));
+    
+    #mise en page pour chaque user
+    ?>
+    <br>
+    
+        <div class="etu-index-edt-block">
+            <?php
+            if($_SESSION["statut"] == 'Professeur')
+            {
+                
+                affichageEDT($_SESSION["idUtilisateur"], $demain, 'Professeur');
+            }else if($_SESSION["statut"] == 'Etudiant'){
+                affichageEDT($_SESSION["idEtude"], $demain);
+            }
+            ?>
         </div>
         <?php
-    }
-    if(!empty($_COOKIE["cookie-id"]) && !empty($_COOKIE["cookie-token"]))
-    {
-        header("location: ../traitements/Connexion.php");
-    }else{
-        require_once "formulaireConnexion.php";
-    }
-}
-else 
-{   
-    /* Affichage index Eleve */
-    
-        
-        if(isset($_GET["Jour"]))
+        if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
         {
-            $jour = $_GET["Jour"]." day";
-        }
-        else
-        {
-            $jour = "+1 day";
-        }
-        $demain = date("Y-m-d", strtotime($jour));
-        
-        #mise en page pour chaque user
-        ?>
-        <br>
-        <div>
-            <div class="etu-index-edt-block">
+            ?>
+            <div class="etu-index-contain-ndabs">
+                <div class="etu-index-note-block" >
+                    <?php
+                    affichageNote($_SESSION["idUtilisateur"]);
+                    ?>
+                </div>
+                <br>
+                <div class="etu-index-devoir-block">
+                    <?php
+                    affichageDevoir(2, $demain);
+                    ?>
+                </div>
+            </div>
+            <div id="divAbsence" class="etu-index-abs-block">
                 <?php
-                if($_SESSION["statut"] == 'Professeur')
-                {
-                    
-                    affichageEDT($_SESSION["idUtilisateur"], $demain, 'Professeur');
-                }else if($_SESSION["statut"] == 'Etudiant'){
-                    affichageEDT($_SESSION["idEtude"], $demain);
-                }
+                affichageAbsence();
                 ?>
             </div>
             <?php
-            if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant")
-            {
-        ?>
-            <div class="etu-index-contain-ndabs">
-                <div class="etu-index-note-block" >
-                        <?php
-                    affichageNote($_SESSION["idUtilisateur"]);
-                        ?>
-                </div>
-                <div class="etu-index-devoir-block">
-                        <?php
-                    affichageDevoir(2, $demain);
-                        ?>
-                </div>
-
-            </div>
-             
-        </div>
-        <br>
-        <br>
-        <div id="divAbsence" class="etu-index-abs-block">
-                <?php
-            affichageAbsence();
-                ?>
-        </div>
-        <?php } 
+        }
+}
+else if($info["PremiereConnexion"] == 0)
+{
+    header("location:premiereConnexion.php");
+}
+else
+{  
+    header("location:formulaireConnexion");
+    if(!empty($_COOKIE["cookie-id"]) && !empty($_COOKIE["cookie-token"]))
+    {
+        header("location: ../traitements/Connexion.php");
+    }   
+} 
+    
+    
    
     
 ?>
@@ -125,5 +102,4 @@ else
 
 
 <?php
-}
 require_once "footer.php";

@@ -44,22 +44,22 @@ function affichageDevoir($idEtude, $date)
     foreach ($listeDevoir as $x => $Devoirs)
     {
         ?>
-        <div style="margin-left:10px;overflow-y: scroll;height:150px">
+        <div class="div_list_devoir">
             <?php
             foreach($Devoirs as $matieres => $Devoir)
             {
                 ?>
-                <h4 ><?=$matieres;?></h4>
-                <ul > 
+                <h5 ><?=$matieres;?></h5>
+                <ul class="list-group"> 
                 <?php
                 foreach($Devoir as $a)
                 {
                     ?>
                     
-                        <li>
-                            <h5 ><?=$a["titre"];?></h5>
-                            <p class="information"><?=$a["info"];?></p>
-                        </li>
+                    <li class="list-group-item">
+                        <h5 ><?=$a["titre"];?></h5>
+                        <p class="information"><?=$a["info"];?></p>
+                    </li>
                     <?php
                 }
                 ?>
@@ -241,30 +241,40 @@ function affichageNote($idUtilisateur)
     <div class="enteteAccueil">
         <h3> Notes de l'élève :</h3>
     </div>
-    <div style="overflow-y:scroll; height:85%">
-        <ul>
+    <div>
+        <select class="form-select" aria-label="Default select example">
+            <option value="1">Trimestre 1</option>
+            <option value="2">Trimestre 2</option>
+            <option value="3">Trimestre 3</option>
+        </select>
+    </div>
+    <div style="overflow-y:scroll; height:235px">
+        <ul class="list-group">
             <?php
             foreach($matieres as $matiere)
             {
 
                 ?>
-                <h4><?=$matiere["matiere"];?></h4>
-                <ul class="list-group-item">
-                    <?php
-                    foreach($listenote as $x => $note)
-                    {
-                        if($x == $matiere["matiere"])
+                <li class="list-group-item">
+                    <h5><?=$matiere["matiere"];?></h5>
+                    <ul class="list-group list-group-flush">
+                        <?php
+                        foreach($listenote as $x => $note)
                         {
-                            foreach($note as $Note)
-                            {                      
-                                ?>
-                                <li><?=$Note["designation"]." : ".$Note["notes"];?></li>
-                                <?php
+                            if($x == $matiere["matiere"])
+                            {
+                                foreach($note as $Note)
+                                {                      
+                                    ?>
+                                    <li class="list-group-item" ><?=$Note["designation"]." : ".$Note["notes"];?></li>
+                                    <?php
+                                }
                             }
                         }
-                    }
-                    ?>
-                </ul>
+                        ?>
+                    </ul>
+                </li>
+                
                 <?php
             }
             ?>    
@@ -293,27 +303,51 @@ function affichageAbsence()
 
     $objetAbsence = new Absence();
     $absenses = $objetAbsence -> absenceEleve($_SESSION["idUtilisateur"]);
+    // print_r($absenses);
     ?>
     
-    <div>
+    <div class="absenceEleve">
         <div class="enteteAccueil">
             <h3> Absences de l'élève :</h3>
         </div>
-        <div id="absence" style="overflow-y: scroll;height:85%">
-            <ul>
-            <?php
-                foreach($absenses as $absence)
-                {
-                    ?>
-                    <li class="list-group_item" id="absenceInjustif"><?=$absence["laDate"]?> : <?=$absence["matiere"];?> | <?=$absence["justification"];?></li>
-                    <?php
-                   
-                }
-            ?>
-            </ul>
+        <div id="div_container_absence">
+            <div class="div_list_absenceDeEleve">
+            <ul class="list-group">
+                <?php
+                    foreach($absenses as $absence)
+                    {
+                        if($absence["verifJustification"] == 'oui')
+                        {
+                            ?>
+                            <li class="list-group-item">
+                            <i class="fas fa-check"></i> Absence Justifié 
+                                <br>
+                            <p>du <?=$absence["date"];?> de <?=$absence["horaireDebut"];?> à <?=$absence["horaireFin"];?></p>
+                            <p>
+                                Justification : <?=$absence["justification"];?>
+                            </p>
+                            </li>
+                            <?php
+                            
+                        }
+                        else
+                        {
+                            ?>
+                            <li class="list-group-item">
+                            <i class="fas fa-times"></i> Absence Injustifié 
+                                <br>
+                            <p style="color:red">du <?=$absence["date"];?> de <?=$absence["horaireDebut"];?> à <?=$absence["horaireFin"];?></p>
+                            <p>
+                                Justification : <?=$absence["justification"];?>
+                            </p>
+                            </li>
+                            <?php
+                        }
+                    }
+                ?>
+                </ul>
+            </div>
         </div>
     </div>
-    
-
     <?php 
 }
