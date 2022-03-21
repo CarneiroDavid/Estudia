@@ -40,7 +40,12 @@ class Notes extends Modele
     }
     public function infoNote($idNote)
     {
-        $requete = getBdd() -> prepare("SELECT idNote, notes.idUtilisateur, notes.Note, idProf, notes.idMatiere,matieres.matiere, idExamen, designation, NoteMax, Commentaire, dateNote, enseignants.idEnseignant, enseignants.Nom, enseignants.Prenom, enseignants.idMatiere, enseignants.matiere, Coef, CoefMatiere FROM notes INNER JOIN matieres ON matieres.idMatiere = notes.idMatiere INNER JOIN enseignants ON enseignants.idEnseignant = notes.idProf WHERE idNote = ?");
+        $requete = getBdd() -> prepare(
+        "SELECT idNote, notes.idUtilisateur, notes.Note, idProf, notes.idMatiere,matieres.matiere, idExamen, designation, NoteMax, Commentaire, dateNote, enseignants.idEnseignant, enseignants.Nom, enseignants.Prenom, enseignants.idMatiere, enseignants.matiere, Coef, CoefMatiere 
+        FROM notes 
+        INNER JOIN matieres ON matieres.idMatiere = notes.idMatiere 
+        INNER JOIN enseignants ON enseignants.idEnseignant = notes.idProf 
+        WHERE idNote = ?");
         $requete -> execute([$idNote]);
         $infoNote = $requete -> fetch(PDO::FETCH_ASSOC);
         return $infoNote;

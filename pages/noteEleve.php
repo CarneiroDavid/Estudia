@@ -1,6 +1,6 @@
 <?php
 require_once "entete.php";
-
+print_r($_POST);
 if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] == "Enseignant" || $_SESSION["statut"] == "Administration")
 {    
     //Déclaration objet
@@ -77,7 +77,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                             {
                                                 // echo $Note["NoteMax"];
                                                 ?>
-                                                <button  name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                <button name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
                                                 <?php
                                                 if(!empty($Note))
                                                 {
@@ -182,11 +182,10 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                 {
                     $objetNote = new Notes();
                     $info = $objetNote -> infoNote($_POST["Note"]);
-                    
+                
                     ?>
                     <div class="card" style="width: 60rem; height:450px;">
                         <div class="card-body">
-                            <!-- <?=print_r($info);?> -->
                             <h4 class="text-center">Informations</h4>
                             <h5 class="card-title"><?=$info["designation"];?></h5>
                             <br>
