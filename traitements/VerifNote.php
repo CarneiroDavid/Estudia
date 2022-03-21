@@ -6,8 +6,8 @@ print_r($_POST);
 ?></pre><?php
 if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
 {
-    print_r($_POST);
-    if((!empty($_POST["matiere"]) || !empty($_POST['modif'])) && !empty($_POST["note"]) && !empty($_POST["designation"]) && !empty($_POST["noteMax"]))
+    
+    if(!empty($_POST["matiere"]) || !empty($_POST['modif']) && !empty($_POST["note"]) && !empty($_POST["designation"]) && !empty($_POST["noteMax"]))
     {
         
         if(strlen($_POST["designation"]) <= 100)
@@ -40,21 +40,22 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                 foreach($_POST["note"] as $idEleve => $note)
                 {
                     
-                    if(is_numeric($note) && $note <= $_POST["noteMax"] && $note >= 0)
+                    if(is_numeric($note) && $note <= $_POST["NoteMax"] && $note >= 0)
                     {
                         
                         if($insertExam == true)
                         {
                             $idExam = $objetExamen -> idExam($_POST["designation"]);
-                            if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $idExam["idExamen"], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"][$idEleve]) == true)
-                            {   echo "<br>";
-                                echo $idEleve ."  " .$_SESSION["idUtilisateur"] ."  " .$note."  " .$_POST["matiere"]. "  " .$_POST["designation"]."  " .$_POST["noteMax"]."  " .$_POST["commentaire"][$idEleve];
+                            if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $idExam["idExamen"], $_POST["designation"], $_POST["NoteMax"], $_POST["commentaire"][$idEleve]) == true)
+                            {   
+                                // header echo "<br>";
+                                // header echo $idEleve ."  " .$_SESSION["idUtilisateur"] ."  " .$note."  " .$_POST["matiere"]. "  " .$_POST["designation"]."  " .$_POST["NoteMax"]."  " .$_POST["commentaire"][$idEleve];
                                 $i++;
                             }
                             else
                             {   
                                 
-                                $erreurs += "Erreur Insertion Bdd : Utilisateur ".$idEleve.".";
+                                // header $erreurs += "Erreur Insertion Bdd : Utilisateur ".$idEleve.".";
     
                             }
                         }

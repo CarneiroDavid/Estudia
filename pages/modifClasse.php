@@ -1,16 +1,20 @@
 <?php 
 require_once "entete.php";
-if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur")
+
+$objetUser = new User();
+$ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
+if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
 {
     $objetClasse = new Classes();
     $classes = $objetClasse -> allClasse();
     ?>
     
-    <br>
+    <h3 id="titre">Informations des élèves</h3>
+    </br>
     <!-- Select Des classe -->
     <form method="post">
         <div class="form-group">
-            <label for="classe">Classes</label>
+            <label>Choisissez une classe</label>
             <select class="form-control" name="classe" id="classe" aria-label="Default select example">
             <?php 
             foreach($classes as $classe)
@@ -24,7 +28,8 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
             }
             ?>
             </select>
-            <button type="submit" value="1" name="envoi" class="btn btn-primary">Valider</button>
+            </br>
+            <button type="submit" value="1" name="envoi" class="btn">Valider</button>
         </div>
     </form>
     <!-- <form method="post" action="../traitements/verifClasse.php">
@@ -44,6 +49,12 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
             $requete = getBdd() -> prepare("SELECT nom, prenom, idUtilisateur FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
             $requete -> execute([$_POST["classe"]]);
             $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
+
+            // $objetClasse = new Classes($_POST["classe"]);
+            // $etudiant = $objetClasse -> getEleve();
+            // echo "<pre>";
+            // print_r($etudiant);
+            // echo "</pre>";
             ?>
             
             <ul class="list-group">
@@ -54,7 +65,7 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
                         <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"];?>
                         <span style="float:right;">
                         <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
-                        <a class="btn btn-danger btn-sm" href="modifClasse.php?suppr=<?=$eleve["idUtilisateur"]?>">Supprimer</a>
+                        <!-- <a class="btn btn-danger btn-sm" href="modifClasse.php?suppr=<?=$eleve["idUtilisateur"]?>">Supprimer</a> -->
                         </span>
                         </li>   
                     <?php

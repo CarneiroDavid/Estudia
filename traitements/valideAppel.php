@@ -225,7 +225,10 @@ if(!empty($_POST))
                     }
                 }
             }
-
         }
-    }
+    }    
+}
+else
+{
+    header("location:../pages/index.php");
 }

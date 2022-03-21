@@ -3,6 +3,7 @@ class Matieres extends Modele
 {
     private $idMatiere;
     private $matiere;
+    private $CoefMatiere;
 
     public function __construct()
     {
@@ -24,7 +25,7 @@ class Matieres extends Modele
     public function listeMatiere()
     {
         
-        $requete = getBdd() -> prepare("SELECT matiere,idMatiere FROM matieres");
+        $requete = getBdd() -> prepare("SELECT matiere,idMatiere, CoefMatiere FROM matieres");
         $requete -> execute();
         $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $matieres;

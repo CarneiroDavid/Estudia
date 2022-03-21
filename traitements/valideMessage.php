@@ -1,13 +1,13 @@
 <?php
 require_once "../modeles/modeles.php";
-print_r($_POST);
+// print_r($_POST);
 $idUtilisateur = $_SESSION["idUtilisateur"];
 
 if(!empty($_POST["message"]))
 {
     if(!empty($_POST["envoie"]))
     {
-        if(strlen($_POST["message"]) < 400 && strlen($_POST["message"]) > 0)
+        if(strlen($_POST["message"]) < 80 && strlen($_POST["message"]) > 0)
         {
             $objetMessage = new Message();
             $insertMessage = $objetMessage -> insertMessage($_POST["idConversation"], $_SESSION["idUtilisateur"], $_POST["envoie"], $_POST["message"]);

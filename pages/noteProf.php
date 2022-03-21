@@ -1,13 +1,16 @@
 <?php
 require_once "entete.php";
 
-if($_SESSION["statut"] == "Professeur")
+$objetUser = new User();
+$ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
+if($_SESSION["statut"] == "Professeur" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
 {
     $objetClasse = new Classes();
     $classes = $objetClasse -> allClasse();
     ?>
     
     <h3 id="titre">Notes des eleves</h3>
+    </br>
     <?php
         if(empty($_POST["classe"]) && empty($_POST["idExamen"]))
         {
@@ -27,7 +30,8 @@ if($_SESSION["statut"] == "Professeur")
                     }
                 ?>
                 </select>
-                <button type="submit" value="1" class="btn btn-success" name="valideClasse">Valider</button>
+                </br>
+                <button type="submit" value="1" class="btn" name="valideClasse">Valider</button>
             </form> 
             <?php
         }
@@ -57,7 +61,7 @@ if($_SESSION["statut"] == "Professeur")
         {
             $objetNote = new Notes();
             $notes = $objetNote -> NoteClasse($_SESSION["idUtilisateur"], $_POST["idExamen"]);
-            print_r($notes);
+            
             ?>
             <h4 id="titre">Note de la classe</h4>
             <table class="table">
@@ -65,7 +69,7 @@ if($_SESSION["statut"] == "Professeur")
                     <tr>
                     <th scope="col">Nom</th>
                     <th scope="col">Note</th>
-                    <th scope="col">Modif</th>
+                    <!-- <th scope="col">Modif</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -76,7 +80,7 @@ if($_SESSION["statut"] == "Professeur")
                         <tr>
                             <td><?=$note["nom"];?></td>
                             <td><?=$note["Note"];?>/<?=$note["NoteMax"];?></td>
-                            <td><button class="btn btn-warning">Modifier</button></td>
+                            <!-- <td><button class="btn btn-warning">Modifier</button></td> -->
                         </tr>
                         <?php
                     }

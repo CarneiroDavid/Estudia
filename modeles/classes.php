@@ -16,13 +16,13 @@ class Classes extends Modele
         {
             $requete = $this -> getBdd() -> prepare("SELECT * FROM etudes");
             $requete -> execute();
-            $classes = $requete ->fetchAll(PDO::FETCH_ASSOC);
+            $classes = $requete ->fetch(PDO::FETCH_ASSOC);
 
             $this -> idEtude = $classes["idEtude"];
             $this -> classes = $classes["classe"];
             $this -> nom = $classes["nom"];
 
-            $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur FROM eleve WHERE idEtude = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ?");
             $requete -> execute([$idEtude]);
             $listeEleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
             foreach($listeEleves as $eleves)
@@ -68,6 +68,10 @@ class Classes extends Modele
     public function getNom()
     {
         return $this -> nom;
+    }
+    public function getEleve()
+    {
+        return $this -> eleves;
     }
 
     /* SET*/

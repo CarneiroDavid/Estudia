@@ -4,36 +4,31 @@
 function ListeClasse()
 {
     ?>
-    <form method="post" id="formListeClasse">
+    <form method="post">
     <div class="form-group">
         <label for="classe">Classes</label>
         <select class="form-control" name="classe" id="classe" aria-label="Default select example">
         <?php 
-        
-        $requete = getBdd() -> prepare("SELECT * FROM etudes");
-        $requete -> execute();
-        $classes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        $objetClasse = new Classes();
+        $classes = $objetClasse -> allClasse();
 
         foreach($classes as $classe)
         {
-        
-                
-        ?>
-
-        <option value="<?=$classe["idEtude"];?>" <?= (isset($_POST["classe"]) && $_POST["classe"] == $classe["idEtude"] ? "selected" : "");?>>
-            <?=$classe["nom"]. " ".$classe["classe"];?>
-        </option>
-        <?php
+            ?>
+            <option value="<?=$classe["idEtude"];?>" <?= (isset($_POST["classe"]) && $_POST["classe"] == $classe["idEtude"] ? "selected" : "");?>>
+                <?=$classe["nom"]. " ".$classe["classe"];?>
+            </option>
+            <?php
         }
-    
         ?>
+
         </select>
-
-        
-
-        <button type="submit" value="1" name="ajoutNote" class="btn">Ajouter note</button>
-        <button type="submit" value="1" name="ajoutDevoir" class="btn">Ajouter devoirs</button>
-    </div>
+        </br>
+            <div class="d-flex justify-content-center">
+                <button type="submit" value="1" name="ajoutNote" class="btn">Ajouter note</button>
+                <button type="submit" value="1" name="ajoutDevoir" class="btn">Ajouter devoirs</button>
+            </div>
+        </div>
 
     </form>
 
@@ -43,101 +38,115 @@ function ListeClasse()
 // Ajouter des notes
 function formulaireNote($idClasse)
 {
-    $requete = getBdd() -> prepare("SELECT nom, prenom, idUtilisateur FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
-    $requete -> execute([$_POST["classe"]]);
-    $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
+    $objetEleve = new Eleves();
+    $eleves = $objetEleve -> listeEleveClasse($idClasse);
 
-    $requete = getBdd() -> prepare("SELECT idMatiere, matiere FROM matieres");
-    $requete -> execute();
-    $matieres = $requete ->fetchAll(PDO::FETCH_ASSOC);
     
+    $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
+    $idMatiere = $objetEnseignant -> getIdMatiere();
+    $matiere = $objetEnseignant-> getMatiere();
+
     ?>
 
     <form method="post" id="formulaireNote" action="../traitements/VerifNote.php">
-    <label for="matiere">Matieres</label>
-    <input type="hidden" value="<?=$_POST["classe"];?>" name="idClasse">
-    <select class="form-group" name="matiere">
-        <?php
-            foreach($matieres as $matiere)
-            {
+       
+        <div class="mb-3 row">
+            <label for="Matiere" class="col-sm-2 col-form-label">Matière : </label>
+            <div class="col-sm-10">
+                <select class="form-select" name="matiere">
+                    <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                </select>
+            </div>
+        </div>
+
+        <div class="mb-3 row">
+            <label for="Nom" class="col-sm-2 col-form-label">Nom : </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="designation" id="designation">
+            </div>
+        </div>
+        
+        <div class="mb-3 row">
+            <label for="NoteMax" class="col-sm-2 col-form-label">Note Max : </label>     
+            <div class="col-sm-10">
+                <input type="number" min="0" class="form-control" name="NoteMax" id="NoteMax">
+                <input type="hidden" class="form-control" name="idClasse" id="idClasse" value="<?=$_POST["classe"];?>">
+            </div>
+        </div>
+    
+        <div class="div_notes">
+            <?php
+            foreach($eleves as $eleve)
+            {   
                 ?>
-                <option value="<?=$matiere["idMatiere"];?>"><?=$matiere["matiere"];?></option>
+                    <div class="card col-12 col-md-6 text-center">
+                        <div class="mb-3 row">
+                            <label for="Note" class="col-sm-12 col-form-label">Note de <?=$eleve["nom"]. " ". $eleve["prenom"];?> : </label>     
+                            <div class="col-sm-6 offset-md-3">
+                                <input type="number" min="0" class="form-control" name="note[<?=$eleve["idUtilisateur"];?>]" id="Note">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="commentaire">Commentaires</label>
+                            <input type="note" class="form-control" name="commentaire[<?=$eleve["idUtilisateur"];?>]" id="commentaire"/>
+                        </div>
+                    </br>
+                    </div>
                 <?php
             }
-        ?>
-    </select>
-    <div>
-        <label for="designation">Nom</label>
-        <input type="text" class="form-group" name="designation" id="designation">
-    </div>
-    <div>
-        <label for="NoteMax">Note Max</label>
-        <input type="number" min=5 max=20 class="form-group" name="noteMax" id="noteMax">
-    </div>
-
-    <ul class="list-group">
-    
+            ?>
+        </div>
+        </br>
+        <div  class="d-flex justify-content-center">
+            <button type="submit" name="envoi" class="btn" value="1">Valider</button>
+        </div>
+    </form>
     <?php
-    
-    foreach($eleves as $eleve)
-    {   
-        ?>
-            <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"];?>
-            <!-- <span style="float:right;"> -->
-            <input type="number" class="form-group" name="note[<?=$eleve["idUtilisateur"];?>]" id="note">
-            <!-- </span> -->
-              
-            <div class="form-group">
-            <label for="commentaire">Commentaires</label>
-            <input type="note" class="form-control" name="commentaire[<?=$eleve["idUtilisateur"];?>]" id="commentaire"/>
-            </div>
-            </li> 
-        <?php
-    }
-    ?></ul><button type="submit" name="envoi" value="1">Valider</button></form><?php
-}
-
-function ListeStatut(){
-    $requete = getBdd() -> prepare("SELECT statut FROM statuts");
-    $requete -> execute();
-    $statuts = $requete -> fetchAll(PDO::FETCH_ASSOC);
-    return $statuts;
 }
 
 // Ajouter des devoirs
 function formulaireDevoir($idClasse)
 {
-    $requete = getBdd() -> prepare("SELECT * FROM matieres");
-    $requete -> execute();
-    $matieres = $requete ->fetchAll(PDO::FETCH_ASSOC);
+    $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
+    $idMatiere = $objetEnseignant -> getIdMatiere();
+    $matiere = $objetEnseignant-> getMatiere();
+    
     ?>
     <form method="post" id="formulaireDevoir" action="../traitements/verifDevoir.php">
-        <label for="matiere">Matiere</label>
-        <select class="form-group" name="matiere">
-                <?php
-            foreach($matieres as $matiere)
-            {
-                ?>
-                <option value="<?=$matiere["idMatiere"];?>"><?=$matiere["matiere"];?></option>
-                <?php
-            }
-                ?>
-        </select>
-        <div>
-        <label for="titre">Titre</label>
-        <input type="text" class="form-group" name="titre" id="titre">
+        
+        <div class="mb-3 row">
+            <label for="Matiere" class="col-sm-2 col-form-label">Matière : </label>
+            <div class="col-sm-10">
+                <select class="form-select" name="matiere">
+                    <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                </select>
+            </div>
         </div>
-        <div>
-        <label for="info">Info</label>
-        <input type="text" class="form-group" name="info">
+
+        <div class="mb-3 row">
+            <label for="titre" class="col-sm-2 col-form-label">Titre : </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="titre">
+            </div>
         </div>
+
+        <div class="mb-3 row">
+            <label for="info" class="col-sm-2 col-form-label">Information : </label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="info">
+            </div>
+        </div>
+
         <div>
         <label for="date">Date</label>
         <input type="date" class="form-group" name="date" id="date">
         </div>
-        <input type="text" style="display:none;" class="form-group" name="idEtude" value="<?=$idClasse;?>">
 
-        <button type="submit" class="btn btn-primary" name="ajoutDevoir" value="1" id="ajoutDevoir">Ajouter le devoir</button>
+
+        <input type="hidden"class="form-group" name="idEtude" value="<?=$idClasse;?>">
+        </br>
+        <button type="submit" class="btn" name="ajoutDevoir" value="1" id="ajoutDevoir">Ajouter le devoir</button>
     </form>
     <?php
 }

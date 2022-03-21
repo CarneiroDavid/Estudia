@@ -43,73 +43,71 @@ if(!empty($_GET))
             <!-- Affichage note -->
             <div class="row"> 
                 <div class="col md-4">
-                    <div class="card">
-                        <div class="card-body">
+                    
                             
-                            <h4 class="card-title"><?=$eleve["nom"]. " ".$eleve["prenom"];?></h4>
-            
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                <?=$eleve["titre"]." ".$eleve["classe"];?>
-                            </h6>
-                            <div>
-                                <h5>Notes de l'élève :</h5>
-                                <ul>
-                                    <?php
-                                        foreach($matieres as $matiere)
+                    <h4 class="card-title"><?=$eleve["nom"]. " ".$eleve["prenom"];?></h4>
+
+                    <h6 class="card-subtitle mb-2 text-muted">
+                        <?=$eleve["titre"]." ".$eleve["classe"];?>
+                    </h6>
+                    <div>
+                        <h5>Notes de l'élève :</h5>
+                        <ul>
+                            <?php
+                                foreach($matieres as $matiere)
+                                {
+                                    ?>
+                                    <ul class="list-group-item" style="padding-left:5%">
+                                        <h5><?=$matiere["matiere"];?></h5>
+                                        
+                                        <?php
+                                        foreach($listenote as $x => $note)
                                         {
-                                            ?>
-                                            <ul class="list-group-item" style="padding-left:5%">
-                                                <h5><?=$matiere["matiere"];?></h5>
-                                                
-                                                <?php
-                                                foreach($listenote as $x => $note)
-                                                {
-                                                    if($x == $matiere["matiere"])
-                                                    {
+                                            if($x == $matiere["matiere"])
+                                            {
 
-                                                        foreach($note as $Note)
-                                                        {   
-                                                            $idNote = $Note["idNote"];      
-                                                            
-                                                            ?>
-                                                            
-                                                            <li>
-                                                                <b><span id="designation<?=$idNote?>"><?=$Note["designation"];?></span></b>
-                                                                : <span id="note<?=$idNote?>"><?=$Note["notes"];?></span>/<span id="noteMax<?=$Note["idNote"]?>"><?=$Note["noteMax"]?></span>
-                                                                <br>
+                                                foreach($note as $Note)
+                                                {   
+                                                    $idNote = $Note["idNote"];      
+                                                    
+                                                    ?>
+                                                    
+                                                    <li>
+                                                        <b><span id="designation<?=$idNote?>"><?=$Note["designation"];?></span></b>
+                                                        : <span id="note<?=$idNote?>"><?=$Note["notes"];?></span>/<span id="noteMax<?=$Note["idNote"]?>"><?=$Note["noteMax"]?></span>
+                                                        <br>
 
-                                                                <?= !empty($Note["commentaire"]) ? "<b>Appréciation :</b><br><span id='commentaire".$idNote."'>".$Note["commentaire"] : "<span id='commentaire".$idNote."'></span>" ;?></span>
-                                                                
-                                                                <?php 
-                                                                    if($_SESSION["idUtilisateur"] == $Note["idProf"] || $_SESSION["statut"] == "Administration")
-                                                                    {
-                                                                        ?>
-                                                                        
-                                                                        <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
-                                                                        <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right' data-toggle="modal" data-target="#FormNote">Modifier</button>
-                                                                        <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
-                                                                        <?php
-                                                                    }
+                                                        <?= !empty($Note["commentaire"]) ? "<b>Appréciation :</b><br><span id='commentaire".$idNote."'>".$Note["commentaire"] : "<span id='commentaire".$idNote."'></span>" ;?></span>
+                                                        
+                                                        <?php 
+                                                            if($_SESSION["idUtilisateur"] == $Note["idProf"] || $_SESSION["statut"] == "Administration")
+                                                            {
                                                                 ?>
                                                                 
-                                                                        
-                                                            </li>
-                                                            
-                                                            <br>
-                                                            
-                                                            <?php
-                                                        }
-                                                    }
+                                                                <!-- <a href='../pages/supprNote' class='btn btn-danger btn-sm mb-2' style="float:right">Supprimer</a> -->
+                                                                <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2" style='float:right' data-toggle="modal" data-target="#FormNote">Modifier</button>
+                                                                <input type=hidden id="matiere<?=$idNote?>" value="<?=$matiere['matiere']?>">
+                                                                <?php
+                                                            }
+                                                        ?>
+                                                        
+                                                                
+                                                    </li>
+                                                    
+                                                    <br>
+                                                    
+                                                    <?php
                                                 }
-                                                ?>
-                                            </ul>
-                                            <?php
+                                            }
                                         }
-                                    ?>
-                                </ul> 
-                            </div>
-                        </div>
-                    </div> 
+                                        ?>
+                                    </ul>
+                                    <?php
+                                }
+                            ?>
+                        </ul> 
+                    </div>
+                        
                 </div>
             </div>       
                     
@@ -165,133 +163,137 @@ if(!empty($_GET))
                             </ul>
                         </p>
 
-            <div class="modal fade" id="FormClass" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="FormClassCenterLongTitle">Formulaire : Modification de classe</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">X</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                            <form method="post"  action="../traitements/modifClasse.php">
-                                <div class="form-group">
-                                    <label for="classe">Modifier la Classe</label>
-                                    <select class="form-control" name="classe" id="classe" aria-label="Default select example">
-                                    <?php 
-                                    foreach($classes as $classe)
-                                    {   
-                                        ?>
-                                                    
-                                        <option value="<?=$classe["idEtude"];?>" <?= (isset($_POST["classe"]) && $_POST["classe"] == $classe["idEtude"] ? "selected" : "");?>>
-                                            <?=$classe["nom"]. " ".$classe["classe"];?>
-                                        </option>
-                                        <?php
-                                    }
+            <!-- --FORMULAIRE DE MODIFICATION DE CLASSE -- -->         
+<!-- Modal -->
+<div class="modal fade" id="FormClass" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FormClassCenterLongTitle">Formulaire : Modification de classe</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">X</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form method="post"  action="../traitements/modifClasse.php">
+                <div class="form-group">
+                    <label for="classe">Modifier la Classe</label>
+                    <select class="form-control" name="classe" id="classe" aria-label="Default select example">
+                    <?php 
+                    foreach($classes as $classe)
+                    {   
+                        ?>
                                     
-                                    ?>
-                                    </select>
-                                    <button type="submit" value="<?=$_GET["id"];?>" name="envoi" class="btn btn-success">Valider</button>
-                                </div>
-                            </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    </div>
+                        <option value="<?=$classe["idEtude"];?>" <?= (isset($_POST["classe"]) && $_POST["classe"] == $classe["idEtude"] ? "selected" : "");?>>
+                            <?=$classe["nom"]. " ".$classe["classe"];?>
+                        </option>
+                        <?php
+                    }
+                    
+                    ?>
+                    </select>
+                    <button type="submit" value="<?=$_GET["id"];?>" name="envoi" class="btn btn-success">Valider</button>
                 </div>
-            </div>
-
-            <!-- --FORMULAIRE DE PUNITION-- -->
-                            
-            <!-- Modal -->
-            <div class="modal fade" id="FormPunition" tabindex="-1" role="dialog" aria-labelledby="FormPunitionCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="FormPunitionLongTitle">Formulaire: Punition</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                            <form method="post" action="../traitements/punition.php">
-                                <div class="form-group">
-                                    <h5>Formulaire de Punition</h5>
-                                    <label for="motif">Motif de la punition :</label>
-                                    <br>
-                                    <textarea class="form-control" name="motif" id="motif" placeholder='motif de la punition'></textarea>
-                                    <br>
-                                    <br>
-                                    <label for="punition">Sanction assigner :</label>
-                                    <br>
-                                    <textarea class="form-control" placeholder='Punition assigner' id="punition" name="punition" ></textarea>
-                                    <br>
-                                    <br>
-                                    <label>Date de l'incident</label>
-                                    <br>
-                                    <input class="form-control" type='date' name="date" id="date">
-                                    <br>
-                                    <br>
-                                    <input type="hidden" name="idEleve" id="idEleve" value="<?=$_GET["id"]?>">
-                                    <button type="submit" value="<?=$_GET["id"];?>" name="envoi" id='id' class="btn btn-success">Valider</button>
-                                </div>
-                            </form>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
-                    </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+            <!-- --FORMULAIRE DE PUNITION-- -->        
+<!-- Modal -->
+<div class="modal fade" id="FormPunition" tabindex="-1" role="dialog" aria-labelledby="FormPunitionCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FormPunitionLongTitle">Formulaire: Punition</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form method="post" action="../traitements/punition.php">
+                <div class="form-group">
+                    <h5>Formulaire de Punition</h5>
+                    <label for="motif">Motif de la punition :</label>
+                    <br>
+                    <textarea class="form-control" name="motif" id="motif" placeholder='motif de la punition'></textarea>
+                    <br>
+                    <br>
+                    <label for="punition">Sanction assigner :</label>
+                    <br>
+                    <textarea class="form-control" placeholder='Punition assigner' id="punition" name="punition" ></textarea>
+                    <br>
+                    <br>
+                    <label>Date de l'incident</label>
+                    <br>
+                    <input class="form-control" type='date' name="date" id="date">
+                    <br>
+                    <br>
+                    <input type="hidden" name="idEleve" id="idEleve" value="<?=$_GET["id"]?>">
+                    <button type="submit" value="<?=$_GET["id"];?>" name="envoi" id='id' class="btn btn-success">Valider</button>
                 </div>
-            </div> 
-            
-            <!-- -- FORMULAIRE MODIFICATION DE NOTE  -- -->
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>          
 
-            <div class="modal fade" id="FormNote" tabindex="-1" role="dialog" aria-labelledby="FormNoteCenterTitle" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered" role="document">
-                    <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="FormNoteLongTitle">Formulaire: Note</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                            <form method="post"  name="modifNote" action="../traitements/verifNote.php">
-                                <div class="form-group">
-                                    
-                                    <h5>Modification de la note</h5>
 
-                                    <div class="form-group">
-                                        <label for="designation">Nom</label>
-                                        <input  class="form-control" name="designation" id="designation"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="noteMax">NoteMax</label>
-                                        <input type="number" class="form-control" name="noteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="note">Note</label>
-                                        <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
-                                    </div>
+    
 
-                                    <div class="form-group">
-                                        <label for="commentaire">Commentaires</label>
-                                        <input  class="form-control" name="commentaire" id="commentaire"/>
-                                    </div>
-                                        <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
-                                    <button type="submit" value="" name="modif" id="modif" class="btn btn-success">Valider</button>
-                                </div>
-                            </form>
+
+
+<!-- -- FORMULAIRE MODIFICATION DE NOTE  -- -->
+<!-- Modal -->
+<div class="modal fade" id="FormNote" tabindex="-1" role="dialog" aria-labelledby="FormNoteCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="FormNoteLongTitle">Formulaire: Note</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+            <form method="post"  name="modifNote" action="../traitements/verifNote.php">
+                <div class="form-group">
+                    
+                    <h5>Modification de la note</h5>
+
+                    <div class="form-group">
+                        <label for="designation">Nom</label>
+                        <input  class="form-control" name="designation" id="designation"/>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <div class="form-group">
+                        <label for="noteMax">NoteMax</label>
+                        <input type="number" class="form-control" name="noteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
                     </div>
+                    <div class="form-group">
+                        <label for="note">Note</label>
+                        <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
                     </div>
 
+                    <div class="form-group">
+                        <label for="commentaire">Commentaires</label>
+                        <input  class="form-control" name="commentaire" id="commentaire"/>
+                    </div>
+                        <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
+                    <button type="submit" value="" name="modif" id="modif" class="btn btn-success">Valider</button>
                 </div>
-            </div>
+            </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
             <!-- -- FIN FORMULAIRE -- -->                      
                         
             <?php 
@@ -311,7 +313,7 @@ if(!empty($_GET))
             {
                 ?>
                 
-                <button type="button" class="btn btn-warning my-2" data-toggle="modal" data-target="#FormClass">Modifier la classe</button>
+                <!-- <button type="button" class="btn btn-warning my-2" data-toggle="modal" data-target="#FormClass">Modifier la classe</button> -->
                 <?php
             }
             ?>              
@@ -331,10 +333,6 @@ if(!empty($_GET))
         
             $objetMatiere = new Matieres();
             $matieres = $objetMatiere -> listeMatiere();
-        
-            // $requete = getBdd() -> prepare("SELECT *  FROM enseignants  WHERE idUtilisateur = ? ");
-            // $requete -> execute([$_GET["idEnseignant"]]);
-            // $enseignant = $requete -> fetch(PDO::FETCH_ASSOC);
         
             $objetEnseignant = new Enseignant();
             $enseignant = $objetEnseignant -> infoEnseignant($_GET["idEnseignant"]);

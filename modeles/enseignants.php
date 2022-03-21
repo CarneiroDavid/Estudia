@@ -2,15 +2,30 @@
 
 class Enseignant extends Modele
 {
-    private $idUtilisateur;
+    private $idEnseignant;
     private $nom;
     private $prenom;
+    private $idUtilisateur;
     private $idFiliere;
+    private $idMatiere;
     private $matiere;
 
-    public function __construct()
+    public function __construct($idUtilisateur = null)
     {
-        
+        if(!empty($idUtilisateur))
+        {
+            $requete = $this -> getBdd() -> prepare("SELECT idEnseignant, Nom, Prenom,idUtilisateur, idFiliere, idMatiere, matiere FROM enseignants WHERE idUtilisateur = ?");
+            $requete -> execute([$idUtilisateur]);
+            $info = $requete ->fetch(PDO::FETCH_ASSOC);
+
+            $this -> idEnseignant = $info["idEnseignant"];
+            $this -> nom = $info["Nom"];
+            $this -> prenom = $info["Prenom"];
+            $this -> idUtilisateur = $info["idUtilisateur"];
+            $this -> idFiliere = $info["idFiliere"];
+            $this -> idMatiere = $info["idMatiere"];
+            $this -> matiere = $info["matiere"];
+        }
     }
     public function infoEnseignant($idEnseignant)
     {
@@ -26,19 +41,7 @@ class Enseignant extends Modele
         $enseignants = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $enseignants;
     }
-    public function setEnseignant($idUser = null)
-    {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM enseignants WHERE idUtilisateur = ?");
-        $requete -> execute([$idUser]);
-        // $requete -> execute([$idUser]);
-        $enseignant = $requete -> fetch(PDO::FETCH_ASSOC);
-
-        $this -> idUtilisateur = $idUser;
-        $this -> nom = $enseignant["Nom"];
-        $this -> prenom = $enseignant["Prenom"];
-        $this -> idFiliere = $enseignant["idFiliere"];
-        $this -> matiere = $enseignant["matiere"];
-    }
+    
     public function ajouter($identifiant)
     {
         $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur, nom, prenom FROM utilisateur WHERE identifiant = ?");
@@ -66,6 +69,10 @@ class Enseignant extends Modele
         }
     }
     /* SET */
+    public function setIdUEnseignant($idEnseignant)
+    {
+        $this -> idUtilisateur = $idEnseignant;
+    }
     public function setIdUtilisateur($idUtilisateur)
     {
         $this -> idUtilisateur = $idUtilisateur;
@@ -82,12 +89,20 @@ class Enseignant extends Modele
     {
         $this -> idFiliere = $idFiliere;
     }
+    public function setIdMatiere($idMatiere)
+    {
+        $this -> idFiliere = $idMatiere;
+    }
     public function setMatiere($matiere)
     {
         $this -> matiere = $matiere;
     }
 
     /* GET */
+    public function getIdEnseignant()
+    {
+        return $this -> idEnseignant;
+    }
     public function getIdUtilisateur()
     {
         return $this -> idUtilisateur;
@@ -103,6 +118,10 @@ class Enseignant extends Modele
     public function getIdFiliere()
     {
         return $this -> idFiliere;
+    }
+    public function getIdMatiere()
+    {
+        return $this -> idMatiere;
     }
     public function getMatiere()
     {

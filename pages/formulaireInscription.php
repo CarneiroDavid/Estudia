@@ -50,7 +50,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
     <br>
     <div class="container-xxl">
     
-    <form method="post" id="formulaireIscription" action="../traitements/Inscription.php">
+    <form method="POST" id="formulaireIscription" action="../traitements/Inscription.php">
         
         <div class="form-group">
             <label for="mail">Adresse-mail</label>

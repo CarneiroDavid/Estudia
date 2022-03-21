@@ -2,10 +2,12 @@
 
 require_once "../modeles/modeles.php";
 
-$user = new User();
+
 
 if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
 {
+
+    $user = new User();
     if(!empty($_POST["nom"]) && !empty($_POST["prenom"]) && !empty($_POST["dateNaiss"]) && !empty($_POST["statut"]))
     {
         if (filter_var($_POST["mail"], FILTER_VALIDATE_EMAIL) && !empty($_POST["mail"]) || empty($_POST["mail"]))
@@ -18,6 +20,8 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                     {
                         if($user -> getStatut() -> ajouter($user -> getId()))
                         {
+                            echo "test2";
+                            exit;
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
                         }
                         else

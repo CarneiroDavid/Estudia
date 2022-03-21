@@ -39,14 +39,11 @@ class User extends Modele
             {
                 $this -> statut = new Eleves();
             }
-            // if($infos["statut"] == "Administration")
-            // {
-            //     $this -> statut = "Administration";
-            // }
+
 
         }
     }
-    
+
     public function getIdUser()
     {
         return $this -> idUtilisateur; 
@@ -80,11 +77,12 @@ class User extends Modele
     {
         return $this -> statut; 
     }
+
     public function verif_identifiant($id)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE identifiant = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE idUtilisateur = ?");
         $requete -> execute([$id]);
-        if($requete->rowCount() == 0){
+        if($requete->rowCount()  > 0){
             return true;
         }
         return false;
@@ -149,10 +147,9 @@ class User extends Modele
             }
         }
     }
-
     public function connexion($id)
     {
-        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
+        $requete = $this ->getBdd() -> prepare("SELECT idUtilisateur, email, identifiant, utilisateur.nom, utilisateur.prenom, dateNaiss, mdp, statut, idEtude, PremiereConnexion FROM utilisateur LEFT JOIN eleve using(idUtilisateur) WHERE identifiant = ?");
         $requete -> execute([$id]);
         $utilisateur = $requete -> fetch(PDO::FETCH_ASSOC);
         $nom = $utilisateur["nom"];
@@ -166,10 +163,11 @@ class User extends Modele
         $_SESSION["email"] = $utilisateur["email"];
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
         $_SESSION["idEtude"] = $utilisateur["idEtude"];
+        $_SESSION["PremiereConnexion"] = $utilisateur["PremiereConnexion"];
+        
         $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
-    }    
-
+    }   
     public function verifMdp($id, $mdp)
     {
         $requete = $this -> getBdd() -> prepare("SELECT mdp FROM utilisateur WHERE identifiant = ?");
@@ -192,7 +190,6 @@ class User extends Modele
             return "location:../pages/index.php?error=FalseId";
         }
     }
-
     public function rechercheNom($nom)
     {
         $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE nom LIKE ?");
@@ -200,7 +197,6 @@ class User extends Modele
         $allUsers = $requete ->fetchAll(PDO::FETCH_ASSOC);
         return $allUsers;
     }
-
     public function selectNom($id)
     {
         
@@ -249,4 +245,54 @@ class User extends Modele
             return false;
         }
     }
+    public function premiere_connexion($idUtilisateur)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT PremiereConnexion FROM utilisateur WHERE idUtilisateur = ?");
+        $requete -> execute([$idUtilisateur]);
+        $info = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $info; 
+    }
+    public function accept_CGU($idUser)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET PremiereConnexion = true WHERE idUtilisateur = ?");
+            $requete -> execute([$idUser]);
+            $_SESSION["premiereConnexion"] = 1;
+            return true;
+        }
+        catch(Exception $e)
+        {
+            echo $e -> getMessage();
+        }
+    }
+    public function recupInfoUser($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT utilisateur.nom AS nomUser, utilisateur.prenom, dateNaiss, statut, idFiliere, classe, etudes.nom, idEtude FROM utilisateur INNER JOIN eleve USING(idUtilisateur) INNER JOIN etudes USING (idEtude) WHERE idUtilisateur = ?");
+        $requete -> execute([$id]);
+        $info = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $info;
+    }
+    public function recupIpAutorise($ip)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM ipadmin WHERE ip = ?");
+        $requete -> execute([$ip]);
+        $info = $requete -> fetch(PDO::FETCH_ASSOC);
+        return $info;
+    }
+    public function insertionLog($idUser, $ip)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("INSERT INTO logs (idUtilisateur, date, ip) VALUES (?, NOW(), ?)");
+            $requete -> execute([$idUser, $ip]);
+            return true;
+        }
+        catch(Exception $e)
+        {
+            return $e -> getMessage();
+        }
+        
+    }
+
 }

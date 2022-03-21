@@ -4,7 +4,9 @@ require_once "../modeles/modeles.php";
 
 function getBdd()
 {
-    return new PDO('mysql:host=localhost;dbname=estudia;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    // return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    return new PDO('mysql:host=localhost;dbname=estudia3;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+
 }
 function affichageDevoir($idEtude, $date)
 {
@@ -16,19 +18,23 @@ function affichageDevoir($idEtude, $date)
 
     ?>
     <div class="enteteAccueil">
-        <form method='get' id="devoir" style="width:100%">
-            <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" name='Jour' class="boutonGauche">
+    <form method='post' id="devoir" style="width:100%">
+            <button type="submit" value="<?= isset($_POST['JourDevoir']) ? $_POST['JourDevoir']-1 : -1 ;?>" name='JourDevoir' class="boutonGauche">
 
             <
 
             </button>
 
-            <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']+1 : 2 ?>" name='Jour' class="boutonDroite">
+            <button type="submit" value="<?= isset($_POST['JourDevoir']) ? $_POST['JourDevoir']+1 : 2 ?>" name='JourDevoir' class="boutonDroite">
 
             >
 
             </button>
-            
+            <?php 
+            if(!empty($_POST['Jour'])){
+                echo '<input type=hidden name="Jour" value="',$_POST['Jour'],'">';
+            } ;
+            ?>
             <h5 >Devoir : <?=$date;?></h5>
         </form>
     </div>
@@ -44,22 +50,22 @@ function affichageDevoir($idEtude, $date)
     foreach ($listeDevoir as $x => $Devoirs)
     {
         ?>
-        <div style="margin-left:10px;overflow-y: scroll;height:150px">
+        <div class="div_list_devoir">
             <?php
             foreach($Devoirs as $matieres => $Devoir)
             {
-                ?>
-                <h4 ><?=$matieres;?></h4>
-                <ul > 
+                ?><ul class="list-group">
+                <h5 ><?=$matieres;?></h5>
+                 
                 <?php
                 foreach($Devoir as $a)
                 {
                     ?>
                     
-                        <li>
-                            <h5 ><?=$a["titre"];?></h5>
-                            <p class="information"><?=$a["info"];?></p>
-                        </li>
+                    <li class="list-group-item">
+                        <h5 ><?=$a["titre"];?></h5>
+                        <p class="information"><?=$a["info"];?></p>
+                    </li>
                     <?php
                 }
                 ?>
@@ -72,43 +78,23 @@ function affichageDevoir($idEtude, $date)
     }
     
 }
-function affichageEDT($idEtude,$date,$statut= 'Etudiant')
+
+
+
+function affichageEDT($idEtude,$date,$statut='Etudiant',$firstWeek = 0)
 {
+    
+    
     $objetEdt = new Edt();
     if($statut === 'Etudiant')
     {
        $edt = $objetEdt -> selectEDT($idEtude,$date);
     }else if ( $statut === 'Professeur')
     {
-        $edt = $objetEdt -> selectEDT_Prof($_SESSION['idUtilisateur'],$date);
+        $edt = $objetEdt -> selectEDT_Prof($idEtude,$date);
     }
         
-
-        ?>
-        <div class="enteteAccueil">
-            <form method='get' style="width:100%;height:80px;">
-                <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-1 : -1 ;?>" name='Jour'style="float:left;">
-
-                <
-
-                </button>
-
-                <button type="submit" 
-                value="<?= isset($_GET['Jour']) ? $_GET['Jour']+1 : 2 ?>"
-                name='Jour' style="float:right;">
-
-                >
-
-                </button>
-                <div>
-                    <h5>Emploi du temps</h5>
-                    
-                    <h6 ><?=$date;?></h6>
-                </div>
-            </form>
-        </div>
         
-        <?php
         if($edt == null){
 
         }else{
@@ -122,13 +108,13 @@ function affichageEDT($idEtude,$date,$statut= 'Etudiant')
                         $horaireDebut = (int)substr($jour["horaireDebut"], 0, -6);
                         $horaireFin = (int)substr($jour["horaireFin"], 0, -6);
                         
-                        if($first == 0)
+                        if($first == 0 && $firstWeek == 1)
                         {
                             for($i = 8; $i<$horaireDebut;$i++)
                             {
                                 ?>
-                                <div id="<?=$i;?>h" style="width:60%;height:10%;<?php if($i == 8){ echo ''; } ?>">
-                                    <span id="18h"><?=$i;?>h</span>
+                                <div id="<?=$i;?>h"  style="width:60%;height:10%;<?php if($i == 8){ echo ''; } ?>">
+                                    <span class="etu-edt-heure-span"><?=$i;?>h</span>
                                 </div>
                                 <?php
                             }
@@ -239,32 +225,35 @@ function affichageNote($idUtilisateur)
     }
     ?>
     <div class="enteteAccueil">
-        <h5> Notes de l'élève :</h5>
+        <h3> Notes de l'élève :</h3>
     </div>
-    <div style="overflow-y:scroll; height:85%">
-        <ul>
+    <div style="overflow-y:scroll; height:235px">
+        <ul class="list-group">
             <?php
             foreach($matieres as $matiere)
             {
 
                 ?>
-                <h6><?=$matiere["matiere"];?></h6>
-                <ul class="list-group-item">
-                    <?php
-                    foreach($listenote as $x => $note)
-                    {
-                        if($x == $matiere["matiere"])
+                <li class="list-group-item">
+                    <h5><?=$matiere["matiere"];?></h5>
+                    <ul class="list-group list-group-flush">
+                        <?php
+                        foreach($listenote as $x => $note)
                         {
-                            foreach($note as $Note)
-                            {                      
-                                ?>
-                                <li><?=$Note["designation"]." : ".$Note["notes"];?></li>
-                                <?php
+                            if($x == $matiere["matiere"])
+                            {
+                                foreach($note as $Note)
+                                {                      
+                                    ?>
+                                    <li class="list-group-item" ><?=$Note["designation"]." : ".$Note["notes"];?></li>
+                                    <?php
+                                }
                             }
                         }
-                    }
-                    ?>
-                </ul>
+                        ?>
+                    </ul>
+                </li>
+                
                 <?php
             }
             ?>    
@@ -293,27 +282,51 @@ function affichageAbsence()
 
     $objetAbsence = new Absence();
     $absenses = $objetAbsence -> absenceEleve($_SESSION["idUtilisateur"]);
+    // print_r($absenses);
     ?>
     
-    <div>
+    <div class="absenceEleve">
         <div class="enteteAccueil">
             <h3> Absences de l'élève :</h3>
         </div>
-        <div id="absence" style="overflow-y: scroll;height:85%">
-            <ul>
-            <?php
-                foreach($absenses as $absence)
-                {
-                    ?>
-                    <li class="list-group_item" id="absenceInjustif"><?=$absence["laDate"]?> : <?=$absence["matiere"];?> | <?=$absence["justification"];?></li>
-                    <?php
-                   
-                }
-            ?>
-            </ul>
+        <div id="div_container_absence">
+            <div class="div_list_absenceDeEleve">
+            <ul class="list-group">
+                <?php
+                    foreach($absenses as $absence)
+                    {
+                        if($absence["verifJustification"] == 'oui')
+                        {
+                            ?>
+                            <li class="list-group-item">
+                            <i class="fas fa-check"></i> Absence Justifié 
+                                <br>
+                            <p>du <?=$absence["date"];?> de <?=$absence["horaireDebut"];?> à <?=$absence["horaireFin"];?></p>
+                            <p>
+                                Justification : <?=$absence["justification"];?>
+                            </p>
+                            </li>
+                            <?php
+                            
+                        }
+                        else
+                        {
+                            ?>
+                            <li class="list-group-item">
+                            <i class="fas fa-times"></i> Absence Injustifié 
+                                <br>
+                            <p style="color:red">du <?=$absence["date"];?> de <?=$absence["horaireDebut"];?> à <?=$absence["horaireFin"];?></p>
+                            <p>
+                                Justification : <?=$absence["justification"];?>
+                            </p>
+                            </li>
+                            <?php
+                        }
+                    }
+                ?>
+                </ul>
+            </div>
         </div>
     </div>
-    
-
     <?php 
 }

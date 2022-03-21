@@ -12,4 +12,16 @@ class Salle extends Modele
         $salles = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $salles;
     }
+    
+    public function getNumero()
+    {
+        return $this -> numero;
+    }
+
+    public function setNumero($numero)
+    {
+        $this -> numero = $numero;
+
+        return $this;
+    }
 }

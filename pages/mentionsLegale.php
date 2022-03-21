@@ -1,19 +1,17 @@
 <?php
 require_once "entete.php";
+// $objetEleve = new Eleves();
+// $eleves = $objetEleve -> listeEleves();
 
-$objetEleve = new Eleves();
-$eleves = $objetEleve -> listeEleves();
-
-$objetClasse = new Classes();
-$classes = $objetClasse -> allClasse();
+// $objetClasse = new Classes();
+// $classes = $objetClasse -> allClasse();
 
 ?>
-<h3 id="titre">Fiche d'appel</h3>
+<!-- <h3 id="titre">Fiche d'appel</h3> -->
 <?php
 if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration")
 {
     ?>
-
 
     <h2>Définitions</h2>
     <p><b>Client :</b> tout professionnel ou personne physique capable au sens des articles 1123 et suivants du Code civil, ou personne morale, qui visite le Site objet des présentes conditions générales.<br>
@@ -39,10 +37,8 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
     <strong>Délégué à la protection des données</strong> : Carneiro David – Estudia@gmail.com<br>
     </p>
     <?php
-
 }else
 {
     echo "<script type='text/javascript'>document.location.replace('index.php');</script>";
 }
-
 require_once "footer.php";

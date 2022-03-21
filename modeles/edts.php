@@ -28,11 +28,20 @@ class Edt extends Modele
     /* SET */
     function selectCours($idCours){
         try{
-            $requete = $this -> getBdd() -> prepare("SELECT idCours, idClasse, etudes.classe, etudes.nom as classe2 ,edt.matiere, date, horaireDebut, horaireFin, utilisateur.nom, utilisateur.prenom ,numero , edt.appel from edt INNER JOIN utilisateur on edt.idUtilisateur = utilisateur.idUtilisateur INNER JOIN salle using(idSalle) INNER JOIN etudes on edt.idClasse = etudes.idEtude WHERE edt.idCours = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT idCours, idClasse, etudes.classe, etudes.nom as classe2 ,edt.matiere, resumeCours ,date, horaireDebut, horaireFin, utilisateur.nom, utilisateur.prenom ,edt.idUtilisateur, numero , edt.appel from edt INNER JOIN utilisateur on edt.idUtilisateur = utilisateur.idUtilisateur INNER JOIN salle using(idSalle) INNER JOIN etudes on edt.idClasse = etudes.idEtude WHERE edt.idCours = ?");
             $requete->execute([$idCours]);
             $edt = $requete->fetch(PDO::FETCH_ASSOC);
             return $edt;
         }catch( Exception $e){
+            return false;
+        }
+    }
+    function postResume($idCours,$resume){
+        try{
+            $requete = $this -> getBdd() -> prepare("UPDATE edt SET resumeCours = ? WHERE idCours = ?");
+            $requete->execute([$resume,$idCours]);
+            return true;
+        }catch(Exception $e){
             return false;
         }
     }

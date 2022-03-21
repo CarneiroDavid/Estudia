@@ -4,7 +4,7 @@ class Absence extends Modele
 {
     public function absenceEleve($idUser)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM absence INNER JOIN matieres USING(idMatiere) WHERE idUtilisateur = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM absence INNER JOIN edt ON edt.idCours = absence.idCours WHERE absence.idUtilisateur = ?");
         $requete -> execute([$idUser]);
         $absences = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $absences;

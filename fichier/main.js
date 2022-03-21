@@ -1,5 +1,17 @@
+function addResume(id)
+{
+    console.log(document.getElementById(id));
+    if(document.getElementById("resumeCours").style.display != "none")
+    {
+        document.getElementById("resumeCours").style.display = "none";
 
+    }
+    else if(document.getElementById("resumeCours").style.display == "none")
+    {
+        document.getElementById("resumeCours").style.display = "block";
 
+    }
+}
 function afficherModif()
 {
 
@@ -95,13 +107,12 @@ function CoursDetail(id)
     var xhr = new XMLHttpRequest();
      xhr.onreadystatechange = function(){
         if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("etd-cour-appel-block").innerHTML = xhr.responseText;
+            document.getElementById("etd-cour-detail-block").innerHTML = xhr.responseText;
         }
     }
     xhr.open("GET", "listeAppel.php?cour="+id, true);
     xhr.send();
 }
-
 function SaveListing(idCours){
 
     var xhr = new XMLHttpRequest();
@@ -113,7 +124,22 @@ function SaveListing(idCours){
    xhr.open("POST", "../traitements/valideAppel.php?cour="+idCours, true);
    xhr.send("");
 }
+function SaveResumeCours(idCours){
 
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function(){
+       if (this.readyState == 4 && this.status == 200) {
+           document.getElementById("etd-cour-appel-block").innerHTML = xhr.responseText;
+       }
+    }
+   xhr.open("POST", "../traitements/validResume.php?cour="+idCours, true);
+   xhr.send("");
+  }
+
+function submitResumeCours()
+{
+    document.getElementById('resumeCour').submit();
+}
 var AJAXSubmit = (function () {
 
     function ajaxSuccess () {
@@ -230,4 +256,8 @@ var AJAXSubmit = (function () {
   
   })();
 
-
+function submitTrimestre()
+{
+    var form = document.getElementById("formTrimestre");
+    form.submit();
+}

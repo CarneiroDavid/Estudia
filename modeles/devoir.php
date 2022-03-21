@@ -43,7 +43,7 @@ class Devoir extends Modele
     public function insertionDevoir($idEtude, $idProf, $matiere, $titre, $info, $date)
     {
         try{
-            $requete = $this -> getBdd() -> prepare("INSERT INTO devoirs (idEtude, idProf, idMatiere, Titre, Info, laDate) VALUES (?,?, ?, ?, ?, ?)");
+            $requete = $this -> getBdd() -> prepare("INSERT INTO devoirs (idEtude, idProf, idMatiere, Titre, Info, laDate) VALUES (?, ?, ?, ?, ?, ?)");
             $requete -> execute([$idEtude, $idProf, $matiere, $titre, $info, $date]);
             return true;
         }catch (Exception $e)

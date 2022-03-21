@@ -15,8 +15,8 @@ class Message extends Modele
 
     public function recupMessage($idEnvoyeur, $idReceveur)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT idEnvoyeur, idReceveur, message, date_envoie, heure_envoie FROM messages WHERE idEnvoyeur = ? && idReceveur = ?");
-        $requete -> execute([$idEnvoyeur, $idReceveur]);
+        $requete = $this -> getBdd() -> prepare("SELECT idEnvoyeur, idReceveur, message, date_envoie, heure_envoie FROM messages WHERE idEnvoyeur = ? && idReceveur = ? OR idEnvoyeur = ? AND idReceveur = ? ORDER BY date_envoie ");
+        $requete -> execute([$idEnvoyeur, $idReceveur, $idReceveur,$idEnvoyeur]);
         $messages = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $messages;
     }
