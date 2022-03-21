@@ -113,7 +113,6 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
                                         <?php
                                     }
                                 ?>
-                            
                             </div>
                         </div>
                             
