@@ -112,6 +112,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
                                         <a class="btn btn-success" href="conversation.php?idReceveur=<?=$conversation["idEnvoyeur"];?>&idConversation=<?=$conversation["idConversation"];?>">Afficher la conversation</a>
                                         <?php
                                     }
+                                    
                                 ?>
                             </div>
                         </div>
