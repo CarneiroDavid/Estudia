@@ -22,6 +22,14 @@ class Examen extends Modele
             $this -> idProf = $examen["idProf"];
             $this -> matiere = $examen["matiere"];
             $this -> idEtude = $examen["idEtude"];
+
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM notes WHERE idExamen = ?");
+            $requete -> execute([$idExamen]);
+            $Notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            foreach($Notes as $note)
+            {
+                $this -> note[] = new Notes($note["idNote"]);
+            }
         }
     }
     public function insertExam($nom, $idProf, $matiere, $idClasse)
@@ -45,6 +53,19 @@ class Examen extends Modele
         $exam = $requete -> fetch(PDO::FETCH_ASSOC);
         return $exam;
     }
+    public function supprimerExamen($idExam)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("DELETE FROM examen WHERE idExamen = ?");
+            $requete -> execute([$idExam]);
+            return true;
+        }
+        catch (Exception $e)
+        {
+            echo $e -> getMessage();
+        }
+    }
 
     public function examProf($idProf)
     {
@@ -52,5 +73,13 @@ class Examen extends Modele
         $requete -> execute([$idProf]);
         $exam = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $exam;
+    }
+    public function getIdExamen()
+    {
+        return $this -> idExamen;
+    }
+    public function getNom()
+    {
+        return $this -> nom;
     }
 }

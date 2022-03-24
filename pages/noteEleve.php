@@ -77,7 +77,8 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                             {
                                                 // echo $Note["NoteMax"];
                                                 ?>
-                                                <button name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                <button name="Note" type="submit" class="bouton-notes" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                            </br>
                                                 <?php
                                                 if(!empty($Note))
                                                 {
@@ -92,7 +93,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                                 if($_POST["trimestre"] == 1 && $Note["moisNote"] >= "7" && $Note["moisNote"] <= "12" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
                                                 {
                                                     ?>
-                                                    <button  name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
                                                     <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
                                                     <?php
 
@@ -103,12 +104,12 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                                         $MoyenneMatiere = round($calculNote / $additionCoef, 2);
 
                                                     }   
-                                                } 
+                                                }
                                                 if($_POST["trimestre"] == 2 && $Note["moisNote"] >= "1" && $Note["moisNote"] <= "3" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
                                                 {
                                                     
                                                     ?>
-                                                    <button  name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
                                                     <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
                                                     <?php
                                                     
@@ -122,7 +123,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                                 if($_POST["trimestre"] == 3 && $Note["moisNote"] > "3" && $Note["moisNote"] <= "6" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
                                                 {
                                                     ?>
-                                                    <button  name="Note" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
                                                     <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
                                                     <?php                                                    
                                                     if(!empty($Note))
@@ -184,7 +185,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                     $info = $objetNote -> infoNote($_POST["Note"]);
                 
                     ?>
-                    <div class="card" style="width: 60rem; height:450px;">
+                    <div class="card" id="div_info_note">
                         <div class="card-body">
                             <h4 class="text-center">Informations</h4>
                             <h5 class="card-title"><?=$info["designation"];?></h5>
@@ -195,7 +196,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                             <p class="card-text">Date de publication : <?=$info["dateNote"];?></p>
                             <p class="card-text">Coeffiicien de la note : <?=$info["Coef"];?></p>
                             <p class="card-text">Commentaire :</p>
-                            <div class="container" style="border: 1px solid lightgray; height:125px; border-radius:5px"><?=$info["Commentaire"];?></div>
+                            <div class="container" id="div_commentaire"><?=$info["Commentaire"];?></div>
                             
                         </div>
                     </div>

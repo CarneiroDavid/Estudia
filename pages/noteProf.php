@@ -3,7 +3,7 @@ require_once "entete.php";
 
 $objetUser = new User();
 $ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
-if($_SESSION["statut"] == "Professeur" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
+if($_SESSION["statut"] == "Professeur" )
 {
     $objetClasse = new Classes();
     $classes = $objetClasse -> allClasse();
@@ -41,18 +41,30 @@ if($_SESSION["statut"] == "Professeur" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
             {
                 $objetExam = new Examen();
                 $exams = $objetExam -> examProf($_SESSION["idUtilisateur"], $_POST["classe"]);
+
+                $objetClasse = new Classes($_POST["classe"]);
+                $Examens = $objetClasse -> getExamen();
+                echo "<pre>";
+                // print_r($Examens);
+                echo'</pre>';
+                // echo count($Examens);
+
                 ?>
                 <h4 id="titre">Selectionner un Examen</h4>
-                <form method="post" action="noteProf.php">
-                    <?php
-                    foreach($exams as $exam)
+                <label>Choisissez une classe</label>
+                <select class="form-select" name="classe" aria-label="Default select example">
+                <?php
+                    for($i = 0; $i < count($Examens); $i++)
                     {
                         ?>
-                        <input type="hidden" name="idClasse" value="<?=$_POST["classe"];?>">
-                        <button class="btn btn-primary" name="idExamen" value="<?=$exam["idExamen"];?>"><?=$exam["nom"];?></button>
+                            
+                            <option value="<?=$Examens[$i]->getIdExamen();?>">
+                                <?=$Examens[$i] -> getNom();?>
+                            </option>
                         <?php
                     }
-                    ?>
+                ?>
+                </select>
                 </form>
                 <?php           
             }

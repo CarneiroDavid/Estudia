@@ -7,8 +7,7 @@ class Eleves extends Modele
     private $Filiere;
     private $idEtude;
     private $notes = [];
-    private $matieres = [];
-
+    
     public function __construct($idUtilisateur = null)
     {
         if(!empty($idUtilisateur))

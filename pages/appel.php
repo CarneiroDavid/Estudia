@@ -10,10 +10,10 @@ $objetUser = new User();
 $ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
 
 ?>
-<h3 id="titre">Fiche d'appel</h3>
+<h3 class="text-center" id="titre">Fiche d'appel</h3>
 </br>
 <?php
-if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
+if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration" /*&& $_SERVER["REMOTE_ADDR"] == $ip["ip"]*/)
 {
     if(empty($_POST["envoie"]) && empty($_POST["classe"]))
     {
@@ -61,52 +61,51 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
     
     <div class="etu-container">
       <div class="enteteAccueil">
-              <form method='post' style="width:100%;height:80px;">
-                  <button type="submit" value="<?= isset($_POST['Jour']) ? $_POST['Jour']-7 : -7 ;?>" name='Jour'style="float:left;">
+          <form method='post' class="form-edt">
+              <button type="submit" value="<?= isset($_POST['Jour']) ? $_POST['Jour']-7 : -7 ;?>" name='Jour' class="edt-fleche-gauche">
 
-                  <
+              <
 
-                  </button>
+              </button>
 
-                  <button type="submit" 
-                  value="<?= isset($_POST['Jour']) ? $_POST['Jour']+7 : 7 ?>"
-                  name='Jour' style="float:right;">
+              <button type="submit" 
+              value="<?= isset($_POST['Jour']) ? $_POST['Jour']+7 : 7 ?>"
+              name='Jour' class="edt-fleche-droite">
 
-                  >
+              >
 
-                  </button>
-                  <div>
-                      <h5>Emploi du temps</h5>
-                      
-                      <h6 >Semaine du <?=$jourDebut?> au <?=$jourFin?> </h6>
-                  </div>
-                  <input type=hidden name="classe" value="<?=$_POST["classe"]?>">
-              </form>
+              </button>
+              <div>
+                  <h5>Emploi du temps</h5>
+                  
+                  <h6 >Semaine du <?=$jourDebut?> au <?=$jourFin?> </h6>
+              </div>
+              <input type=hidden name="classe" value="<?=$_POST["classe"]?>">
+          </form>
       </div>
     <div class="etu-index-edt">
-
         <div id=j1 class="etu-index-edt-jour">
-                <div class="enteteAccueil">    
-                    <p>Lundi <?=$jourDebut?></p>
-                </div>                
-                    <?php
-                      $jourDebut = date("Y-m-d", strtotime("+".($jour)." day"));
+            <div class="enteteAccueil">    
+                <p>Lundi <?=$jourDebut?></p>
+            </div>                
+            <?php
+              $jourDebut = date("Y-m-d", strtotime("+".($jour)." day"));
 
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant', $firstWeek = 1);
-                    ?></div>
-        <div id=j2 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
-                    $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+1)." day"));
-
-                    ?>
-                    <div class="enteteAccueil">    
-                    <p>Mardi <?=$jourDebutAffichage?></p>
-                    </div>
-                     <?php  
-
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
-
-                    ?></div>
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant', $firstWeek = 1);
+            ?>
+        </div>
+        <div id=j2 class="etu-index-edt-jour">                    
+            <?php
+                $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
+                $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+1)." day"));
+            ?>
+            <div class="enteteAccueil">    
+                <p>Mardi <?=$jourDebutAffichage?></p>
+            </div>
+            <?php  
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
+            ?>
+        </div>
         <div id=j3 class="etu-index-edt-jour">                    <?php
                     $jourDebut = date("Y-m-d", strtotime("+".($jour+2)." day"));
                     $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+2)." day"));
@@ -158,25 +157,23 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
 </div>
         
 <div class="modal fade" id="CourDetail" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="FormClassCenterLongTitle"></h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">X</span>
-        </button>
-      </div>
-      <div class="modal-body">
-            <div id='etd-cour-detail-block'> 
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="FormClassCenterLongTitle"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">X</span>
+                </button>
             </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-dismiss="modal">Close</button>
-      </div>
+            <div class="modal-body">
+                    <div id='etd-cour-detail-block'> 
+                    </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-dismiss="modal">Close</button>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
         <?php

@@ -15,7 +15,6 @@ if(!empty($_SESSION["idUtilisateur"]) && $_SESSION["PremiereConnexion"] == 1)
                 <h3> Absences de l'élève :</h3>
             </div>
             <?php
-            // print_r($absenses);
             ?>
             <div id="div_container_absence">
                 <div class="div_list_absenceDeEleve">
@@ -45,7 +44,7 @@ if(!empty($_SESSION["idUtilisateur"]) && $_SESSION["PremiereConnexion"] == 1)
                                 <li class="list-group-item">
                                 <i class="fas fa-times"></i> Absence Injustifié 
                                     <br>
-                                <p style="color:red">
+                                <p class="vieScolaire-date-injustifie">
                                     du <?=$absence["date"];?> de <?=$absence["horaireDebut"];?> à <?=$absence["horaireFin"];?></p>
                                 <p>
                                     Cours : <?=$absence["matiere"];?>

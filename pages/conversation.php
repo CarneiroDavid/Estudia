@@ -1,6 +1,7 @@
 <?php
 
 require_once "entete.php";
+
 if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
 {
 
@@ -75,6 +76,10 @@ else
 <script>
     element = document.getElementById('messagerie');
     element.scrollTop = element.scrollHeight;
+    setTimeout(function()
+    {
+        window.location.reload(1);
+    }, 10000);
 </script>
 <?php
 require_once "footer.php";

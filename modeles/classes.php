@@ -6,9 +6,8 @@ class Classes extends Modele
     private $classe;
     private $nom;
     private $eleves = [];
-    private $professeur;
-    private $matiere = [];
     private $devoirs = [];
+    private $examens = [];
 
     public function __construct($idEtude = null)
     {
@@ -29,8 +28,22 @@ class Classes extends Modele
             {
                 $this -> eleves[] = new Eleves($eleves["idUtilisateur"]);
             }
-            $this -> professeur = new Enseignant();
 
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idEtude = ?");
+            $requete -> execute([$idEtude]);
+            $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            foreach($devoirs as $devoir)
+            {
+                $this -> devoirs[] = new Devoir($devoir["idDevoir"]);
+            }
+
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM examen WHERE idEtude = ?");
+            $requete -> execute([$idEtude]);
+            $examens = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            foreach($examens as $examen)
+            {
+                $this -> examens[] = new Examen($examen["idExamen"]);
+            }
         }
     }
 
@@ -73,6 +86,15 @@ class Classes extends Modele
     {
         return $this -> eleves;
     }
+    public function getDevoir()
+    {
+        return $this -> devoirs;
+    }
+    public function getExamen()
+    {
+        return $this -> examens;
+    }
+    
 
     /* SET*/
     public function setIdEtude($idEtude)

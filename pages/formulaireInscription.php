@@ -2,42 +2,42 @@
     require_once "entete.php";
 if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
 {
-    $statuts = ListeStatut();  
+    // $statuts = ListeStatut();  
     if(!empty($_GET["error"]))
     {
         ?>
-            <div class="alert alert-danger" style="text-align:center;">
+            <div class="alert alert-danger text-center">
+                <?php
+                switch($_GET["error"])
+                {
+                    case "FormulaireVide":
+                        echo "Erreur, veuillez bien saisir toutes les informations";
+                        break;
+                    case "VarVide":
+                        echo "Veuillez renseigner tous les champs nécéssaire";
+                        break;
+                    case "AdressMail":
+                        echo "Problème adresse mail";
+                        break;
+                    case "StrlenVar" :
+                        echo "Veuillez saisir un nom et un prenom valide";
+                        break;
+                    case "Inscription":
+                        echo "Erreur d'inscription";
+                        break;
+                    case "InscriptionEleve":
+                        echo "Une erreur est survenue lors de 'inscription de l'élève, veuillez réessayer";
+                        break;
+                }
+                ?>
+            </div>
         <?php
-    
-        switch($_GET["error"])
-        {
-            case "FormulaireVide":
-                echo "Erreur, veuillez bien saisir toutes les informations";
-                break;
-            case "VarVide":
-                echo "Veuillez renseigner tous les champ nécéssaire";
-                break;
-            case "AdressMail":
-                echo "Problème adresse mail";
-                break;
-            case "StrlenVar" :
-                echo "Veuillez saisir un nom et un prenom valide";
-                break;
-            case "Inscription":
-                echo "Erreur d'inscription";
-                break;
-            case "InscriptionEleve":
-                echo "Une erreur est survenue lors de 'inscription de l'élève, veuillez réessayer";
-                break;
-        }
-    ?>
-    </div>
-    <?php
     }  
 
-    if(!empty($_GET["succes"])){
+    if(!empty($_GET["succes"]))
+    {
         ?>
-            <div class="alert alert-success" style="text-align:center;">
+            <div class="alert alert-success text-center">
         <?php
             echo "Inscription réussi";
         ?></div><?php
@@ -46,7 +46,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
 
 
 
-    <h2 style="text-align:center;">Inscription</h2>
+    <h2 class="text-center">Inscription</h2>
     <br>
     <div class="container-xxl">
     

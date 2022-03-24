@@ -25,7 +25,7 @@ class Notes extends Modele
             $this -> idMatiere = $notes["idMatiere"];
             $this -> designation = $notes["designation"];
             $this -> noteMax = $notes["NoteMax"];
-            $this -> laDate = $notes["laDate"];
+            $this -> laDate = $notes["dateNote"];
             $this -> commentaire = $notes["Commentaire"];
 
         }
@@ -33,7 +33,7 @@ class Notes extends Modele
 
     public function noteEleve($idUtilisateur)
     {
-        $requete = getBdd() -> prepare("SELECT Note, idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, Coef, utilisateur.nom, utilisateur.prenom FROM notes INNER JOIN matieres USING(idMatiere) INNER JOIN utilisateur USING(idUtilisateur) WHERE idUtilisateur = ?");
+        $requete = getBdd() -> prepare("SELECT Note, idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, Coef, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, Coef, utilisateur.nom, utilisateur.prenom FROM notes INNER JOIN matieres USING(idMatiere) INNER JOIN utilisateur USING(idUtilisateur) WHERE idUtilisateur = ?");
         $requete -> execute([$idUtilisateur]);
         $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $notes;
@@ -51,13 +51,13 @@ class Notes extends Modele
         return $infoNote;
     }
     
-    public function insertionNote($idUtilisateur, $idProf ,$note, $matiere, $idExam, $designation, $noteMax, $commentaire)
+    public function insertionNote($idUtilisateur, $idProf ,$note, $matiere, $idExam, $designation, $noteMax, $coef, $commentaire)
     {
         try
         {
             
-            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, idExamen, designation, NoteMax, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?,?)");
-            $requete -> execute([$idUtilisateur, $idProf,$note, $matiere,$idExam, $designation, $noteMax, $commentaire]);
+            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, idExamen, designation, NoteMax,Coef, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?)");
+            $requete -> execute([$idUtilisateur, $idProf,$note, $matiere,$idExam, $designation, $noteMax,$coef, $commentaire]);
             return true;
         }
         catch(Exception $e)
@@ -88,6 +88,19 @@ class Notes extends Modele
     public function suppressionNote($idNote)
     {
 
+    }
+    public function  suppressionNoteParExam($idExam)
+    {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("DELETE FROM notes WHERE idExamen = ?");
+            $requete -> execute([$idExam]);
+            return true;
+        }
+        catch (Exception $e)
+        {
+            echo $e -> getMessage();
+        }
     }
 
 ////////////// GET VARIABLE ///////////////////

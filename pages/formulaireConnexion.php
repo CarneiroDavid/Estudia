@@ -36,14 +36,14 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
     ?>
         <div id="accueil">
             <div id="connexion" class="container-xxl">
-                <form method="post" style="background-color: white" action="../traitements/Connexion.php">
+                <form method="post" action="../traitements/Connexion.php">
                     <div class="form-group">
-                        <label for="identifiant" style="font-weight :bold; color:rgb(109, 19, 121);">Identifiant</label>
-                        <input type="text" style="border-color :rgb(109, 19, 121); " class="form-control" name="identifiant" id="identifiant" placeholder="id"/>
+                        <label for="identifiant" class="form-connexion-ecriture">Identifiant</label>
+                        <input type="text"class="form-control form-connexion-input" name="identifiant" id="identifiant" placeholder="id"/>
                     </div>
                     <div class="form-group">
-                        <label for="mdp" style="font-weight :bold; color:rgb(109, 19, 121);">Mot de passe</label>
-                        <input type="password" style="border-color :rgb(109, 19, 121); " class="form-control" name="mdp" id="mdp" placeholder="Mot de passe"/>
+                        <label for="mdp" class="form-connexion-ecriture">Mot de passe</label>
+                        <input type="password" class="form-control form-connexion-input" name="mdp" id="mdp" placeholder="Mot de passe"/>
                     </div>
                     <div class="form-group">
                         <label>Se souvenir de moi</label>

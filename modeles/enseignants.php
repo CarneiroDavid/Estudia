@@ -9,6 +9,8 @@ class Enseignant extends Modele
     private $idFiliere;
     private $idMatiere;
     private $matiere;
+    private $devoirs = [];
+    private $examens = [];
 
     public function __construct($idUtilisateur = null)
     {
@@ -25,6 +27,22 @@ class Enseignant extends Modele
             $this -> idFiliere = $info["idFiliere"];
             $this -> idMatiere = $info["idMatiere"];
             $this -> matiere = $info["matiere"];
+
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idUtilisateur = ?");
+            $requete -> execute([$idUtilisateur]);
+            $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            foreach($devoirs as $devoir)
+            {
+                $this -> devoirs[] = new Devoir($devoir["idDevoir"]);
+            }
+
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM examen WHERE idUtuilisateur = ?");
+            $requete -> execute([$idUtilisateur]);
+            $examens = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            foreach($examens as $examen)
+            {
+                $this -> examens[] = new Examen($examen["idExamen"]);
+            }
         }
     }
     public function infoEnseignant($idEnseignant)

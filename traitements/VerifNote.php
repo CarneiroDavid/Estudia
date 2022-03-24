@@ -7,86 +7,97 @@ print_r($_POST);
 if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
 {
     
-    if(!empty($_POST["matiere"]) || !empty($_POST['modif']) && !empty($_POST["note"]) && !empty($_POST["designation"]) && !empty($_POST["noteMax"]))
+    if(!empty($_POST["matiere"]) || !empty($_POST['modif']) && !empty($_POST["note"]) && !empty($_POST["designation"]))
     {
-        
-        if(strlen($_POST["designation"]) <= 100)
+        if(!empty($_POST["designation"]) && strlen($_POST["designation"]) <= 100)
         {
-            
-            $notes = new notes();
-            if(!empty($_POST["modif"]))
+            if(!empty($_POST["NoteMax"]) && $_POST["NoteMax"] <= 20)
             {
-                $idEleve = $_POST["idEleve"];
-                if(is_numeric($_POST['note']) && $_POST['note'] <= $_POST['noteMax'] && $_POST['note'] >= 0)
+                if(!empty($_POST["Coef"]))
                 {
-                    
-                    if($notes -> modifierNote($_POST["modif"], $_POST['note'], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"]) == true)
+                    $notes = new Notes();
+                    if(!empty($_POST["modif"]))
+                    {
+                        $idEleve = $_POST["idEleve"];
+                        if(is_numeric($_POST['note']) && $_POST['note'] <= $_POST['noteMax'] && $_POST['note'] >= 0)
                         {
                             
-                            header("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
-                        }else{
-                            header("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
+                            if($notes -> modifierNote($_POST["modif"], $_POST['note'], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"]) == true)
+                                {
+                                    
+                                    //("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
+                                }else{
+                                    //("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
+                                }
                         }
-                }
-
-            }
-            if(!empty($_POST["envoi"]))
-            {
-                
-                $i = 0;
-                $erreurs = "";
-                $objetExamen = new Examen();
-                $insertExam = $objetExamen -> insertExam($_POST["designation"], $_SESSION["idUtilisateur"], $_POST["matiere"], $_POST["idClasse"]);
-                foreach($_POST["note"] as $idEleve => $note)
-                {
-                    
-                    if(is_numeric($note) && $note <= $_POST["NoteMax"] && $note >= 0)
-                    {
-                        
-                        if($insertExam == true)
-                        {
-                            $idExam = $objetExamen -> idExam($_POST["designation"]);
-                            if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $idExam["idExamen"], $_POST["designation"], $_POST["NoteMax"], $_POST["commentaire"][$idEleve]) == true)
-                            {   
-                                // header echo "<br>";
-                                // header echo $idEleve ."  " .$_SESSION["idUtilisateur"] ."  " .$note."  " .$_POST["matiere"]. "  " .$_POST["designation"]."  " .$_POST["NoteMax"]."  " .$_POST["commentaire"][$idEleve];
-                                $i++;
-                            }
-                            else
-                            {   
-                                
-                                // header $erreurs += "Erreur Insertion Bdd : Utilisateur ".$idEleve.".";
-    
-                            }
-                        }
-                        
-                        
-                    }else
-                    {
-                        header("location:../pages/prof.php?error=NotePasUnChiffre");
+        
                     }
-                    echo "<br>"."get Message :  "." "."<br>";
-                    echo $inserNote;
+                    if(!empty($_POST["envoi"]))
+                    {
+                        
+                        $i = 0;
+                        $noteFausse = 0;
+                        $objetExamen = new Examen();
+                        $insertExam = $objetExamen -> insertExam($_POST["designation"], $_SESSION["idUtilisateur"], $_POST["matiere"], $_POST["idClasse"]);
+                        foreach($_POST["note"] as $idEleve => $note)
+                        {
+                            if(!empty($note))
+                            {
+                                if(is_numeric($note) && $note <= $_POST["NoteMax"] && $note >= 0)
+                                {
+                                    
+                                    if($insertExam == true)
+                                    {
+                                        $idExam = $objetExamen -> idExam($_POST["designation"]);
+                                        if($inserNote = $notes -> insertionNote($idEleve,$_SESSION["idUtilisateur"] ,$note, $_POST["matiere"], $idExam["idExamen"], $_POST["designation"], $_POST["NoteMax"], $_POST["Coef"], $_POST["commentaire"][$idEleve]) == true)
+                                        {   
+                                            $i++;
+                                        }
+                                    } 
+                                }
+                            }
+                        }
+                        $noteFausse = (count($_POST["note"]) - $i);
+
+                        if($i == count($_POST["note"]))
+                        { 
+                            //("location:../pages/prof.php?success=Note");
+                        }else{
+                            $supprExam = $objetExamen -> supprimerExamen($idExam["idExamen"]);
+                            $supprNotes = $notes -> suppressionNoteParExam($idExam["idExamen"]);
+                            if($supprExam == true)
+                            {
+                                //("location:../pages/prof.php?error=problèmeNote");
+                            }
+                        }
+                    }
                 }
-                
-                if($i == count($_POST["note"])){                    
-                    header("location:../pages/prof.php?success=Note");
-                }else{
-                    echo $erreurs;
-                    header("location:../pages/index.php?error=Note".$erreurs."");
+                else
+                {
+                    //("location:../pages/prof.php?error=coefVide");
+                    echo "coef vide";
                 }
+            }
+            else
+            {
+                //("location:../pages/prof.php?error=noteMaxSup");
+                echo "erreur note max";
             }
         }else
         {
-            header("location:../pages/prof.php?error=commentaireTropLong");
+            //("location:../pages/prof.php?error=nomExam");
+            echo "erreur designation";
+            
         }
     }
     else
     {
-        header("location:../pages/prof.php?error=ChampVide");
+        //("location:../pages/prof.php?error=ChampVide");
+        echo "champ vide";
+        
     }
 }
 else
 {
-    header("location:../pages/prof.php?error=NoteNonEnvoyee");
+    //("location:../pages/prof.php?error=NoteNonEnvoyee");
 }

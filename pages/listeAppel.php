@@ -34,8 +34,17 @@ if(!empty($_SESSION["idUtilisateur"])){
             <div>
 
             </div>
-        <?php if(($_SESSION["statut"] == "Professeur" && $_SESSION["idUtilisateur"] == $Cour["idUtilisateur"]))
-            { ?><div class='edt-cour-btn-block'><form method=POST action='prof.php'><a class="btn btn-primary" id="<?=$Cour['idCours'];?>" onclick='addResume(this.id);' >Ajouter un résumé du cours</a></div><?php }?>
+            <?php 
+            if(($_SESSION["statut"] == "Professeur" && $_SESSION["idUtilisateur"] == $Cour["idUtilisateur"]))
+            { 
+                ?>
+                <div class='edt-cour-btn-block'>
+                    <form method=POST action='prof.php'>
+                        <a class="btn btn-primary" id="<?=$Cour['idCours'];?>" onclick='addResume(this.id);' >Ajouter un résumé du cours</a>
+                </div>
+                <?php 
+            }
+                ?>
         </div>
         
 
@@ -47,13 +56,20 @@ if(!empty($_SESSION["idUtilisateur"])){
             <div id="etd-cour-appel-block">
             
             <div id='appel-state' style="border-radius:50%;width:20px;height:20px;border:1px solid;background-color:
-                                                            <?php if($Cour["appel"] == 0)
-                                                                {
-                                                                    echo 'darkred;'; 
-                                                                }else{ 
-                                                                    echo 'chartreuse;'; 
-                                                                }?>
-                        "></div><h3 id='titre'>Fiche d'appel</h3><?php
+                <?php 
+                if($Cour["appel"] == 0)
+                {
+                    echo 'darkred;'; 
+                }
+                else
+                { 
+                   echo 'chartreuse;'; 
+                }
+                ?>
+                        ">
+            </div>
+            <h3 id='titre'>Fiche d'appel</h3>
+            <?php
             if(!empty($Cour["idClasse"]))
             {
                 ?>
@@ -137,9 +153,7 @@ if(!empty($_SESSION["idUtilisateur"])){
                             <button type="submit" value="1" name="valideAppel" class ="btn btn-success">Valider l'appel</button>
                         </div>
                     </form>
-                    
-
-        </div>
+                </div>
                 <?php
             }
         }else

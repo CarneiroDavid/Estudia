@@ -24,8 +24,8 @@ if(!empty($_SESSION["nom"]))
 ?>
 <div class="etu-container">
     <div class="enteteAccueil">
-        <form method='get' style="width:100%;height:80px;">
-            <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-7 : -7 ;?>" name='Jour'style="float:left;">
+        <form method='get' class="form-edt">
+            <button type="submit" value="<?= isset($_GET['Jour']) ? $_GET['Jour']-7 : -7 ;?>" class="edt-fleche-gauche" name='Jour'>
 
             <
 
@@ -33,7 +33,7 @@ if(!empty($_SESSION["nom"]))
 
             <button type="submit" 
             value="<?= isset($_GET['Jour']) ? $_GET['Jour']+7 : 7 ?>"
-            name='Jour' style="float:right;">
+            name='Jour' class="edt-fleche-droite">
 
             >
 

@@ -3,17 +3,6 @@
     margin-bottom: 10%;
     
 }
-/* #info
-{
-    margin-top: 10%;
-    left:10;
-    border: solid 2px;
-    max-width: 50%;
-    height: 300px;
-    margin: auto;    
-    border-radius:5%;
-    padding:1%;
-} */
 #info2
 {
     overflow-y: scroll;
@@ -60,6 +49,15 @@
     float:left;
     margin-top:1%
 }
+
+.edt-fleche-gauche
+{
+    float:left;
+}
+.edt-fleche-droite
+{
+    float:right;
+}
 #absence
 {
     overflow-y: scroll;
@@ -80,11 +78,6 @@
 #absenceJustif
 {
     color : green;
-}
-
-#titre
-{
-    text-align: center;
 }
 
 /* #nomEleve
@@ -139,11 +132,7 @@ height: 80vh;
     display: flex!important;
     flex-wrap: wrap;
 }
-.div_messagerie
-{
-    display: flex!important;
-    flex-wrap: wrap;
-}
+
 .cookie-block{
     position: fixed;
     background-color: #d6d6d6;
@@ -313,6 +302,11 @@ height: 80vh;
     border: solid 1px lightgray;
     margin-top:50px;
 }
+.div_messagerie
+{
+    display: flex!important;
+    flex-wrap: wrap;
+}
 .tableau_message
 {
     width:100%;
@@ -359,4 +353,152 @@ height: 80vh;
 .affichage-deroulant_liste_messagerie
 {
     border: none;
+}
+
+.btn nav-link
+{
+    border-radius:0 !important;
+    border-right: solid 1px white !important ; 
+    font-size: 1.1em !important; 
+    font-weight : bold !important;
+    color : white !important; 
+}
+
+#div_info_note
+{
+    width: 60rem;
+    height:450px;
+}
+#div_commentaire
+{
+    border: 1px solid lightgray;
+    height:125px;
+    border-radius:5px
+}
+.bouton-notes:hover
+{
+    border-color: rgb(109, 19, 121);
+    color: rgb(109, 19, 121);
+}
+
+.bouton-notes
+{
+    border-color: lightgray;
+    border-radius: 5px;
+}
+/* Navbar */
+.navbar
+{
+    background-color : rgb(109, 19, 121);
+}
+.navbar-secondaire
+{
+    max-height:10% ;
+    background-color : #C0BEBE;
+}
+.navbar-toggler
+{
+    background-color : white !important;
+}
+#lien
+{
+    font-size:1.4em; font-weight : bold; color : white;
+    margin-left: 1%;
+}
+.navbar-lien
+{
+    /* border-radius:0; */
+    border-right: solid 1px white;
+    font-size:1.1em;
+    font-weight : bold;
+    color : white !important;
+}
+.navbar-lien-index
+{
+    border-radius:0;
+    border:none;
+    border-right: solid 1px white;
+    font-size:1.1em;
+    font-weight : bold; 
+    color : white;
+}
+.bouton-deconnexion
+{
+    color:white !important;
+    margin-left: 10%;
+}
+.nav-link
+{
+    width: 100%;
+}
+.form-edt
+{
+    width:100%;height:80px;
+}
+.edt-fleche-gauche
+{
+    float:left;
+}
+.edt-fleche-droite
+{
+    float:right;
+}
+/* Vie Scolaire */
+.vieScolaire-date-injustifie
+{
+    color:red;
+}
+.list
+{
+    list-style: none;
+
+}
+.btn-warning
+{
+    color: black !important;
+    border : none !important;
+}
+.btn-success
+{
+    color: white !important;
+    border : none !important;
+}
+.btn-danger
+{
+    color: white !important;
+    border : none !important;
+}
+.btn-secondary
+{
+    color: white !important;
+    border : none !important;
+}
+.infoUtilisateur-bouton-info
+{
+    float: right;
+}
+.infoUtilisateur-bouton-modifier-note
+{
+    float: right;
+}
+.infoUtilisateur-bouton-modifier-rapport
+{
+    float:right;
+}
+.infoUtilisateur-form-bouton-ajouterRapport
+{
+    width:100%;border:none; margin:0
+}
+.form-connexion-ecriture
+{
+    font-weight :bold;
+    color:rgb(109, 19, 121);
+}
+.form-connexion-input
+{
+    border-color :rgb(109, 19, 121) !important;
+}
+.listeEnseignant-bouton-info
+{
+    float:right;
 }

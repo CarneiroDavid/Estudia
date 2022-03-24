@@ -14,7 +14,7 @@ if($_SESSION["statut"] == "Administration")
     {   
         ?>
         <li class="list-group-item"><?=$enseignant["Nom"]. " ". $enseignant["Prenom"];?>
-        <span style="float:right;">
+        <span class="listeEnseignant-bouton-info">
         <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?idEnseignant=<?=$enseignant["idUtilisateur"]?>">Info</a>
         </span>
         </li>   

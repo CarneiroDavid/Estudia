@@ -36,8 +36,8 @@ if(!empty($_SESSION["nom"]) && $info["PremiereConnexion"] == 1)
     
     <div class="etu-index-edt-block">
         <div class="enteteAccueil">
-            <form method='post' style="width:100%;height:80px;">
-                <button type="submit" value="<?= isset($_POST['Jour']) ? $_POST['Jour']-1 : -1 ;?>" name='Jour'style="float:left;">
+            <form method='post' class="form-edt" >
+                <button type="submit" value="<?= isset($_POST['Jour']) ? $_POST['Jour']-1 : -1 ;?>" name='Jour'class="edt-fleche-gauche">
 
                 <
 
@@ -45,7 +45,7 @@ if(!empty($_SESSION["nom"]) && $info["PremiereConnexion"] == 1)
 
                 <button type="submit" 
                 value="<?= isset($_POST['Jour']) ? $_POST['Jour']+1 : 2 ?>"
-                name='Jour' style="float:right;">
+                name='Jour' class="edt-fleche-droite">
 
                 >
 

@@ -4,9 +4,10 @@
 function ListeClasse()
 {
     ?>
+    <h3 class="text-center">Listes des classe disponibles</h3>
     <form method="post">
     <div class="form-group">
-        <label for="classe">Classes</label>
+        <label for="classe">Choisissez une classe</label>
         <select class="form-control" name="classe" id="classe" aria-label="Default select example">
         <?php 
         $objetClasse = new Classes();
@@ -69,8 +70,14 @@ function formulaireNote($idClasse)
         <div class="mb-3 row">
             <label for="NoteMax" class="col-sm-2 col-form-label">Note Max : </label>     
             <div class="col-sm-10">
-                <input type="number" min="0" class="form-control" name="NoteMax" id="NoteMax">
+                <input type="number" min="0" max="20" class="form-control" name="NoteMax" id="NoteMax">
                 <input type="hidden" class="form-control" name="idClasse" id="idClasse" value="<?=$_POST["classe"];?>">
+            </div>
+        </div>
+        <div class="mb-3 row">
+            <label for="Coef" class="col-sm-2 col-form-label">Coefficient :</label>     
+            <div class="col-sm-10">
+                <input type="number" class="form-control" name="Coef" id="Coef">
             </div>
         </div>
     
@@ -140,7 +147,7 @@ function formulaireDevoir($idClasse)
 
         <div>
         <label for="date">Date</label>
-        <input type="date" class="form-group" name="date" id="date">
+        <input type="date" class="form-control" name="date" id="date">
         </div>
 
 

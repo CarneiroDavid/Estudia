@@ -3,13 +3,13 @@ require_once "entete.php";
 
 $objetUser = new User();
 $ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
-if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur" && $_SERVER["REMOTE_ADDR"] == $ip["ip"])
+if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur" /*$_SERVER["REMOTE_ADDR"] == $ip["ip"]*/)
 {
     $objetClasse = new Classes();
     $classes = $objetClasse -> allClasse();
     ?>
     
-    <h3 id="titre">Informations des élèves</h3>
+    <h3 class="text-center">Informations des élèves</h3>
     </br>
     <!-- Select Des classe -->
     <form method="post">
@@ -32,43 +32,33 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
             <button type="submit" value="1" name="envoi" class="btn">Valider</button>
         </div>
     </form>
-    <!-- <form method="post" action="../traitements/verifClasse.php">
-        <div class="mb-3">
-            <label for="creerClasse" class="form-label">Créer une classe</label>
-            <input type="text" name="classe" class="form-control" id="creerClasse">
-            <label for="numClasse" class="form-label">Numéro de la classe</label>
-            <input type="number" name="numClasse" class="form-control" id="numClasse">
-        </div>
-        <button type="submit" class="btn btn-primary">Creer</button>
-    </form> -->
+
     <br>
     <?php
     /* Affichage des eleves a partir de la classe */
         if(!empty($_POST["classe"]))
         {
-            $requete = getBdd() -> prepare("SELECT nom, prenom, idUtilisateur FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
-            $requete -> execute([$_POST["classe"]]);
-            $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
-
-            // $objetClasse = new Classes($_POST["classe"]);
-            // $etudiant = $objetClasse -> getEleve();
-            // echo "<pre>";
-            // print_r($etudiant);
-            // echo "</pre>";
-            ?>
+            $objetClasse = new Classes($_POST["classe"]);
+            $eleves = $objetClasse -> getEleve();
             
+            ?>
             <ul class="list-group">
                 <?php
-                foreach($eleves as $eleve)
-                {   
+                for($i = 0 ; $i < count($eleves) ; $i++)
+                {
                     ?>
-                        <li class="list-group-item"><?=$eleve["nom"]. " ". $eleve["prenom"];?>
-                        <span style="float:right;">
-                        <a class="btn btn-warning btn-sm" href="infoUtilisateur.php?id=<?=$eleve["idUtilisateur"]?>">Info</a>
+                    <li class="list-group-item"><?=$eleves[$i] -> getNom(). " ". $eleves[$i] -> getPrenom();?>
+                        <span class="infoUtilisateur-bouton-info">
+                        <a class="btn btn-sm" href="infoUtilisateur.php?id=<?=$eleves[$i] -> getIdUtilisateur();?>">Info</a>
                         <!-- <a class="btn btn-danger btn-sm" href="modifClasse.php?suppr=<?=$eleve["idUtilisateur"]?>">Supprimer</a> -->
                         </span>
-                        </li>   
+                    </li>   
                     <?php
+                    // echo $eleves[$i] -> getNom();echo"<br>";
+                }
+                foreach($eleves as $eleve)
+                {   
+                   
                 }
                 ?>
             </ul
