@@ -76,7 +76,7 @@ function modifierNote($idNote)
     document.getElementById("designation").value = document.getElementById("designation"+$idNote).innerHTML;
     document.getElementById("commentaire").value = document.getElementById("commentaire"+$idNote).innerHTML;
     document.getElementById("noteMax").value = document.getElementById("noteMax"+$idNote).innerHTML;
-    document.getElementById("Coef").value = document.getElementById("Coef"+$idNote).innerHTML;
+  
 
     document.getElementById("modif").value = document.getElementById("id"+$idNote).value;
 

@@ -57,4 +57,7 @@ require_once "absence.php";
 require_once "presence.php";
 require_once "retard.php";
 require_once "examen.php";
+require_once "log.php";
+require_once "ipAdmin.php";
+
 ?>

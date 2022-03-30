@@ -33,7 +33,7 @@ class Notes extends Modele
 
     public function noteEleve($idUtilisateur)
     {
-        $requete = getBdd() -> prepare("SELECT Note, idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, Coef, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, Coef, utilisateur.nom, utilisateur.prenom FROM notes INNER JOIN matieres USING(idMatiere) INNER JOIN utilisateur USING(idUtilisateur) WHERE idUtilisateur = ?");
+        $requete = getBdd() -> prepare("SELECT Note, notes.idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, Coef, dateNote, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, Coef, utilisateur.nom, utilisateur.prenom FROM notes INNER JOIN matieres USING(idMatiere) INNER JOIN utilisateur ON notes.idProf = utilisateur.idUtilisateur WHERE notes.idUtilisateur = ?");
         $requete -> execute([$idUtilisateur]);
         $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $notes;
@@ -56,7 +56,7 @@ class Notes extends Modele
         try
         {
             
-            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, idExamen, designation, NoteMax,Coef, Commentaire) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?)");
+            $requete = $this -> getBdd() -> prepare("INSERT INTO notes (idUtilisateur, idProf ,Note, idMatiere, idExamen, designation, NoteMax,Coef, Commentaire, dateNote) VALUES (?, ?, ?, ?, ?, ?,?, ?, ?, NOW())");
             $requete -> execute([$idUtilisateur, $idProf,$note, $matiere,$idExam, $designation, $noteMax,$coef, $commentaire]);
             return true;
         }

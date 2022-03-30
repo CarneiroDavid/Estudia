@@ -25,13 +25,19 @@ class Conversation extends Modele
         }
     }
 
+    public function verificationCompleteConv($idEnvoyeur, $idReceveur, $idConversation)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM conversations WHERE idEnvoyeur = ? && idReceveur = ? && idConversation = ?");
+        $requete -> execute([$idEnvoyeur, $idReceveur, $idConversation]);
+        $conv = $requete ->fetch(PDO::FETCH_ASSOC);
+        return $conv;
+    }
     public function verifConv($idEnvoyeur, $idReceveur)
     {
         $requete = $this -> getBdd() -> prepare("SELECT * FROM conversations WHERE idEnvoyeur = ? && idReceveur = ?");
         $requete -> execute([$idEnvoyeur, $idReceveur]);
         $conv = $requete ->fetch(PDO::FETCH_ASSOC);
         return $conv;
-        // return $conv;
     }
     public function getConv($idReceveur, $idConv)
     {

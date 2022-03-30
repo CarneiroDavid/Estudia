@@ -26,6 +26,9 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
             case "Connexion" :
                 echo "Nous n'arrivons pas a vous connecter";
                 break;
+            case "LoginFaux" :
+                echo "Les logins d'identification sont faux.";
+                break;
         }
         ?>
         </div>

@@ -40,14 +40,14 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration" || !em
                 }
 
             }else{
-                header("location:../pages/infoUtilisateur.php?id=$id&erreur=lenPunition");
+                header("location:../pages/infoUtilisateur.php?id=$id&erreur=leRapport");
             }
 
 
 
         }else{
 
-            header("location:../pages/infoUtilisateur.php?id=$id&erreur=lenMotif");
+            header("location:../pages/infoUtilisateur.php?id=$id&erreur=leMotif");
         }
 
 

@@ -17,7 +17,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
                         echo "Veuillez renseigner tous les champs nécéssaire";
                         break;
                     case "AdressMail":
-                        echo "Problème adresse mail";
+                        echo "Adresse mail non valide.";
                         break;
                     case "StrlenVar" :
                         echo "Veuillez saisir un nom et un prenom valide";

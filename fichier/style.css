@@ -402,7 +402,9 @@ height: 80vh;
 }
 #lien
 {
-    font-size:1.4em; font-weight : bold; color : white;
+    font-size:1.4em; 
+    font-weight : bold; 
+    color : white;
     margin-left: 1%;
 }
 .navbar-lien

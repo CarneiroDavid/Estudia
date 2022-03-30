@@ -42,10 +42,18 @@ function formulaireNote($idClasse)
     $objetEleve = new Eleves();
     $eleves = $objetEleve -> listeEleveClasse($idClasse);
 
+    if($_SESSION["statut"] == 'Professeur')
+    {
+        $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
+        $idMatiere = $objetEnseignant -> getIdMatiere();
+        $matiere = $objetEnseignant-> getMatiere();
+    }
+    else
+    {
+        $objetMatiere = new Matieres();
+        $matieres = $objetMatiere -> listeMatiere();
+    }
     
-    $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
-    $idMatiere = $objetEnseignant -> getIdMatiere();
-    $matiere = $objetEnseignant-> getMatiere();
 
     ?>
 
@@ -55,7 +63,23 @@ function formulaireNote($idClasse)
             <label for="Matiere" class="col-sm-2 col-form-label">Matière : </label>
             <div class="col-sm-10">
                 <select class="form-select" name="matiere">
-                    <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                    <?php
+                    if($_SESSION["statut"] == 'Professeur')
+                    {
+                        ?>
+                            <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                        <?php
+                    }
+                    else
+                    {
+                        foreach($matieres as $matiere)
+                        {
+                            ?>
+                                <option value="<?=$matiere["idMatiere"];?>"><?=$matiere["matiere"];?></option>
+                            <?php
+                        }
+                    }
+                    ?>
                 </select>
             </div>
         </div>
@@ -115,9 +139,21 @@ function formulaireNote($idClasse)
 // Ajouter des devoirs
 function formulaireDevoir($idClasse)
 {
-    $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
-    $idMatiere = $objetEnseignant -> getIdMatiere();
-    $matiere = $objetEnseignant-> getMatiere();
+    // $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
+    // $idMatiere = $objetEnseignant -> getIdMatiere();
+    // $matiere = $objetEnseignant-> getMatiere();
+
+    if($_SESSION["statut"] == 'Professeur')
+    {
+        $objetEnseignant = new Enseignant($_SESSION["idUtilisateur"]);
+        $idMatiere = $objetEnseignant -> getIdMatiere();
+        $matiere = $objetEnseignant-> getMatiere();
+    }
+    else
+    {
+        $objetMatiere = new Matieres();
+        $matieres = $objetMatiere -> listeMatiere();
+    }
     
     ?>
     <form method="post" id="formulaireDevoir" action="../traitements/verifDevoir.php">
@@ -126,7 +162,23 @@ function formulaireDevoir($idClasse)
             <label for="Matiere" class="col-sm-2 col-form-label">Matière : </label>
             <div class="col-sm-10">
                 <select class="form-select" name="matiere">
-                    <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                    <?php
+                    if($_SESSION["statut"] == 'Professeur')
+                    {
+                        ?>
+                            <option value="<?=$idMatiere;?>"><?=$matiere;?></option>
+                        <?php
+                    }
+                    else
+                    {
+                        foreach($matieres as $matiere)
+                        {
+                            ?>
+                                <option value="<?=$matiere["idMatiere"];?>"><?=$matiere["matiere"];?></option>
+                            <?php
+                        }
+                    }
+                    ?>
                 </select>
             </div>
         </div>

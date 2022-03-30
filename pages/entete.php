@@ -94,23 +94,25 @@ if(!empty($_SESSION))
                         <!-- Lien Admin -->
 
                         <li class="nav-item">
-                        <a class="nav-link navbar-lien"  href="formulaireInscription.php"  class="navbar-lien">Inscription</a>
+                            <a class="nav-link navbar-lien" href="appel.php" >Fiche d'appel</a>
                         </li>
 
                         <li class="nav-item">
-                        <a class="nav-link navbar-lien"  href="listeEnseignant.php"  class="navbar-lien">liste Enseignants</a>
+                            <a class="nav-link navbar-lien" href="prof.php">Page professeur</a>
                         </li>
 
                         <li class="nav-item">
-                        <a class="nav-link navbar-lien"  href="modifClasse.php"  class="navbar-lien">liste Classe</a>
-                        </li>  
-
-                        <!-- <li class="nav-item">
-                            <a class="btn nav-link" id="lien" href="salles.php"  class="navbar-lien">Salle</a>
-                        </li> -->
-                        <li class="nav-item">
-                            <a class="nav-link navbar-lien" href="appel.php"  class="navbar-lien">Fiche d'appel</a>
+                            <a class="nav-link navbar-lien"  href="modifClasse.php"  class="navbar-lien">Informations de l'élève</a>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link navbar-lien"  href="formulaireInscription.php"  class="navbar-lien">Inscription</a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link navbar-lien"  href="listeEnseignant.php"  class="navbar-lien">liste Enseignants</a>
+                        </li>
+                        
                         <?php
                     }
                     if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant")

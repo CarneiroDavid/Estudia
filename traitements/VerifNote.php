@@ -13,28 +13,27 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
         {
             if(!empty($_POST["NoteMax"]) && $_POST["NoteMax"] <= 20)
             {
-                if(!empty($_POST["Coef"]))
+                $notes = new Notes();
+                if(!empty($_POST["modif"]))
                 {
-                    $notes = new Notes();
-                    if(!empty($_POST["modif"]))
-                    {
-                        $idEleve = $_POST["idEleve"];
-                        if(is_numeric($_POST['note']) && $_POST['note'] <= $_POST['noteMax'] && $_POST['note'] >= 0)
-                        {
-                            
-                            if($notes -> modifierNote($_POST["modif"], $_POST['note'], $_POST["designation"], $_POST["noteMax"], $_POST["commentaire"]) == true)
-                                {
-                                    
-                                    //("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
-                                }else{
-                                    //("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
-                                }
-                        }
-        
-                    }
-                    if(!empty($_POST["envoi"]))
+                    $idEleve = $_POST["idEleve"];
+                    if(is_numeric($_POST['note']) && $_POST['note'] <= $_POST['NoteMax'] && $_POST['note'] >= 0)
                     {
                         
+                        if($notes -> modifierNote($_POST["modif"], $_POST['note'], $_POST["designation"], $_POST["NoteMax"], $_POST["commentaire"]) == true)
+                            {
+                                
+                                //("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
+                            }else{
+                                //("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
+                            }
+                    }
+    
+                }
+                if(!empty($_POST["envoi"]))
+                {
+                    if(!empty($_POST["Coef"]))
+                    {
                         $i = 0;
                         $noteFausse = 0;
                         $objetExamen = new Examen();
@@ -67,34 +66,24 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                             $supprNotes = $notes -> suppressionNoteParExam($idExam["idExamen"]);
                             if($supprExam == true)
                             {
-                                //("location:../pages/prof.php?error=problèmeNote");
+                                //("location:../pages/prof.php?error=problemeNote");
                             }
                         }
                     }
-                }
-                else
-                {
-                    //("location:../pages/prof.php?error=coefVide");
-                    echo "coef vide";
                 }
             }
             else
             {
                 //("location:../pages/prof.php?error=noteMaxSup");
-                echo "erreur note max";
             }
         }else
         {
-            //("location:../pages/prof.php?error=nomExam");
-            echo "erreur designation";
-            
+            //("location:../pages/prof.php?error=nomExam");            
         }
     }
     else
     {
-        //("location:../pages/prof.php?error=ChampVide");
-        echo "champ vide";
-        
+        //("location:../pages/prof.php?error=ChampVide");        
     }
 }
 else

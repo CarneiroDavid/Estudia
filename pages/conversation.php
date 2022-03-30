@@ -5,6 +5,36 @@ require_once "entete.php";
 if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
 {
 
+    if(isset($_GET["error"]))
+    {   
+        ?>
+        <div class="alert alert-danger text-center">
+        <?php
+        
+        switch($_GET["error"])
+        {
+            case "messVide":
+                echo "Vous n'avez pas saisit de message, veuillez saisir un message valide.";
+                break;
+            case "erreurConv" :
+                echo "Une erreur est survenue, veuillez réessayer.";
+                break;
+            case "receveur" :
+                echo "Une erreur lors de l'envoie est survenue, veuillez réessayer.";
+                break;
+            case "convInexistante" :
+                echo "Une erreur lors de l'envoie est survenue lors de la selection de conversation, veuillez réessayer.";
+                break;
+            case "longMess" :
+                echo "Le message saisit est trop long, veuillez en saisir un plus court.";
+                break;
+        }
+       
+        ?>
+        </div>
+        <?php
+    }
+
     /* Affichage des messages */
     ?>
         <div class="div_conversation">
@@ -76,10 +106,10 @@ else
 <script>
     element = document.getElementById('messagerie');
     element.scrollTop = element.scrollHeight;
-    setTimeout(function()
-    {
-        window.location.reload(1);
-    }, 10000);
+    // setTimeout(function()
+    // {
+    //     window.location.reload(1);
+    // }, 10000);
 </script>
 <?php
 require_once "footer.php";

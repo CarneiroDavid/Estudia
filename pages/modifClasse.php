@@ -56,10 +56,6 @@ if($_SESSION["statut"] == "Administration" || $_SESSION["statut"] == "Professeur
                     <?php
                     // echo $eleves[$i] -> getNom();echo"<br>";
                 }
-                foreach($eleves as $eleve)
-                {   
-                   
-                }
                 ?>
             </ul
             ><?php

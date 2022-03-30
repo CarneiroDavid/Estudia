@@ -164,6 +164,7 @@ class User extends Modele
         $_SESSION["dateNaiss"] = $utilisateur["dateNaiss"];
         $_SESSION["idEtude"] = $utilisateur["idEtude"];
         $_SESSION["PremiereConnexion"] = $utilisateur["PremiereConnexion"];
+        $_SESSION["ip"] = $_SERVER["REMOTE_ADDR"];
         
         $this-> idUtilisateur = $utilisateur["idUtilisateur"];
         return true;
@@ -182,12 +183,12 @@ class User extends Modele
            }
            else 
            {
-               return "location:../pages/index.php?error=FalseMdp";
+               return "location:../pages/index.php?error=LoginFaux";
            }
         }
         else
         {
-            return "location:../pages/index.php?error=FalseId";
+            return "location:../pages/index.php?error=LoginFaux";
         }
     }
     public function rechercheNom($nom)

@@ -26,8 +26,23 @@ require_once "entete.php";
                 echo "Le champ du coefficient est vide, veuillez le renseigner.";
                 break;
             case "problèmeNote" :
-                echo "Un problème est survenue sur une des notes, veillez à ce que le champ de la note ne soit pas vide et qu'il ne dépasse la note maximale saisit";
+                echo "Un probleme est survenue sur une des notes, veillez à ce que le champ de la note ne soit pas vide et qu'il ne dépasse la note maximale saisit";
                 break;
+            case "FormVide" :
+                echo "Le formulaire n'a pas été renseigner, veuillez réessayer.";
+                break;
+            case "VarVide" :
+                echo "Le titre du devoir n'a pas été saisit, veuillez en saisir un.";
+                break; 
+            case "TitreLong" :
+                echo "Le titre du devoir saisit est trop long, veuillez saisisr un titre inférieur à 100 caractères.";
+                break;
+            case "InfoLong" :
+                echo "L'information saisit est trop longue, veuillez saisir un texte inférieur à 250 caractères.";
+                break;   
+            case "Devoir" :
+                echo "Une erreur est survenue, veuillez réessayer plus tard";
+                break;             
                 
         }
        
@@ -59,7 +74,7 @@ require_once "entete.php";
 <br>
 
 <?php
-if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"])
+if(!empty($_SESSION["identifiant"]) && $_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration")
 {
 
     ListeClasse();

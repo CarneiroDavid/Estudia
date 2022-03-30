@@ -9,19 +9,22 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
         if(isset($_GET["error"]))
         {
             ?>
-            <div class="alert alert-danger">
+            <div class="alert alert-danger text-center">
             <?php
             
             switch($_GET["error"])
             {
-                case "messVide":
-                    echo "Le message que vous avez essayé d'envoyer etait vide, veuillez saisir un message valide.";
+                case "vide":
+                    echo "Une erreur est survenue, veuillez réessayer.";
                     break;
-                case "id":
-                    echo "Le message n'a pas pu être envoyé, veuillez réessayer ";
+                case "fauxContact":
+                    echo "La personne que vous essayer de joindre n'existe pas.";
                     break;
-                case "messLong" :
-                    echo "Le message saisit est trop long, veuillez saisir un message plus court";
+                case "convCreer":
+                    echo "La conversation avec cet utilisateur existe déjà.";
+                    break;
+                case "conv":
+                    echo "Un problème est survenue lors de la création de la conversation.";
                     break;
             }
 

@@ -2,39 +2,54 @@
 require_once "../modeles/modeles.php";
 print_r($_POST);
 
-if(!empty($_POST["idEnvoyeur"]))
+if(!empty($_SESSION["idUtilisateur"]))
 {
+    $id = $_SESSION["idUtilisateur"];
     if(!empty($_POST["idReceveur"]))
     {
-        $objetConversation = new Conversation();
-        $verifConv = $objetConversation -> verifConv($_POST["idEnvoyeur"], $_POST["idReceveur"]);
-        if($verifConv["idEnvoyeur"] != $_POST["idEnvoyeur"] && $verifConv["idReceveur"] != $_POST["idReceveur"])
+        $objetUser = new User();
+        $idUser = $objetUser -> verif_identifiant($_POST["idReceveur"]);
+        if($idUser === true)
         {
-            $insertConv = $objetConversation -> insertConversation($_POST["idEnvoyeur"],$_POST["idReceveur"]);
-
-            if($insertConv == true)
+            $objetConversation = new Conversation();
+            $verifConv = $objetConversation -> verifConv($_POST["idEnvoyeur"], $_POST["idReceveur"]);
+            if(empty($verifConv))
             {
-                $id = $_SESSION["idUtilisateur"];
-                $idReceveur = $_POST["idReceveur"];
-                header("location:../pages/messagerie.php?idUtilisateur=$id");    
+                $insertConv = $objetConversation -> insertConversation($_POST["idEnvoyeur"],$_POST["idReceveur"]);
+    
+                if($insertConv == true)
+                {
+                    $objetConversation = new Conversation();
+                    $verifConv = $objetConversation -> verifConv($_POST["idEnvoyeur"], $_POST["idReceveur"]);
+                    
+                    $idConv = $verifConv["idConversation"];
+                    $idReceveur = $_POST["idReceveur"];
+                    
+                    header("location:../pages/conversation.php?idReceveur=$idReceveur&idConversation=$idConv");    
+                }
+                else
+                {
+                    header("location:../pages/messagerie.php?idUtilisateur=$id&error=conv");    
+                }
             }
             else
             {
-                header("location:../pages/conversation.php");    
+                header("location:../pages/messagerie.php?idUtilisateur=$id&error=convCreer");    
             }
         }
         else
         {
-            $idReceveur = $_POST["idReceveur"];
-            header("location:../pages/conversation.php?idReceveur=$idReceveur");    
+            header("location:../pages/messagerie.php?idUtilisateur=$id&error=fauxContact");    
         }
+        
     }
     else
     {
-        header("location:../pages/conversation.php?error=vide");    
+
+        header("location:../pages/messagerie.php?idUtilisateur=$id&error=vide");    
     }
 }
 else
 {
-    header("location:../pages/conversation.php?error=vide");    
+    header("location:../pages/messagerie.php?idUtilisateur=$id&error=vide"); 
 }

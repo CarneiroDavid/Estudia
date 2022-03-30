@@ -6,7 +6,66 @@ if(!empty($_GET))
     {
         if($_SESSION["idUtilisateur"] == $_GET["id"] || $_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration")
         {
-        
+            
+            if(isset($_GET["erreur"]))
+            {   
+                ?>
+                <div class="alert alert-danger text-center">
+                <?php
+                
+                switch($_GET["erreur"])
+                {
+                    case "modfiNote":
+                        echo "La modification n'a pas été prise en comptre, veuillez réessayer.";
+                        break;
+                    case "ajoutPunition":
+                        echo "Une erreur est survenue lors de l'ajout du rapport";
+                        break;
+                    case "Formvide":
+                        echo "Aucun champ n'a été saisit, veuillez saisir des informations dans le formulaire";
+                        break; 
+                    case "statut":
+                        echo "Une erreur est survenue.";
+                        break;
+                    case "leMotif":
+                        echo "Le motif saisit doit faire entre 0 et 250 caractères.";
+                        break;
+                    case "leRapport":
+                        echo "Le rapport saisit doit faire netre 0 et 600 caractères";
+                        break;
+                    case "modifPunition";
+                        echo "La modification n'a pas pu être prise en compte.";
+                        break;
+                }
+            
+                ?>
+                </div>
+                <?php
+            }
+            if(isset($_GET["success"]))
+            {   
+                ?>
+                <div class="alert alert-success text-center">
+                <?php
+                
+                switch($_GET["success"])
+                {
+                    case "modifPunition":
+                        echo "La modification du rapport à bien été prise en compte.";
+                        break;
+                    case "ajoutPunition":
+                        echo "Le rapport à bien été ajouté.";
+                        break;
+                    case "modifNote":
+                        echo "La modification de la note à bien été prise en compte.";
+                        break;
+                }
+            
+                ?>
+                </div>
+                <?php
+            }
+
             ////////////////////////// REQUETE SQL ////////////////////////////////////////
 
             $objet_eleve = new Eleves();
@@ -27,6 +86,10 @@ if(!empty($_GET))
             $listenote = [];
             $i = 0;
             
+            echo "<pre>";
+            // print_r($notes);
+            echo '</pre>';
+
             ////////////////////// Organisation des Notes et affichage //////////////////////
             
             foreach($notes as $note)
@@ -37,14 +100,17 @@ if(!empty($_GET))
                 $listenote[$note["matiere"]][$i]["idNote"] = $note["idNote"];
                 $listenote[$note["matiere"]][$i]["noteMax"] = $note["NoteMax"];
                 $listenote[$note["matiere"]][$i]["commentaire"] = $note["commentaire"];
+                $listenote[$note["matiere"]][$i]["nom"] = $note["nom"];
+                $listenote[$note["matiere"]][$i]["prenom"] = $note["prenom"];
+                $listenote[$note["matiere"]][$i]["dateNote"] = $note["dateNote"];
+
                 $i++;
             }
             ?>
             <!-- Affichage note -->
             <div class="row"> 
                 <div class="col md-4">
-                    
-                            
+                      
                     <h4 class="card-title"><?=$eleve["nom"]. " ".$eleve["prenom"];?></h4>
 
                     <h6 class="card-subtitle mb-2 text-muted">
@@ -68,15 +134,18 @@ if(!empty($_GET))
 
                                                 foreach($note as $Note)
                                                 {   
-                                                    $idNote = $Note["idNote"];      
-                                                    
+                                                    $date = explode("-",$Note["dateNote"]);
+                                                    $idNote = $Note["idNote"]; 
+                                                    // print_r($Note);
+     
                                                     ?>
                                                     
                                                     <li class="list">
+                                                        <p><b>Nom de l'enseignant </b>: <?=$Note["nom"] . " " . $Note["prenom"];?></p> 
                                                         <b><span id="designation<?=$idNote?>"><?=$Note["designation"];?></span></b>
                                                         : <span id="note<?=$idNote?>"><?=$Note["notes"];?></span>/<span id="noteMax<?=$Note["idNote"]?>"><?=$Note["noteMax"]?></span>
                                                         <button onclick='modifierNote(this.value)' value='<?=$idNote?>' id="id<?=$idNote?>" class="btn btn-warning btn-sm mb-2 infoUtilisateur-bouton-modifier-note" data-toggle="modal" data-target="#FormNote">Modifier</button>
-                                                        <br>
+                                                        <p><b>Date </b>: <?=$date[2] . "-" . $date[1] . "-" . $date[0];?></p> 
 
                                                         <?= !empty($Note["commentaire"]) ? "<b>Appréciation :</b><br><span id='commentaire".$idNote."'>".$Note["commentaire"] : "<span id='commentaire".$idNote."'></span>" ;?></span>
                                                         
@@ -200,7 +269,8 @@ if(!empty($_GET))
                 </div>
             </div>
             </div>
-                        <!-- --FORMULAIRE DE PUNITION-- -->        
+
+            <!-- --FORMULAIRE DE PUNITION-- -->        
             <!-- Modal -->
             <div class="modal fade" id="FormPunition" tabindex="-1" role="dialog" aria-labelledby="FormPunitionCenterTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -242,11 +312,6 @@ if(!empty($_GET))
             </div>
             </div>          
 
-
-                
-
-
-
             <!-- -- FORMULAIRE MODIFICATION DE NOTE  -- -->
             <!-- Modal -->
             <div class="modal fade" id="FormNote" tabindex="-1" role="dialog" aria-labelledby="FormNoteCenterTitle" aria-hidden="true">
@@ -259,36 +324,33 @@ if(!empty($_GET))
                     </button>
                 </div>
                 <div class="modal-body">
-                        <form method="post"  name="modifNote" action="../traitements/verifNote.php">
+                    <form method="post"  name="modifNote" action="../traitements/verifNote.php">
+                        <div class="form-group">
+                            
+                            <h5>Modification de la note</h5>
+
                             <div class="form-group">
-                                
-                                <h5>Modification de la note</h5>
-
-                                <div class="form-group">
-                                    <label for="designation">Nom</label>
-                                    <input  class="form-control" name="designation" id="designation"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="NoteMax">NoteMax</label>
-                                    <input type="number" class="form-control" name="NoteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="note">Note</label>
-                                    <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="commentaire">Commentaires</label>
-                                    <input  class="form-control" name="commentaire" id="commentaire"/>
-                                </div>
-                                <div class="form-group">
-                                    <label for="Coef">Coef</label>
-                                    <input type="number" class="form-control" name="Coef" id="Coef"/>
-                                </div>
-                                    <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
-                                <button type="submit" value="" name="modif" id="modif" class="btn btn-success">Valider</button>
+                                <label for="designation">Nom</label>
+                                <input  class="form-control" name="designation" id="designation"/>
                             </div>
-                        </form>
+                            <div class="form-group">
+                                <label for="NoteMax">NoteMax</label>
+                                <input type="number" class="form-control" name="NoteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="note">Note</label>
+                                <input type="number" min=0 max=20 class="form-control" name="note" id="note"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="commentaire">Commentaires</label>
+                                <input  class="form-control" name="commentaire" id="commentaire"/>
+                            </div>
+                            
+                                <input type="hidden" name="idEleve" value="<?=$_GET['id']?>">
+                            <button type="submit" value="" name="modif" id="modif" class="btn btn-success">Valider</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
