@@ -85,10 +85,6 @@ if(!empty($_GET))
             
             $listenote = [];
             $i = 0;
-            
-            echo "<pre>";
-            // print_r($notes);
-            echo '</pre>';
 
             ////////////////////// Organisation des Notes et affichage //////////////////////
             
@@ -207,7 +203,13 @@ if(!empty($_GET))
                                 if($_SESSION["idUtilisateur"] == $punition["idUtilisateur"] || $_SESSION["statut"] == "Administration")
                                 {
                                 ?>
+                                    <form action="../traitements/supprimerRapport.php?id=<?=$_GET["id"];?>" method="POST">
+                                        <input type="hidden" name="id" value="<?=$punition['idPunition'];?>"> 
+                                        <button class="btn btn-danger btn-sm" value="1" name="Supprimer" style="float:right;">Supprimer</button>
+                                    </form>
+                                    
                                     <button onclick=modifierPunition(this.id) class='btn btn-warning btn-sm mb-2 infoUtilisateur-bouton-modifier-rapport' id="<?=$punition["idPunition"]?>" data-toggle="modal" data-target="#FormPunition">Modifier</button>
+                                    
 
                                 <?php
                                 }

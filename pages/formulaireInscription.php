@@ -2,7 +2,9 @@
     require_once "entete.php";
 if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
 {
-    // $statuts = ListeStatut();  
+    $objetStatut = new Statut();
+    $statuts = $objetStatut -> ListeStatut();
+
     if(!empty($_GET["error"]))
     {
         ?>

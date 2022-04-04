@@ -1,7 +1,6 @@
 <?php 
 require_once "entete.php";
-// $objetUser = new User();
-// $ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
+
     if(isset($_GET["error"]))
     {   
         ?>

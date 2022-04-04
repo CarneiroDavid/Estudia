@@ -107,15 +107,17 @@ function formulaireNote($idClasse)
     
         <div class="div_notes">
             <?php
+            $i = 0;
             foreach($eleves as $eleve)
             {   
                 ?>
                     <div class="card col-12 col-md-6 text-center">
                         <div class="mb-3 row">
                             <label for="Note" class="col-sm-12 col-form-label">Note de <?=$eleve["nom"]. " ". $eleve["prenom"];?> : </label>     
-                            <div class="col-sm-6 offset-md-3">
-                                <input type="number" min="0" class="form-control" name="note[<?=$eleve["idUtilisateur"];?>]" id="Note">
+                            <div class="col-sm-6 offset-md-3" >
+                                <input type="number" min="0" class="form-control " id="noteDeEleve<?=$i?>" name="note[<?=$eleve["idUtilisateur"];?>]" id="Note">
                             </div>
+                            <div class="verifNote" style="display:none;">Cette note doit être inférieur à 20</div>
                         </div>
 
                         <div class="form-group">
@@ -125,6 +127,7 @@ function formulaireNote($idClasse)
                     </br>
                     </div>
                 <?php
+                $i ++;
             }
             ?>
         </div>

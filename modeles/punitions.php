@@ -20,7 +20,7 @@ Class Punition extends Modele {
             $this-> idEleve = $punition["idEleve"];
             $this-> idUtilisateur = $punition["idUtilisateur"];
             $this-> motif = $punition["motif"];
-            $this-> date = $punition["date"];
+            $this-> date = $punition["ladate"];
             $this-> punition = $punition["punition"];
            
         }
@@ -62,9 +62,42 @@ Class Punition extends Modele {
             }
         }
 
-    public function suppressionPunition()
+    public function suppressionPunition($id)
     {
+        try
+        {
+            $requete = $this -> getBdd() -> prepare("DELETE FROM punition WHERE idPunition = ?");
+            $requete -> execute([$id]);
+            return true;        
+        }
+        catch(Exception $e)
+        {
+            return false;
+        }
+    }
+    public function verificationRapport($idEleve, $idUtilisateur, $idPunition)
+    {
+        if($_SESSION["statut"] == "Administration")
+        {
+            $requete = $this -> getBdd() -> prepare("SELECT idEleve, idPunition FROM punition WHERE idEleve = ?AND idPunition = ?");
+            $requete -> execute([$idEleve, $idPunition]);
+            $id = $requete -> fetch(PDO::FETCH_ASSOC);
 
+            return $id;
+           
+        }
+        else if($_SESSION["statut"] == "Professeur")
+        {
+            $requete = $this -> getBdd() -> prepare("SELECT idEleve, idUtilisateur, idPunition FROM punition WHERE idEleve = ? AND idUtilisateur = ? AND idPunition = ?");
+            $requete -> execute([$idEleve, $idUtilisateur, $idPunition]);
+            $id = $requete -> fetch(PDO::FETCH_ASSOC);
+
+            return $id;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

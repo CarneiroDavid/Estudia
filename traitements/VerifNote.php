@@ -23,9 +23,9 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                         if($notes -> modifierNote($_POST["modif"], $_POST['note'], $_POST["designation"], $_POST["NoteMax"], $_POST["commentaire"]) == true)
                             {
                                 
-                                //("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
+                                header("location:../pages/infoUtilisateur.php?id=$idEleve&success=modifNote");
                             }else{
-                                //("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
+                                header("location:../pages/infoUtilisateur.php?id=$idEleve&erreur=modifNote");
                             }
                     }
     
@@ -60,13 +60,13 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
 
                         if($i == count($_POST["note"]))
                         { 
-                            //("location:../pages/prof.php?success=Note");
+                            header("location:../pages/prof.php?success=Note");
                         }else{
                             $supprExam = $objetExamen -> supprimerExamen($idExam["idExamen"]);
                             $supprNotes = $notes -> suppressionNoteParExam($idExam["idExamen"]);
                             if($supprExam == true)
                             {
-                                //("location:../pages/prof.php?error=problemeNote");
+                                header("location:../pages/prof.php?error=problemeNote");
                             }
                         }
                     }
@@ -74,19 +74,19 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
             }
             else
             {
-                //("location:../pages/prof.php?error=noteMaxSup");
+                header("location:../pages/prof.php?error=noteMaxSup");
             }
         }else
         {
-            //("location:../pages/prof.php?error=nomExam");            
+            header("location:../pages/prof.php?error=nomExam");            
         }
     }
     else
     {
-        //("location:../pages/prof.php?error=ChampVide");        
+        header("location:../pages/prof.php?error=ChampVide");        
     }
 }
 else
 {
-    //("location:../pages/prof.php?error=NoteNonEnvoyee");
+    header("location:../pages/prof.php?error=NoteNonEnvoyee");
 }

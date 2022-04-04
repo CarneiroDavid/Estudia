@@ -28,7 +28,7 @@ class Enseignant extends Modele
             $this -> idMatiere = $info["idMatiere"];
             $this -> matiere = $info["matiere"];
 
-            $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idUtilisateur = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs WHERE idProf = ?");
             $requete -> execute([$idUtilisateur]);
             $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
             foreach($devoirs as $devoir)
@@ -36,7 +36,7 @@ class Enseignant extends Modele
                 $this -> devoirs[] = new Devoir($devoir["idDevoir"]);
             }
 
-            $requete = $this -> getBdd() -> prepare("SELECT * FROM examen WHERE idUtuilisateur = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM examen WHERE idProf = ?");
             $requete -> execute([$idUtilisateur]);
             $examens = $requete -> fetchAll(PDO::FETCH_ASSOC);
             foreach($examens as $examen)

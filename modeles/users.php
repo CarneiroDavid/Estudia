@@ -83,9 +83,9 @@ class User extends Modele
         $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE idUtilisateur = ?");
         $requete -> execute([$id]);
         if($requete->rowCount()  > 0){
-            return true;
+            return false;
         }
-        return false;
+        return true;
     }
     public function insertionUser($email, $nom, $prenom, $dateNaiss, $statut)
     {      

@@ -35,39 +35,39 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
                             if(isset($_POST["cookie-connection"]))
                             {
                                 if($utilisateur->generate_token_connection($utilisateur->getIdUser())){
-                                    //("location:../pages/index.php?succes=Connexion");
+                                    header("location:../pages/index.php?succes=Connexion");
                                 }else{
                                     
                                 }
                             }else{
-                                //("location:../pages/index.php?succes=Connexion");
+                                header("location:../pages/index.php?succes=Connexion");
                             }
                         }  
-                        //("location:../pages/premiereConnexion.php");                      
+                        header("location:../pages/premiereConnexion.php");                      
                     }
                     else
                     {
-                        //("location:../pages/index.php?error=Connexion");
+                        header("location:../pages/index.php?error=Connexion");
                     }
                 }
                 else
                 {
-                    //("$verifConnexion");
+                    header("$verifConnexion");
                 }
             }
             else
             {
-                //("location:../pages/index.php?error=LoginFaux");
+                header("location:../pages/index.php?error=LoginFaux");
             } 
         }
         else
         {
-            //("location:../pages/index.php?error=FormConnec");
+            header("location:../pages/index.php?error=FormConnec");
         }
     }
     else
     {
-        //("location:../pages/index.php?error=FormConnec");
+        header("location:../pages/index.php?error=FormConnec");
     }
 }else{
 
@@ -76,11 +76,11 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
         
         if($utilisateur->connection_by_token($_COOKIE["cookie-token"]))
         {
-            //("location:../pages/index.php?succes=AutoConnexion");
+            header("location:../pages/index.php?succes=AutoConnexion");
             
             
         }else{
-            //("location:../pages/index.php?error=AutoConnexion");
+            header("location:../pages/index.php?error=AutoConnexion");
         }
     }
 
