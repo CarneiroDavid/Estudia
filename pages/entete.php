@@ -14,7 +14,7 @@ require_once "../affichages/affichageEleve.php";
         }?>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Ecole</title>
+        <title>Estudia</title>
         <link rel="stylesheet" href="../fichier/style.css">
         <link rel="shortcut icon" href="logo.png" type="image/x-icon">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -77,14 +77,13 @@ if(!empty($_SESSION))
                             <a class="nav-link navbar-lien"  href="noteProf.php"  class="navbar-lien">Note des eleves</a>
                         </li> 
 
-                        <!-- <li class="nav-item">
-                            <a class="btn nav-link" id="lien" href="devoirClasse.php"  class="navbar-lien">Devoir des classes</a>
-                        </li> -->
-
                         <li class="nav-item">
                             <a class="nav-link navbar-lien" href="modifClasse.php"  class="navbar-lien">Information des élèves</a>
-                        </li>  
-
+                        </li> 
+                         
+                        <li class="nav-item">
+                            <a class="nav-link navbar-lien" href="infoUtilisateur.php?idEnseignant=<?=$_SESSION["idUtilisateur"];?>"  class="navbar-lien">Profil</a>
+                        </li>
 
                         <?php
                     }

@@ -80,9 +80,9 @@ class User extends Modele
 
     public function verif_identifiant($id)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM utilisateur WHERE idUtilisateur = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur FROM utilisateur WHERE idUtilisateur = ?");
         $requete -> execute([$id]);
-        if($requete->rowCount()  > 0){
+        if($requete->rowCount()  == 0){
             return false;
         }
         return true;

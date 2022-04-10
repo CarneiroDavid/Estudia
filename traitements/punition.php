@@ -4,7 +4,6 @@ require_once "../modeles/modeles.php";
 if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration" || !empty($_SESSION["statut"]) && $_SESSION["statut"] == "Professeur")
 {
     $punition = new Punition();
-    ?><pre><?= print_r($_POST)?><?= print_r($_SESSION) ?></pre><?php
     if(!empty($_POST["idEleve"]))
     {
         $id = $_POST["idEleve"];

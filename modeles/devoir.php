@@ -51,15 +51,15 @@ class Devoir extends Modele
             return false;
         }
     }
-    public function modificationDevoir($idDevoir, $idEtude, $matiere, $titre, $info, $date)
+    public function modificationDevoir($idDevoir, $idEtude, $titre, $info)
     {
         try
         {
-            $requete = $this->getBdd()->prepare("UPDATE devoirs SET idEtude = ? , idMatiere = ? , Titre = ?, Info = ? , laDate = ? WHERE idDevoir = ?");
-            $requete -> execute([$idEtude, $matiere, $titre, $info, $date, $idDevoir ]);
+            $requete = $this->getBdd()->prepare("UPDATE devoirs SET idEtude = ?, Titre = ?, Info = ? WHERE idDevoir = ?");
+            $requete -> execute([$idEtude, $titre, $info, $idDevoir ]);
             return true;
         }catch(Exception $e){
-            return $e -> getMessage(); 
+            echo  $e -> getMessage(); 
         }
     }
 
@@ -69,6 +69,29 @@ class Devoir extends Modele
         $requete -> execute([$idProf, $idEtude]);
         $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $devoirs;   
+    }
+
+    public function allDevoirDuProf($idProf)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM devoirs INNER JOIN enseignants ON idProf = idUtilisateur INNER JOIN etudes USING(idEtude) WHERE idProf = ?");
+        $requete -> execute([$idProf]);
+        $devoirs = $requete -> fetchAll(PDO::FETCH_ASSOC);
+        return $devoirs;
+    }
+
+    public function verifDevoir($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT idDevoir FROM devoirs WHERE idDevoir = ?");
+        $requete -> execute([$id]);
+        
+        if($requete -> rowCount() === 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 

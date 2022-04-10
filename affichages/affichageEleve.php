@@ -5,7 +5,7 @@ require_once "../modeles/modeles.php";
 function getBdd()
 {
     // return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    return new PDO('mysql:host=localhost;dbname=estudia3;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+    return new PDO('mysql:host=localhost;dbname=estudia2;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
 }
 function affichageDevoir($idEtude, $date)
@@ -221,6 +221,8 @@ function affichageNote($idUtilisateur)
     {
         $listenote[$note["matiere"]][$i]["notes"] = $note["Note"];
         $listenote[$note["matiere"]][$i]["designation"] = $note["designation"];
+        $listenote[$note["matiere"]][$i]["noteMax"] = $note["NoteMax"];
+
         $i++;
     }
     ?>
@@ -245,7 +247,7 @@ function affichageNote($idUtilisateur)
                                 foreach($note as $Note)
                                 {                      
                                     ?>
-                                    <li class="list-group-item" ><?=$Note["designation"]." : ".$Note["notes"];?></li>
+                                    <li class="list-group-item" ><?=$Note["designation"]." : ".$Note["notes"] . "/" . $Note["noteMax"];?></li>
                                     <?php
                                 }
                             }
@@ -282,7 +284,6 @@ function affichageAbsence()
 
     $objetAbsence = new Absence();
     $absenses = $objetAbsence -> absenceEleve($_SESSION["idUtilisateur"]);
-    // print_r($absenses);
     ?>
     
     <div class="absenceEleve">

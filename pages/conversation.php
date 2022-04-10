@@ -22,9 +22,6 @@ if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
             case "receveur" :
                 echo "Une erreur lors de l'envoie est survenue, veuillez réessayer.";
                 break;
-            case "convInexistante" :
-                echo "Une erreur lors de l'envoie est survenue lors de la selection de conversation, veuillez réessayer.";
-                break;
             case "longMess" :
                 echo "Le message saisit est trop long, veuillez en saisir un plus court.";
                 break;
@@ -45,7 +42,7 @@ if(!empty($_GET["idReceveur"]) && !empty($_GET["idConversation"]))
                             <?php
 
                                 $objetConversation = new Message();
-                                $messages = $objetConversation -> recupMessage($_SESSION["idUtilisateur"], $_GET["idReceveur"]);
+                                $messages = $objetConversation -> recupMessage($_SESSION["idUtilisateur"], $_GET["idReceveur"], $_GET["idConversation"]);
                                               
                                 foreach($messages as $message)
                                 {

@@ -86,6 +86,20 @@ class Enseignant extends Modele
             return $e;
         }
     }
+    public function verifProf($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT idUtilisateur FROM enseignants WHERE idUtilisateur = ?");
+        $requete -> execute([$id]);
+        
+        if($requete -> rowCount() === 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
     /* SET */
     public function setIdUEnseignant($idEnseignant)
     {

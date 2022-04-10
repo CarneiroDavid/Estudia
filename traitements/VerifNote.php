@@ -1,9 +1,7 @@
 <?php
 
 require_once "../modeles/modeles.php";
-?><pre><?php
-print_r($_POST);
-?></pre><?php
+
 if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
 {
     
@@ -42,7 +40,7 @@ if(!empty($_POST["envoi"]) && $_POST["envoi"] == 1 || !empty($_POST['modif']))
                         {
                             if(!empty($note))
                             {
-                                if(is_numeric($note) && $note <= $_POST["NoteMax"] && $note >= 0)
+                                if((is_numeric($note) && $note <= $_POST["NoteMax"] && $note >= 0) || $note === "NULL")
                                 {
                                     
                                     if($insertExam == true)

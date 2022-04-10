@@ -44,14 +44,11 @@ if($_SESSION["statut"] == "Professeur" )
 
                 $objetClasse = new Classes($_POST["classe"]);
                 $Examens = $objetClasse -> getExamen();
-                echo "<pre>";
-                // print_r($Examens);
-                echo'</pre>';
-                // echo count($Examens);
 
                 ?>
                 <h4 id="titre">Selectionner un Examen</h4>
                 <label>Choisissez une classe</label>
+                <form method="post" action="noteProf.php">
                 <select class="form-select" name="classe" aria-label="Default select example">
                 <?php
                     for($i = 0; $i < count($Examens); $i++)
@@ -65,6 +62,7 @@ if($_SESSION["statut"] == "Professeur" )
                     }
                 ?>
                 </select>
+                <button type="submit" class="btn" >Valider</button>
                 </form>
                 <?php           
             }
@@ -73,7 +71,7 @@ if($_SESSION["statut"] == "Professeur" )
         {
             $objetNote = new Notes();
             $notes = $objetNote -> NoteClasse($_SESSION["idUtilisateur"], $_POST["idExamen"]);
-            
+        print_r($notes);
             ?>
             <h4 id="titre">Note de la classe</h4>
             <table class="table">

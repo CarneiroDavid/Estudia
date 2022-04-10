@@ -1,5 +1,4 @@
 <?php
-// print_r($_SESSION);
     require_once "entete.php";
     if(isset($_GET["Jour"]))
     {

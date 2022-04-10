@@ -302,7 +302,7 @@ height: 80vh;
     border: solid 1px lightgray;
     margin-top:50px;
 }
-.div_messagerie
+.div_messagerie, .div_infoProf
 {
     display: flex!important;
     flex-wrap: wrap;
@@ -500,7 +500,7 @@ height: 80vh;
 {
     border-color :rgb(109, 19, 121) !important;
 }
-.listeEnseignant-bouton-info
+.listeEnseignant-bouton-info, .noteDeEleve
 {
     float:right;
 }

@@ -23,7 +23,7 @@ class Examen extends Modele
             $this -> matiere = $examen["matiere"];
             $this -> idEtude = $examen["idEtude"];
 
-            $requete = $this -> getBdd() -> prepare("SELECT * FROM notes WHERE idExamen = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM notes INNER JOIN eleve ON eleve.idUtilisateur = notes.idUtilisateur WHERE idExamen = ?");
             $requete -> execute([$idExamen]);
             $Notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
             foreach($Notes as $note)
@@ -69,7 +69,7 @@ class Examen extends Modele
 
     public function examProf($idProf)
     {
-        $requete = $this -> getBdd() ->prepare("SELECT * FROM examen WHERE idProf = ?");
+        $requete = $this -> getBdd() ->prepare("SELECT *, examen.nom, etudes.nom AS nomClasse FROM examen INNER JOIN matieres ON examen.matiere = idMatiere INNER JOIN enseignants ON enseignants.idUtilisateur = examen.idProf INNER JOIN etudes USING(idEtude) WHERE examen.idProf = ?");
         $requete -> execute([$idProf]);
         $exam = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $exam;
@@ -81,5 +81,9 @@ class Examen extends Modele
     public function getNom()
     {
         return $this -> nom;
+    }
+    public function getNote()
+    {
+        return $this -> note;
     }
 }

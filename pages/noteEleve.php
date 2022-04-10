@@ -1,6 +1,5 @@
 <?php
 require_once "entete.php";
-print_r($_POST);
 if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] == "Enseignant" || $_SESSION["statut"] == "Administration")
 {    
     //Déclaration objet
@@ -9,7 +8,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
 
     $objetNote = new Notes();
     $notes = $objetNote -> noteEleve( (($_SESSION["statut"] == "Etudiant") ? $_SESSION["idUtilisateur"] : $_GET["id"]) );
-    
+    print_r($notes);
     // Tableau organisation des notes
     $listenote = [];
 
@@ -59,86 +58,103 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                     {
                         $additionCoef = 0;
                         $calculNote = 0;  
-                        
+                        $test = 0;
                         ?>
                         <li class="list-group-item">
                             <h5><?=$matiere["matiere"];?></h5>
                             
                             <ul class="list-group list-group-flush">
                                 <?php
-                                foreach($listenote as $x => $note)
+                                if(!empty($listenote))
                                 {
-                                    if($x == $matiere["matiere"])
+                                    foreach($listenote as $x => $note)
                                     {
-                                        foreach($note as $Note)
-                                        {   
-                                            //  AFFICHAGE DE TOUTES LES NOTES
-                                            if(empty($_POST["trimestre"])) 
-                                            {
-                                                // echo $Note["NoteMax"];
-                                                ?>
-                                                <button name="Note" type="submit" class="bouton-notes" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
-                                            </br>
-                                                <?php
-                                                if(!empty($Note))
-                                                {
-                                                    $additionCoef += $Note["Coef"] ;
-                                                    $calculNote += $Note["notes"] * $Note["Coef"]; 
-                                                    $MoyenneMatiere = round($calculNote / $additionCoef, 2);
-                                                }  
-                                            }
-                                            // AFFICHAGE DES NOTE EN FONCTION DU TRIMESTRE
-                                            if(!empty($_POST["trimestre"]))
-                                            {
-                                                if($_POST["trimestre"] == 1 && $Note["moisNote"] >= "7" && $Note["moisNote"] <= "12" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
-                                                {
-                                                    ?>
-                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
-                                                    <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
-                                                    <?php
-
-                                                    if(!empty($Note))
-                                                    {
-                                                        $additionCoef += $Note["Coef"] ;
-                                                        $calculNote += $Note["notes"] * $Note["Coef"]; 
-                                                        $MoyenneMatiere = round($calculNote / $additionCoef, 2);
-
-                                                    }   
-                                                }
-                                                if($_POST["trimestre"] == 2 && $Note["moisNote"] >= "1" && $Note["moisNote"] <= "3" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
-                                                {
-                                                    
-                                                    ?>
-                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
-                                                    <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
-                                                    <?php
-                                                    
-                                                    if(!empty($Note))
-                                                    {
-                                                        $additionCoef += $Note["Coef"] ;
-                                                        $calculNote += $Note["notes"] * $Note["Coef"]; 
-                                                        $MoyenneMatiere = round($calculNote / $additionCoef, 2);
-                                                    } 
-                                                }  
-                                                if($_POST["trimestre"] == 3 && $Note["moisNote"] > "3" && $Note["moisNote"] <= "6" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
-                                                {
-                                                    ?>
-                                                    <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
-                                                    <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
-                                                    <?php                                                    
-                                                    if(!empty($Note))
-                                                    {
-                                                        $additionCoef += $Note["Coef"] ;
-                                                        $calculNote += $Note["notes"] * $Note["Coef"]; 
-                                                        $MoyenneMatiere = round($calculNote / $additionCoef, 2);
-                                                    } 
-                                                }
-                                                
-                                            }    
-                                                                                                                          
-                                        } 
-                                        if(!empty($Note))
+                                        if($x == $matiere["matiere"])
                                         {
+                                            foreach($note as $Note)
+                                            {   
+                                                //  AFFICHAGE DE TOUTES LES NOTES
+                                                if(empty($_POST["trimestre"])) 
+                                                {
+                                                    // echo $Note["NoteMax"];
+                                                    ?>
+                                                    <button name="Note" type="submit" class="bouton-notes" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                    </br>
+                                                    <?php
+                                                    if(!empty($Note))
+                                                    {
+                                                        $additionCoef += $Note["Coef"] ;
+                                                        $calculNote += $Note["notes"] * $Note["Coef"]; 
+                                                        $MoyenneMatiere = round($calculNote / $additionCoef, 2);
+                                                    }  
+                                                    $test ++;
+                                                }
+                                                // AFFICHAGE DES NOTE EN FONCTION DU TRIMESTRE
+                                                if(!empty($_POST["trimestre"]))
+                                                {
+                                                    if($_POST["trimestre"] == 1 && $Note["moisNote"] >= "7" && $Note["moisNote"] <= "12" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
+                                                    {
+                                                        ?>
+                                                        <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                        <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
+                                                        <?php
+
+                                                        if(!empty($Note))
+                                                        {
+                                                            $additionCoef += $Note["Coef"] ;
+                                                            $calculNote += $Note["notes"] * $Note["Coef"]; 
+                                                            $MoyenneMatiere = round($calculNote / $additionCoef, 2);
+
+                                                        }   
+                                                        $test ++;
+
+                                                    }
+                                                    
+                                                    if($_POST["trimestre"] == 2 && $Note["moisNote"] >= "1" && $Note["moisNote"] <= "3" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
+                                                    {
+                                                        
+                                                        ?>
+                                                        <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                        <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
+                                                        <?php
+                                                        
+                                                        if(!empty($Note))
+                                                        {
+                                                            $additionCoef += $Note["Coef"] ;
+                                                            $calculNote += $Note["notes"] * $Note["Coef"]; 
+                                                            $MoyenneMatiere = round($calculNote / $additionCoef, 2);
+                                                        } 
+                                                        $test ++;
+
+                                                    }  
+                                                    if($_POST["trimestre"] == 3 && $Note["moisNote"] > "3" && $Note["moisNote"] <= "6" && $Note["jourNote"] >= "1" && $Note["jourNote"] <= "31") 
+                                                    {
+                                                        ?>
+                                                        <button  name="Note" class="bouton-notes" type="submit" value="<?=(!empty($_POST["Note"]) && $Note["idNote"] == $_POST["Note"]) ? "" : $Note["idNote"] ;?>" class="btn"><li class="list-group-item"><?=$Note["designation"]." : ".$Note["notes"] . '/' . $Note["NoteMax"];?></li></button>
+                                                        <li class="list-group-item"><input name="trimestre" type="hidden" value="<?=$_POST["trimestre"];?>"></li>
+                                                        <?php                                                    
+                                                        if(!empty($Note))
+                                                        {
+                                                            $additionCoef += $Note["Coef"] ;
+                                                            $calculNote += $Note["notes"] * $Note["Coef"]; 
+                                                            $MoyenneMatiere = round($calculNote / $additionCoef, 2);
+                                                        } 
+                                                        $test ++;
+
+                                                    }
+                                                    
+                                                }    
+                                                                                                                            
+                                            } 
+                                            
+                                            $Moyenne = $MoyenneMatiere * $matiere["CoefMatiere"];
+                                            $additionCoefMoy += $matiere["CoefMatiere"];
+                                            $additionMoy += $Moyenne;
+                                            $MoyenneGe = round($additionMoy / $additionCoefMoy, 2);
+                                        }
+                                        if($test > 0)
+                                        {
+                                            echo $test;
                                             echo "<p>Moyenne de la matiere : " . $MoyenneMatiere . '/' . $Note["NoteMax"] . "</p>";
                                             ?>
                                                 <li class="list-group-item"><p>Coefficient de la matière : <?=$Note["CoefMatiere"];?></p></li>   
@@ -146,18 +162,19 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                         }
                                         else
                                         {
-                                            echo "Vous n'avez reçu aucune notes";
+                                            echo "Aucune notes n'a été saisit";
                                         }
-                                        $Moyenne = $MoyenneMatiere * $matiere["CoefMatiere"];
-                                        $additionCoefMoy += $matiere["CoefMatiere"];
-                                        $additionMoy += $Moyenne;
-                                        $MoyenneGe = round($additionMoy / $additionCoefMoy, 2);
                                     }
+                                }
+                                else
+                                {
+                                    echo "Aucune notes n'a été saisit";
                                 }
                                 ?>
                             </ul>
                         </li>
                         <?php 
+                        
                     }
                     ?> 
                 </form>
@@ -171,7 +188,7 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                     else
                     {
                         ?>
-                        <li class="list-group-item"><h5>Moyenne générale </h5> <p>Vous n'avez aucune notes d'enregistrer</p></li>   
+                        <li class="list-group-item"><h5>Moyenne générale </h5> <p>Vous n'avez aucune notes d'enregistré</p></li>   
                         <?php
                     }
                 ?>

@@ -1,7 +1,6 @@
 <?php
 require_once "../modeles/modeles.php";
 $idUtilisateur = $_SESSION["idUtilisateur"];
-print_r($_POST);
 if(!empty($_POST["message"]))
 {
     if(!empty($_POST["idConversation"]))
@@ -30,7 +29,8 @@ if(!empty($_POST["message"]))
             }
             else
             {
-                header("location:../pages/conversation.php?idReceveur=$idReceveur&idConversation=$idConversation&error=convInexistante");
+                $id = $_SESSION['idUtilisateur'];
+                header("location:../pages/messagerie.php?idUtilisateur=$id&idConversation=$idConversation&error=convInexistante");
             }
         }
         else

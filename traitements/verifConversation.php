@@ -1,6 +1,5 @@
 <?php
 require_once "../modeles/modeles.php";
-print_r($_POST);
 
 if(!empty($_SESSION["idUtilisateur"]))
 {
@@ -9,6 +8,7 @@ if(!empty($_SESSION["idUtilisateur"]))
     {
         $objetUser = new User();
         $idUser = $objetUser -> verif_identifiant($_POST["idReceveur"]);
+        
         if($idUser === true)
         {
             $objetConversation = new Conversation();

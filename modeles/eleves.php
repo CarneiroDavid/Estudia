@@ -83,7 +83,7 @@ class Eleves extends Modele
     }
     public function listeEleveClasse($idEtude)
     {
-        $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ?");
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
         $requete -> execute([$idEtude]);
         $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $eleves;

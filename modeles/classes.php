@@ -21,7 +21,7 @@ class Classes extends Modele
             $this -> classes = $classes["classe"];
             $this -> nom = $classes["nom"];
 
-            $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ?");
+            $requete = $this -> getBdd() -> prepare("SELECT * FROM eleve WHERE idEtude = ? ORDER BY nom ASC");
             $requete -> execute([$idEtude]);
             $listeEleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
             foreach($listeEleves as $eleves)
@@ -66,6 +66,21 @@ class Classes extends Modele
         catch(Exception $e)
         {
             return $e -> getMessage();
+        }
+    }
+
+    public function verifClasse($id)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT idEtude FROM etudes WHERE idEtude = ?");
+        $requete -> execute([$id]);
+        
+        if($requete -> rowCount() === 1)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
         }
     }
 

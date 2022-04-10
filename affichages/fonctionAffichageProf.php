@@ -117,7 +117,13 @@ function formulaireNote($idClasse)
                             <div class="col-sm-6 offset-md-3" >
                                 <input type="number" min="0" class="form-control " id="noteDeEleve<?=$i?>" name="note[<?=$eleve["idUtilisateur"];?>]" id="Note">
                             </div>
-                            <div class="verifNote" style="display:none;">Cette note doit être inférieur à 20</div>
+                        </div>
+
+                        <div class="form-group">
+                            <input class="form-check-input" type="checkbox" name="note[<?=$eleve["idUtilisateur"];?>]" value="NULL" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Absent
+                            </label>
                         </div>
 
                         <div class="form-group">

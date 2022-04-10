@@ -1,7 +1,6 @@
 <?php
 require_once "../modeles/modeles.php";
 
-print_r($_POST);
 if(!empty($_POST["ajoutDevoir"]) && $_POST["ajoutDevoir"] == 1)
 {   
     if(!empty($_POST["titre"]) && !empty($_POST["date"]))

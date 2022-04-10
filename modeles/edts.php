@@ -25,6 +25,14 @@ class Edt extends Modele
         $edt = $requete->fetchAll(PDO::FETCH_ASSOC);
         return $edt;
     }
+    /* Fonction infoCour accès par admin */
+    function infoCours($idUtilisateur)
+    {
+        $requete = $this -> getBdd() -> prepare("SELECT * FROM edt INNER JOIN etudes ON edt.idClasse = etudes.idEtude INNER JOIN enseignants ON enseignants.idUtilisateur = edt.idUtilisateur INNER JOIN salle USING(idSalle) WHERE edt.idUtilisateur = ? AND appel = 1 ORDER BY date DESC");
+        $requete->execute([$idUtilisateur]);
+        $edt = $requete->fetchAll(PDO::FETCH_ASSOC);
+        return $edt;
+    }
     /* SET */
     function selectCours($idCours){
         try{
@@ -45,6 +53,16 @@ class Edt extends Modele
             return false;
         }
     }
+    function verifCours($idCours, $idProf){
+        try{
+            $requete = $this -> getBdd() -> prepare("SELECT * from edt WHERE idCours = ? and idUtilisateur = ?");
+            $requete->execute([$idCours, $idProf]);
+            return true;
+        }catch(Exception $e){
+            return false;
+        }
+    }
+
     public function setMatiere($matiere)
     {
         $this -> matiere = $matiere;
@@ -55,6 +73,7 @@ class Edt extends Modele
     {
         return $this -> matiere;
     }
+    
 
 
 }

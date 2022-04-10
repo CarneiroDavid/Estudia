@@ -26,6 +26,9 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
                 case "conv":
                     echo "Un problème est survenue lors de la création de la conversation.";
                     break;
+                case "convInexistante" :
+                    echo "Une erreur lors de l'envoie est survenue lors de la selection de conversation, veuillez réessayer.";
+                    break;
             }
 
             ?>
