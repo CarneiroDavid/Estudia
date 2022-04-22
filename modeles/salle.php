@@ -17,10 +17,20 @@ class Salle extends Modele
     {
         return $this -> numero;
     }
+    public function getIdSalle()
+    {
+        return $this -> idSalle;
+    }
 
     public function setNumero($numero)
     {
         $this -> numero = $numero;
+
+        return $this;
+    }
+    public function setIdSalle($idSalle)
+    {
+        $this -> idSalle = $idSalle;
 
         return $this;
     }

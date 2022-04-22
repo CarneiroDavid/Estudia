@@ -2,12 +2,7 @@
 require_once "entete.php";
 require_once "../modeles/modeles.php";
 
-function getBdd()
-{
-    // return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    return new PDO('mysql:host=localhost;dbname=estudia2;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
-}
 function affichageDevoir($idEtude, $date)
 {
     $objetDevoir = new Devoir();
@@ -91,29 +86,30 @@ function affichageEDT($idEtude,$date,$statut='Etudiant',$firstWeek = 0)
        $edt = $objetEdt -> selectEDT($idEtude,$date);
     }else if ( $statut === 'Professeur')
     {
-        $edt = $objetEdt -> selectEDT_Prof($idEtude,$date);
+        $edt = $objetEdt -> selectEDT_Prof($_SESSION["idUtilisateur"],$date);
     }
         
         
         if($edt == null){
 
         }else{
+            $derniereHeure = count($edt);
             ?>
-            <div id="jour" style="width:100%;height:100%;padding:1%;">
+            <div id="jour" class='jour'>
                 <?php
                     $horaireSave = 0;
                     $first=0;
-                    foreach($edt as $jour)
+                    foreach($edt as $key => $jour)
                     {   
                         $horaireDebut = (int)substr($jour["horaireDebut"], 0, -6);
                         $horaireFin = (int)substr($jour["horaireFin"], 0, -6);
                         
-                        if($first == 0 && $firstWeek == 1)
+                        if($first == 0)
                         {
                             for($i = 8; $i<$horaireDebut;$i++)
                             {
                                 ?>
-                                <div id="<?=$i;?>h"  style="width:60%;height:10%;<?php if($i == 8){ echo ''; } ?>">
+                                <div id="<?=$i;?>h"  class="w-60 h-10">
                                     <span class="etu-edt-heure-span"><?=$i;?>h</span>
                                 </div>
                                 <?php
@@ -123,9 +119,9 @@ function affichageEDT($idEtude,$date,$statut='Etudiant',$firstWeek = 0)
                         if($valeurTest != 0 && $first > 0)
                         {
                             ?>
-                            <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" style="width:100%;height:<?php if($valeurTest == 1){ echo '10%'; }else{ echo '14%';}?>">
-                                <span id="midi" style="float:left"><?=$horaireSave;?>h</span>
-                                <div style=" margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;background:gray;">
+                            <div id="<?=$horaireSave;?>h/<?=$horaireDebut;?>h" class="<?= $valeurTest == 1 ? 'heure1':'heure2';?>">
+                                <span id="midi" class="etu-edt-heure-span"><?=$horaireSave;?>h</span>
+                                <div class='cours break <?= $valeurTest > 1 ? 'p-top-10':'';?>' style="">
                                     <span>Permanence</span>
                                     <br>
                                     <span> / / </span>
@@ -133,72 +129,73 @@ function affichageEDT($idEtude,$date,$statut='Etudiant',$firstWeek = 0)
                             </div>
                             <?php
                         }
-                        if($horaireFin - $horaireDebut == 1)
-                        {
-                            ?>
-                                <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:10%" data-toggle="modal" data-target="#CourDetail">
-                                
-                            <?php
-                        }else
-                        {
-                            ?>
-                            <div id="<?= $jour["horaireDebut"]?>" style="width:100%;height:14%" data-toggle="modal" data-target="#CourDetail"><?php
-                        }
-                        ?>
-                        
-                        
-                            <span style="float:left;position:relative;top:-12px" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
 
-                            <div id='<?= $jour['idCours']?>' style="margin-left:10%;width:85%;border-style:groove;height:100%;text-align:center;
-                                <?php 
+                            ?>
+                            <div id="<?= $jour["horaireDebut"]?>" class='<?=$horaireFin - $horaireDebut == 1 ? 'heure1':'heure2';?>' data-toggle="modal" data-target="#CourDetail">
+
+                        
+                        
+                            <span class="etu-edt-heure-span" id="<?= $jour["horaireDebut"]?>"><?=$horaireDebut?>h</span>
+
+                            <div id='<?= $jour['idCours']?>'
+                            class="cours <?= $horaireFin - $horaireDebut > 1 ? 'p-top-10 ':'';?><?php 
                                     if($jour["matiere"] == 'Français')
                                     {
-                                        echo 'background:cadetblue';
+                                        echo 'francais';
                                     }
-                                    if($jour["matiere"] == 'Mathématique')
+                                    else if($jour["matiere"] == 'Mathématique')
                                     {
-                                        echo 'background:yellowgreen';
+                                        echo 'math';
                                     }
-                                    if($jour["matiere"] == 'Anglais')
+                                    else if($jour["matiere"] == 'Anglais')
                                     {
-                                        echo 'background:tomato';
+                                        echo 'anglais';
                                     }
-                                    if($jour["matiere"] == 'Histoire')
+                                    else if($jour["matiere"] == 'Histoire')
                                     {
-                                        echo 'background:wheat';
+                                        echo 'histoire';
                                     }
-                                    if($jour["matiere"] == 'Physique-Chimie')
+                                    else if($jour["matiere"] == 'Physique-Chimie')
                                     {
-                                        echo 'background:orangered';
+                                        echo 'ph-ch';
                                     }
-                                    if($jour["matiere"] == 'Science')
+                                    else if($jour["matiere"] == 'Science')
                                     {
-                                        echo 'background:salmon';
+                                        echo 'science';
                                     }
-                                    if($jour["matiere"] == 'Espagnol')
+                                    else if($jour["matiere"] == 'Espagnol')
                                     {
-                                        echo 'background:turquoise';
+                                        echo 'espagnol';
                                     }
                                 
                                 ?>"
                                 onclick='CoursDetail(this.id)'>
 
-                                <span><?= $jour["matiere"];?></span>
-                                <br>
-                                <span><?= substr($jour["prenom"], 0, 1); ?>.<?= $jour["nom"]?></span>
-                                <br>
-                                <span>Salle <?= $jour["numero"];?></span>
+                                <span class="d-block"><?= $jour["matiere"];?></span>
+                                
+                                <span class="d-block mb-0"><?= substr($jour["prenom"], 0, 1); ?>.<?= $jour["nom"]?></span>
+
+                                <span class="d-block  mt-0">Salle <?= $jour["numero"];?></span>
                             </div>
                             
                         </div>
                         
                         <?php
+                        if($key == $derniereHeure-1){
+                            for($i = $horaireFin; $i<=18;$i++)
+                            {
+                                ?>
+                                <div id="<?=$i;?>h"  class="w-60 h-10">
+                                    <span class="etu-edt-heure-span" style='top:-21px;'><?=$i;?>h</span>
+                                </div>
+                                <?php
+                            }
+                        }
                         $first++;
                         $horaireSave = $horaireFin;
                     }
 
                 ?>
-                <span id="<?= $jour["horaireFin"]?>" style="position:relative;top:-18px;"><?=$horaireFin?>h</span>
             </div>
             
         <?php 

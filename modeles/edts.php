@@ -5,11 +5,13 @@ class Edt extends Modele
     private $idCours;
     private $idUtilisateur;
     private $idSalle;
+    private $idClasse;
     private $matiere;
     private $date;
     private $horaireDebut;
     private $horaireFin;
-    private $groupe;
+    private $appel;
+    private $resumeCours;
 
     function selectEDT($idEtude,$date)
     {
@@ -72,6 +74,42 @@ class Edt extends Modele
     public function getMatiere()
     {
         return $this -> matiere;
+    }
+    public function getidUtilisateur()
+    {
+        return $this -> idUtilisateur;
+    }
+    public function getidSalle()
+    {
+        return $this -> idSalle;
+    }
+    public function getidCours()
+    {
+        return $this -> idCours;
+    }
+    public function getidClasse()
+    {
+        return $this -> idClasse;
+    }
+    public function getdate()
+    {
+        return $this -> date;
+    }
+    public function gethoraireDebut()
+    {
+        return $this -> horaireDebut;
+    }
+    public function gethoraireFin()
+    {
+        return $this -> horaireFin;
+    }
+    public function getappel()
+    {
+        return $this -> appel;
+    }
+    public function getresumeCours()
+    {
+        return $this -> resumeCours;
     }
     
 

@@ -90,7 +90,6 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Etudiant" || $_SESSION
             ?>
             <hr>
             <h5 class="text-center">Conversation déjà en cours</h5>
-                <h6>Vous avez </h6>
                 
             <div class="div_messagerie">
                 

@@ -3,6 +3,17 @@
     margin-bottom: 10%;
     
 }
+#info
+{
+    margin-top: 10%;
+    left:10;
+    border: solid 2px;
+    max-width: 50%;
+    height: 300px;
+    margin: auto;    
+    border-radius:5%;
+    padding:1%;
+}
 #info2
 {
     overflow-y: scroll;
@@ -79,7 +90,10 @@
 {
     color : green;
 }
-
+#titre
+{
+    text-align: center;
+}
 /* #nomEleve
 {
 
@@ -217,13 +231,91 @@ height: 80vh;
     align-items: flex-start;
 }
 .etu-index-edt-jour{
+    height:73vh;
     width:16%;
-    font-size:17px;
+    font-size:15px;
     margin-left:5px;
     margin-right:1px;
     font-weight: bold;
+    border:groove;
+}
+.francais{
+    background-color: cadetblue;
+    border-color: #3a6162;
+}
+.math{
+    background-color: yellowgreen;
+    border-color:rgb(125, 167, 41);
 }
 
+.anglais{
+    background-color: tomato;
+    border-color:#ad4330;;
+}
+.histoire{
+    background-color: wheat;
+    border-color:rgb(204, 185, 149);
+}
+.ph-ch{
+    background-color: orange;
+    border-color:rgb(211, 137, 0);
+}
+.science{
+    background-color: rgb(153, 109, 13);
+    border-color:rgb(104, 73, 8);
+}
+.espagnol{
+    background-color: turquoise;
+    border-color: rgb(52, 180, 167);
+}
+.etu-edt-heure-span{
+    float:left;
+    position:relative;
+    top:-10px;
+    left:0%;
+    background:#000000b3;
+    color:rgb(255, 255, 255);
+    border-radius:20%;
+    border:solid;
+    border-width:1px;
+}
+.heure1{
+    width:100%;
+    height:10%;
+}
+.heure2{
+    width:100%;
+    height:20%;
+}
+.jour{
+    width:100%;
+    height:94%;
+    padding:1%;
+}
+.cours{
+    margin-left:10%;
+    width:85%;
+    border-style:solid;
+    border-radius:0%;
+    height:100%;
+    text-align:center;
+}
+.break{
+    background:#80808091;
+    border-color:#31313191;
+}
+.h-80{
+    height:80%
+}
+.h-10{
+    height:10%;
+}
+.p-top-10{
+    padding-top: 10%
+}
+.w-60{
+    width:60%;
+}
 .btn 
 {
     transition-duration: 0.4s;
@@ -367,7 +459,7 @@ height: 80vh;
 #div_info_note
 {
     width: 60rem;
-    height:450px;
+    height:550px;
 }
 #div_commentaire
 {
@@ -507,4 +599,7 @@ height: 80vh;
 #verifNote
 {
     display: none;
+}
+.mb-0{
+    margin-bottom:0px;
 }

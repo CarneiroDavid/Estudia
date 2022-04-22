@@ -25,8 +25,8 @@ class Matieres extends Modele
     public function listeMatiere()
     {
         
-        $requete = getBdd() -> prepare("SELECT matiere,idMatiere, CoefMatiere FROM matieres");
-        $requete -> execute();
+        $requete = $this->getBdd() -> prepare("SELECT matiere,idMatiere,CoefMatiere FROM matieres");
+        $requete -> execute([]);
         $matieres = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $matieres;
     }
@@ -40,14 +40,22 @@ class Matieres extends Modele
     {
         $this -> matiere = $matiere;
     }
+    public function setCoef($coef)
+    {
+        $this -> CoefMatiere = $coef;
+    }
 
     /* GET */
-    public function getIdFiliere()
+    public function getIdMatiere()
     {
         return $this -> idMatiere;
     }
     public function getNom()
     {
         return $this -> matiere;
+    }
+    public function getCoef()
+    {
+        return $this -> CoefMatiere;
     }
 }

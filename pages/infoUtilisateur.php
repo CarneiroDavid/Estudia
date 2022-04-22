@@ -84,7 +84,7 @@ if(!empty($_GET))
             $notes = $objet_notes -> noteEleve($_GET["id"]);
 
             $objet_punitions = new Punition();
-            $punitions = $objet_punitions -> punitionEleve($_GET["id"]);
+            $punitions = $objet_punitions -> punitionEleve($_GET["id"]);  
             
             $listenote = [];
             $i = 0;
@@ -352,7 +352,7 @@ if(!empty($_GET))
                             </div>
                             <div class="form-group">
                                 <label for="NoteMax">NoteMax</label>
-                                <input type="number" class="form-control" name="NoteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
+                                <input type="number" placeholder="Veuillez préciser la note maximale de l'examen" class="form-control" name="NoteMax" id="noteMax" onchange="document.getElementById('note').max = this.value;"/>
                             </div>
                             <div class="form-group">
                                 <label for="note">Note</label>
@@ -553,7 +553,7 @@ if(!empty($_GET))
                 <div class="card col-12 col-md-4 col-lg-4 text-center">
                     <div class="card-body">
                         <p>Informations sur les cours données </p>
-                        <form method="post" action="InfoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
+                        <form method="post" action="infoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
                             <button name="Cours" value="<?=$_GET["idEnseignant"];?>" class="btn">Visualiser</button>
                         </form>  
                     </div>
@@ -561,7 +561,7 @@ if(!empty($_GET))
                 <div class="card col-12 col-md-4 col-lg-4 text-center">
                     <div class="card-body">
                         <p>Informations sur les examens données</p>
-                        <form method="post" action="InfoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
+                        <form method="post" action="infoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
                             <button name="Examens" value="<?=$_GET["idEnseignant"];?>" class="btn">Visualiser</button>
                         </form>                  
                     </div>
@@ -569,7 +569,7 @@ if(!empty($_GET))
                 <div class="card col-12 col-md-4 col-lg-4 text-center">
                     <div class="card-body">
                         <p>Informations sur les devoirs données</p>
-                        <form method="post" action="InfoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
+                        <form method="post" action="infoUtilisateur.php?idEnseignant=<?=$_GET["idEnseignant"];?>">
                             <button name="devoirs" value="<?=$_GET["idEnseignant"];?>" class="btn">Visualiser</button>
                         </form>                     
                     </div>

@@ -35,7 +35,7 @@ if(!empty($_SESSION["nom"]) && $info["PremiereConnexion"] == 1)
     <br>
     
     <div class="etu-index-edt-block">
-        <div class="enteteAccueil">
+        <div class="enteteAccueil w-100" style="height:48px;">
             <form method='post' class="form-edt" >
                 <button type="submit" value="<?= isset($_POST['Jour']) ? $_POST['Jour']-1 : -1 ;?>" name='Jour'class="edt-fleche-gauche">
 
@@ -54,9 +54,9 @@ if(!empty($_SESSION["nom"]) && $info["PremiereConnexion"] == 1)
                     echo '<input type=hidden name="JourDevoir" value="',$_POST['JourDevoir'],'">';
                 } ;?>
                 <div>
-                    <h5>Emploi du temps</h5>
+                    <h6 class="mb-0">Emploi du temps</h6>
                     
-                    <h6 ><?=$demainEdt;?></h6>
+                    <h6><?=$demainEdt;?></h6>
                 </div>
             </form>
         </div>
@@ -122,7 +122,7 @@ else
             </div>
             <div class="modal-body">
                     <div id='etd-cour-detail-block'>
-                test    
+                    
                 </div>
 
             </div>

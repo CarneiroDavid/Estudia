@@ -17,18 +17,18 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
                 {                   
                     if($utilisateur -> connexion($_POST["identifiant"], $_POST["mdp"]) === true)
                     {
-                        $ip = $objetLogs -> insertionLog($_SESSION["idUtilisateur"], $_SERVER["REMOTE_ADDR"]);
-                        if($_SESSION["statut"] == "Administration")
-                        {
-                            $objetLog = new ipAdmin();
-                            $ipAdmin = $objetLog -> recupIpAdmin($_SESSION["ip"]);
-                            if($ipAdmin != true)
-                            {
-                                session_destroy();
-                                header("location:../traitements/deconnexion.php");
-                            }
+                        $objetLogs -> insertionLog($_SESSION["idUtilisateur"], $_SERVER["REMOTE_ADDR"]);
+                        // if($_SESSION["statut"] == "Administration")
+                        // {
+                        //     $objetLog = new ipAdmin();
+                        //     $ipAdmin = $objetLog -> recupIpAdmin($_SESSION["ip"]);
+                        //     if($ipAdmin != true)
+                        //     {
+                        //         session_destroy();
+                        //         header("location:../traitements/deconnexion.php");
+                        //     }
                             
-                        }
+                        // }
 
                         if(!empty($_COOKIE["accept-cookie"]))
                         {

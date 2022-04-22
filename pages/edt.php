@@ -41,14 +41,14 @@ if(!empty($_SESSION["nom"]))
             <div>
                 <h5>Emploi du temps</h5>
                 
-                <h6 >Semaine du <?=$jourDebut?> au <?=$jourFin?> </h6>
+                <h6 >Semaine du <?=substr($jourDebut, 0,5)?> au <?=substr($jourFin, 0,5)?> </h6>
             </div>
         </form>
     </div>
     <div class="etu-index-edt">
         <div id=j1 class="etu-index-edt-jour">
             <div class="enteteAccueil">    
-                <h5>Lundi <?=$jourDebut?></h5>
+            <h5>Lundi <?=substr($jourDebut, 0,5)?></h5>
             </div>                
             <?php
             if($_SESSION["statut"] == 'Professeur')
@@ -61,75 +61,80 @@ if(!empty($_SESSION["nom"]))
             ?>
         </div>
         <div id=j2 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
+                    $jourDebut = date("d-m-Y", strtotime("+".($jour+1)." day"));
                     ?>
                     <div class="enteteAccueil">    
-                    <h5>Mardi <?=$jourDebut?></h5>
+                    <h5>Mardi <?=substr($jourDebut, 0,5)?></h5>
                     </div>
                      <?php  
                     if($_SESSION["statut"] == 'Professeur')
                     {
-                        
+                        $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
+
                         affichageEDT($_SESSION["idUtilisateur"], $jourDebut, 'Professeur');
                     }else if($_SESSION["statut"] == 'Etudiant'){
                         affichageEDT($_SESSION["idEtude"], $jourDebut);
                     }
                     ?></div>
         <div id=j3 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+2)." day"));
+                    $jourDebut = date("d-m-Y", strtotime("+".($jour+2)." day"));
                     ?>
                     <div class="enteteAccueil">    
-                    <h5>Mercredi <?=$jourDebut?></h5>
+                    <h5>Mercredi <?=substr($jourDebut, 0,5)?></h5>
                     </div>
                      <?php  
                     if($_SESSION["statut"] == 'Professeur')
                     {
-                        
+                        $jourDebut = date("Y-m-d", strtotime("+".($jour+2)." day"));
+
                         affichageEDT($_SESSION["idUtilisateur"], $jourDebut, 'Professeur');
                     }else if($_SESSION["statut"] == 'Etudiant'){
                         affichageEDT($_SESSION["idEtude"], $jourDebut);
                     }
                     ?></div>
         <div id=j4 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+3)." day"));
+                    $jourDebut = date("d-m-Y", strtotime("+".($jour+3)." day"));
                     ?>
                     <div class="enteteAccueil">    
-                    <h5>Jeudi <?=$jourDebut?></h5>
+                    <h5>Jeudi <?=substr($jourDebut, 0,5)?></h5>
                     </div>
                      <?php    
                     if($_SESSION["statut"] == 'Professeur')
                     {
-                        
+                        $jourDebut = date("Y-m-d", strtotime("+".($jour+3)." day"));
+
                         affichageEDT($_SESSION["idUtilisateur"], $jourDebut, 'Professeur');
                     }else if($_SESSION["statut"] == 'Etudiant'){
                         affichageEDT($_SESSION["idEtude"], $jourDebut);
                     }
                     ?></div>
         <div id=j5 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+4)." day"));
+                    $jourDebut = date("d-m-Y", strtotime("+".($jour+4)." day"));
                     ?>
                     <div class="enteteAccueil">    
-                    <h5>Vendredi <?=$jourDebut?></h5>
+                    <h5>Vendredi <?=substr($jourDebut, 0,5)?></h5>
                     </div>
                      <?php  
                     if($_SESSION["statut"] == 'Professeur')
                     {
-                        
+                        $jourDebut = date("Y-m-d", strtotime("+".($jour+4)." day"));
+
                         affichageEDT($_SESSION["idUtilisateur"], $jourDebut, 'Professeur');
                     }else if($_SESSION["statut"] == 'Etudiant'){
                         affichageEDT($_SESSION["idEtude"], $jourDebut);
                     }
                     ?></div>
         <div id=j6 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+5)." day"));
+                    $jourDebut = date("d-m-Y", strtotime("+".($jour+5)." day"));
                     ?>
                     <div class="enteteAccueil">    
-                    <h5>Samedi <?=$jourDebut?></h5>
+                    <h5>Samedi <?=substr($jourDebut, 0,5)?></h5>
                     </div>
                      <?php  
                     if($_SESSION["statut"] == 'Professeur')
                     {
-                        
+                        $jourDebut = date("Y-m-d", strtotime("+".($jour+5)." day"));
+
                         affichageEDT($_SESSION["idUtilisateur"], $jourDebut, 'Professeur');
                     }else if($_SESSION["statut"] == 'Etudiant'){
                         affichageEDT($_SESSION["idEtude"], $jourDebut);
@@ -151,7 +156,7 @@ if(!empty($_SESSION["nom"]))
             </div>
             <div class="modal-body">
                     <div id='etd-cour-detail-block'>
-                test    
+                    
                 </div>
 
             </div>

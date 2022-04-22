@@ -259,7 +259,7 @@ class User extends Modele
         {
             $requete = $this -> getBdd() -> prepare("UPDATE utilisateur SET PremiereConnexion = true WHERE idUtilisateur = ?");
             $requete -> execute([$idUser]);
-            $_SESSION["premiereConnexion"] = 1;
+            $_SESSION["PremiereConnexion"] = 1;
             return true;
         }
         catch(Exception $e)

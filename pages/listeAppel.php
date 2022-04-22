@@ -41,6 +41,7 @@ if(!empty($_SESSION["idUtilisateur"])){
                 <div class='edt-cour-btn-block'>
                     <form method=POST action='prof.php'>
                         <a class="btn btn-primary" id="<?=$Cour['idCours'];?>" onclick='addResume(this.id);' >Ajouter un résumé du cours</a>
+                    </form>
                 </div>
                 <?php 
             }
@@ -69,92 +70,89 @@ if(!empty($_SESSION["idUtilisateur"])){
                         ">
             </div>
             <h3 id='titre'>Fiche d'appel</h3>
-            <?php
+                <?php
             if(!empty($Cour["idClasse"]))
             {
-                ?>
-                <!-- Liste des eleves concernant la classe selectionner -->
-                <div>
-                    <form method="post" action="../traitements/valideAppel.php" onsubmit="AJAXSubmit(this); return false;">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nom</th>
-                                    <th scope="col">Absence</th>
-                                    <th scope="col">Justification</th>
-                                    <th scope="col">Valide justification</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    $objetEleve = new Eleves();
-                                    $eleves = $objetEleve -> listeEleveClasse($Cour["idClasse"]);
-                                    $objAbsence = new Absence();
-                                    $ListeAbsents = $objAbsence->listeAbsents($_GET["cour"]);
-                                    $objRetard = new Retard();
-                                    $ListeRetards = $objRetard->listeRetards($_GET['cour']);
-                                    $i = 0;
-                                    foreach($eleves as $eleve)
-                                    {   
-                                        $inList = "";
-                                        $retard = "";
-                                        $absent = "";
-                                        foreach($ListeAbsents as $Absent)
+            ?>
+            <!--  -->
+            <form method="post" action="../traitements/valideAppel.php"  onsubmit="AJAXSubmit(this); return false;">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nom</th>
+                                <th scope="col">Absence</th>
+                                <th scope="col">Justification</th>
+                                <th scope="col">Valide justification</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $objetEleve = new Eleves();
+                                $eleves = $objetEleve -> listeEleveClasse($Cour["idClasse"]);
+                                $objAbsence = new Absence();
+                                $ListeAbsents = $objAbsence->listeAbsents($_GET["cour"]);
+                                $objRetard = new Retard();
+                                $ListeRetards = $objRetard->listeRetards($_GET['cour']);
+                                $i = 0;
+                                foreach($eleves as $eleve)
+                                {   
+                                    $inList = "";
+                                    $retard = "";
+                                    $absent = "";
+                                    foreach($ListeAbsents as $Absent)
+                                    {
+                                        if($eleve["idUtilisateur"] == $Absent["idUtilisateur"])
                                         {
-                                            if($eleve["idUtilisateur"] == $Absent["idUtilisateur"])
-                                            {
-                                                $inList = $Absent;
-                                                $absent = 1;
-                                            }
+                                            $inList = $Absent;
+                                            $absent = 1;
                                         }
-                                        foreach($ListeRetards as $Retard){
-                                            if($eleve["idUtilisateur"] == $Retard["idUtilisateur"])
-                                            {
-                                                $inList = $Retard;
-                                                $retard = 1;
-                                            }
-                                        }
-                                        ?>
-                                        <tr>
-                                            <td><?=$eleve["nom"];?> <?=$eleve["prenom"];?></td>
-                                            <td>
-                                                <select class="form-select" name="Classe[eleve][<?=$i;?>][presence]" onchange='modifAppel()' aria-label="Default select example">
-                                                    <option disabled <?php if($Cour["appel"] == 0)
-                                                                {
-                                                                    echo 'selected'; 
-                                                                }else{ 
-                                                                    echo ''; 
-                                                                }?>>..</option>
-                                                    <option value="0" <?= empty($inList) ? 'selected': '' ?>>Présent</option>
-                                                    <option value="1" <?= !empty($absent) ? 'selected': '' ?>>Absent</option>
-                                                    <option value="2" <?= !empty($retard) ? 'selected': '' ?>>Retard</option>
-
-                                                </select>
-                                            </td>
-                                            <td>
-                                                <input type="hidden" name="idCours" value="<?=$_GET['cour']?>"/>
-                                                <input type="hidden" name="Classe[eleve][<?=$i;?>][idUtilisateur]" value="<?=$eleve["idUtilisateur"];?>">
-                                                <input type="text" class="form-control" onchange='modifAppel()' placeholder="Saisir le temps de retard" <?= !empty($inList) ? 'value="'.$inList["justification"].'"': '' ?> name="Classe[eleve][<?=$i;?>][justification]">
-                                            </td>
-                                            <td>
-                                                <div class="form-check">
-                                                    <input type="checkbox" name="Classe[eleve][<?=$i;?>][valideJustif]" onchange='modifAppel()' class="form-check-input" id="exampleCheck1" <?= !empty($inList["verifJustification"]) && $inList["verifJustification"] == 'oui' ? 'checked':'' ?>>
-                                                    <label class="form-check-label" for="exampleCheck1" >Valider la justification</label>
-                                                </div>
-                                            </td>
-                                        </tr>       
-                                        <?php
-                                        $i++;
                                     }
-                                ?>
-                            </tbody>
-                        </table>
-                        <div>
-                            <button type="submit" value="1" name="valideAppel" class ="btn btn-success">Valider l'appel</button>
-                        </div>
-                    </form>
-                </div>
-                <?php
+                                    foreach($ListeRetards as $Retard){
+                                        if($eleve["idUtilisateur"] == $Retard["idUtilisateur"])
+                                        {
+                                            $inList = $Retard;
+                                            $retard = 1;
+                                        }
+                                    }
+                                    ?>
+                                    <tr>
+                                        <td><?=$eleve["nom"];?> <?=$eleve["prenom"];?></td>
+                                        <td>
+                                            <select class="form-select" name="Classe[eleve][<?=$i;?>][presence]" onchange='modifAppel()' aria-label="Default select example">
+                                                <option disabled <?php if($Cour["appel"] == 0)
+                                                            {
+                                                                echo 'selected'; 
+                                                            }else{ 
+                                                                echo ''; 
+                                                            }?>>..</option>
+                                                <option value="0" <?= empty($inList) ? 'selected': '' ?>>Présent</option>
+                                                <option value="1" <?= !empty($absent) ? 'selected': '' ?>>Absent</option>
+                                                <option value="2" <?= !empty($retard) ? 'selected': '' ?>>Retard</option>
+
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="idCours" value="<?=$_GET['cour']?>"/>
+                                            <input type="hidden" name="Classe[eleve][<?=$i;?>][idUtilisateur]" value="<?=$eleve["idUtilisateur"];?>">
+                                            <input type="text" class="form-control" onchange='modifAppel()' placeholder="Saisir le temps de retard" <?= !empty($inList) ? 'value="'.$inList["justification"].'"': '' ?> name="Classe[eleve][<?=$i;?>][justification]">
+                                        </td>
+                                        <td>
+                                            <div class="form-check">
+                                                <input type="checkbox" name="Classe[eleve][<?=$i;?>][valideJustif]" onchange='modifAppel()' class="form-check-input" id="exampleCheck1" <?= !empty($inList["verifJustification"]) && $inList["verifJustification"] == 'oui' ? 'checked':'' ?>>
+                                                <label class="form-check-label" for="exampleCheck1" >Valider la justification</label>
+                                            </div>
+                                        </td>
+                                    </tr>       
+                                    <?php
+                                    $i++;
+                                }
+                            ?>
+                        </tbody>
+                    </table>
+                    
+                    <button type="submit" value="1" name="valideAppel" class ="btn btn-success">Valider l'appel</button>
+                    
+                </form><?php
             }
         }else
         {

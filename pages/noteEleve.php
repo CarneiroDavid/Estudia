@@ -8,7 +8,6 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
 
     $objetNote = new Notes();
     $notes = $objetNote -> noteEleve( (($_SESSION["statut"] == "Etudiant") ? $_SESSION["idUtilisateur"] : $_GET["id"]) );
-    print_r($notes);
     // Tableau organisation des notes
     $listenote = [];
 
@@ -154,7 +153,6 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                                         }
                                         if($test > 0)
                                         {
-                                            echo $test;
                                             echo "<p>Moyenne de la matiere : " . $MoyenneMatiere . '/' . $Note["NoteMax"] . "</p>";
                                             ?>
                                                 <li class="list-group-item"><p>Coefficient de la matière : <?=$Note["CoefMatiere"];?></p></li>   
@@ -200,20 +198,20 @@ if(!empty($_SESSION) && $_SESSION["statut"] == "Etudiant" ||$_SESSION["statut"] 
                 {
                     $objetNote = new Notes();
                     $info = $objetNote -> infoNote($_POST["Note"]);
-                
                     ?>
                     <div class="card" id="div_info_note">
                         <div class="card-body">
                             <h4 class="text-center">Informations</h4>
                             <h5 class="card-title"><?=$info["designation"];?></h5>
+                            <h5 class="card-title"><?=$info["Nom"] . " " . $info["Prenom"];?></h5>
                             <br>
                             <h6 class="card-subtitle mb-2 text-muted"><?=$info["matiere"];?></h6>
                             <br>
                             <p class="card-text">Note : <?=$info["Note"] . "/" . $info["NoteMax"];?></p>
                             <p class="card-text">Date de publication : <?=$info["dateNote"];?></p>
-                            <p class="card-text">Coeffiicien de la note : <?=$info["Coef"];?></p>
+                            <p class="card-text">Coefficient de la note : <?=$info["Coef"];?></p>
                             <p class="card-text">Commentaire :</p>
-                            <div class="container" id="div_commentaire"><?=$info["Commentaire"];?></div>
+                            <div id="div_commentaire"><?=$info["Commentaire"];?></div>
                             
                         </div>
                     </div>

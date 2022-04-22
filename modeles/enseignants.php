@@ -54,7 +54,7 @@ class Enseignant extends Modele
     }
     public function listeEnseignants()
     {
-        $requete = getBdd() -> prepare("SELECT *  FROM enseignants  ORDER BY Nom ASC ");
+        $requete = $this->getBdd() -> prepare("SELECT *  FROM enseignants  ORDER BY Nom ASC ");
         $requete -> execute();
         $enseignants = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $enseignants;

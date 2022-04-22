@@ -75,7 +75,7 @@ function modifierNote($idNote)
     document.getElementById("note").max = document.getElementById("noteMax"+$idNote).innerHTML;
     document.getElementById("designation").value = document.getElementById("designation"+$idNote).innerHTML;
     document.getElementById("commentaire").value = document.getElementById("commentaire"+$idNote).innerHTML;
-    document.getElementById("noteMax").value = document.getElementById("noteMax"+$idNote).innerHTML;
+    // document.getElementById("noteMax").value = document.getElementById("noteMax"+$idNote).innerHTML;
   
 
     document.getElementById("modif").value = document.getElementById("id"+$idNote).value;
@@ -94,16 +94,31 @@ function modifierNote($idNote)
   
 
 }
-
-function inputMat()
+function inputMat(evt)
 {
-    if(document.getElementById("divMatiere").style.display == "Professeur")
-    {
-        document.getElementById("divMatiere").style.display = "block";
+    // if(document.getElementById("divMatiere").style.display == "Professeur")
+    // {
+    //     document.getElementById("divMatiere").style.display = "block";
 
+    // }
+    console.log(evt);
+    const div = document.getElementById("divMatiere");
+    if(evt == "Professeur")
+    {
+      if(div.style.display == "none")
+      {
+        div.style.display = "block";
+      }
+    }else{
+      div.style.display = "none";
     }
 }
-
+function changeMat(evt){
+  console.log(evt);
+  var uid = evt.options[evt.selectedIndex].getAttribute('data-id');
+  document.getElementById('idMatiere').value = uid
+  console.log(uid);
+}
 function CoursDetail(id)
 {
     var xhr = new XMLHttpRequest();
@@ -148,12 +163,10 @@ var AJAXSubmit = (function () {
       console.log(this.responseText);
       var x = document.getElementById("appel-state");
       x.style.backgroundColor = "chartreuse"
-      /* you can get the serialized data through the "submittedData" custom property: */
-      /* console.log(JSON.stringify(this.submittedData)); */
     }
   
     function submitData (oData) {
-      /* the AJAX request... */
+      /*  AJAX request... */
       var oAjaxReq = new XMLHttpRequest();
       oAjaxReq.submittedData = oData;
       oAjaxReq.onload = ajaxSuccess;

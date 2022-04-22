@@ -21,7 +21,6 @@ if(!empty($_POST["envoiIns"]) && $_POST["envoiIns"] == 1)
                         if($user -> getStatut() -> ajouter($user -> getId()))
                         {
                             echo "test2";
-                            exit;
                             header("location:../pages/formulaireInscription.php?succes=InsertionEleve");
                         }
                         else

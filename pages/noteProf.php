@@ -71,7 +71,6 @@ if($_SESSION["statut"] == "Professeur" )
         {
             $objetNote = new Notes();
             $notes = $objetNote -> NoteClasse($_SESSION["idUtilisateur"], $_POST["idExamen"]);
-        print_r($notes);
             ?>
             <h4 id="titre">Note de la classe</h4>
             <table class="table">

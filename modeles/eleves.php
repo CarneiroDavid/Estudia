@@ -19,7 +19,7 @@ class Eleves extends Modele
             $this -> nom = $eleve["nom"];
             $this -> prenom = $eleve["prenom"];
             $this -> idUtilisateur = $eleve["idUtilisateur"];
-            $this -> Filiere = new Filiere();
+            // $this -> Filiere = new Filiere();
             $this -> idEtude = $eleve["idEtude"];
 
             $requete = $this -> getBdd() -> prepare("SELECT * FROM notes WHERE idUtilisateur = ?");
@@ -68,7 +68,7 @@ class Eleves extends Modele
 
     public function affichageEleve($idEleve)
     {
-        $requete = getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) WHERE idUtilisateur = ?");
+        $requete = $this->getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) WHERE idUtilisateur = ?");
         $requete -> execute([$idEleve]);
         $eleve = $requete -> fetch(PDO::FETCH_ASSOC); 
 
@@ -76,8 +76,8 @@ class Eleves extends Modele
     }
     public function listeEleves()
     {
-        $requete = getBdd() -> prepare("SELECT eleve.nom AS nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) ORDER BY eleve.nom ASC ");
-        $requete -> execute();
+        $requete = $this->getBdd() -> prepare("SELECT eleve.nom, etudes.nom AS titre, etudes.classe, prenom, idUtilisateur FROM eleve LEFT JOIN etudes USING(idEtude) ORDER BY eleve.nom ASC ");
+        $requete -> execute([]);
         $eleves = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $eleves;
     }

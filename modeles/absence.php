@@ -2,6 +2,13 @@
 
 class Absence extends Modele
 {
+    private $idAbsence;
+    private $idUtilisateur;
+    private $idProf;
+    private $justification;
+    private $verifJustification;
+    private $idCours;
+    
     public function absenceEleve($idUser)
     {
         $requete = $this -> getBdd() -> prepare("SELECT * FROM absence INNER JOIN edt ON edt.idCours = absence.idCours WHERE absence.idUtilisateur = ?");
@@ -14,8 +21,8 @@ class Absence extends Modele
     {
         try
         {
-            $requete = $this -> getBdd() -> prepare("INSERT INTO absence (idUtilisateur, idCours, justification, verifJustification) VALUES(?, ?, ?, ?)");
-            $requete ->execute([$idUser, $idCours, $justification, $verifJustif]);
+            $requete = $this -> getBdd() -> prepare("INSERT INTO absence (idUtilisateur, idCours,justification, verifJustification, idProf) VALUES(?, ?, ?, ?, ?)");
+            $requete ->execute([$idUser, $idCours, $justification, $verifJustif, $_SESSION["idUtilisateur"]]);
             return true;
         }
         catch(Exception $e)
@@ -53,6 +60,57 @@ class Absence extends Modele
         {
             return false;
         }
+    }
+
+    public function getIdAbsence()
+    {
+        return $this -> idAbsence;
+    }
+    public function getIdUtilisateur()
+    {
+        return $this -> idUtilisateur;
+    }
+    public function getIdProf()
+    {
+        return $this -> idProf;
+    }
+    public function getJustification()
+    {
+        return $this -> justification;
+    }
+    public function getVerifJustification()
+    {
+        return $this -> verifJustification;
+    }
+    public function getIdCours()
+    {
+        return $this -> idCours;
+    }
+
+    
+    public function setIdAbsence($idAbsence)
+    {
+        $this-> idAbsence = $idAbsence;
+    }
+    public function setIdUtilisateur($idUtilisateur)
+    {
+        $this-> idUtilisateur = $idUtilisateur;
+    }
+    public function setIdProf($idProf)
+    {
+        $this-> idProf = $idProf;
+    }
+    public function setJustification($justification)
+    {
+        $this-> justification = $justification;
+    }
+    public function setVerifJustification($verifJustification)
+    {
+        $this-> verifJustification = $verifJustification;
+    }
+    public function setIdCours($idCours)
+    {
+        $this-> idCours = $idCours;
     }
 
 }

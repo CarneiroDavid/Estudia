@@ -76,7 +76,7 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
     
         <div class="form-group">
             <label for="statut">Statut</label>
-            <select class="form-control" name="statut" id="statut" onChange="inputMat()" aria-label="Default select example">
+            <select class="form-control" name="statut" id="statut" onchange="inputMat(this.value)" aria-label="Default select example">
             <?php 
             foreach($statuts as $statut)
             {
@@ -94,8 +94,21 @@ if(!empty($_SESSION["statut"]) && $_SESSION["statut"] == "Administration")
         </div>
     
         <div class="form-group" id="divMatiere" style="display:none;">
-            <label for="matiere">Matiere</label>
-            <input type="text" class="form-control" name="matiere" id="matiere"/>
+            <label for="matiere">Matiere Principal :</label>
+            <select class="form-control" name="matiere" id="matiere" onchange=changeMat(this) aria-label="Default select example">
+            <?php 
+            foreach($listeMatiere as $matiere)
+            {
+                ?>
+                <option value="<?=$matiere["matiere"];?>" data-id="<?=$matiere['idMatiere'];?>" <?= ($matiere["matiere"] === "Français" ? "selected" : "");?>>
+                    <?=$matiere["matiere"];?>
+                </option>
+                <?php
+                
+            }
+            ?>
+            </select>
+            <input type=hidden id='idMatiere' name='idMatiere' value="1">
         </div>
     
     

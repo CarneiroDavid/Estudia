@@ -33,7 +33,7 @@ class Notes extends Modele
 
     public function noteEleve($idUtilisateur)
     {
-        $requete = getBdd() -> prepare("SELECT Note, notes.idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, Coef, dateNote, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, Coef, utilisateur.nom, utilisateur.prenom 
+        $requete = $this->getBdd() -> prepare("SELECT Note, notes.idUtilisateur,idProf,idNote,NoteMax, matieres.CoefMatiere, matieres.matiere, designation, commentaire, Coef, dateNote, MONTH(dateNote) as moisNote, DAY(dateNote) as jourNote, utilisateur.nom, utilisateur.prenom 
         FROM notes 
         INNER JOIN matieres USING(idMatiere) 
         INNER JOIN utilisateur ON notes.idUtilisateur = utilisateur.idUtilisateur 
@@ -44,7 +44,7 @@ class Notes extends Modele
     }
     public function infoNote($idNote)
     {
-        $requete = getBdd() -> prepare(
+        $requete= $this -> getBdd() -> prepare(
         "SELECT idNote, notes.idUtilisateur, notes.Note, idProf, notes.idMatiere,matieres.matiere, idExamen, designation, NoteMax, Commentaire, dateNote, enseignants.idEnseignant, enseignants.Nom, enseignants.Prenom, enseignants.idMatiere, enseignants.matiere, Coef, CoefMatiere 
         FROM notes 
         INNER JOIN matieres ON matieres.idMatiere = notes.idMatiere 
@@ -89,10 +89,7 @@ class Notes extends Modele
         $notes = $requete -> fetchAll(PDO::FETCH_ASSOC);
         return $notes;
     }
-    public function suppressionNote($idNote)
-    {
 
-    }
     public function  suppressionNoteParExam($idExam)
     {
         try

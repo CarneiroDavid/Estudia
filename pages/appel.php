@@ -6,9 +6,9 @@ $eleves = $objetEleve -> listeEleves();
 $objetClasse = new Classes();
 $classes = $objetClasse -> allClasse();
 
-$objetUser = new User();
-$ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
-
+// $objetUser = new User();
+// $ip = $objetUser -> recupIpAutorise($_SERVER["REMOTE_ADDR"]);
+echo "</div>";
 ?>
 <h3 class="text-center" id="titre">Fiche d'appel</h3>
 </br>
@@ -19,22 +19,23 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
     {
         ?>
         <!-- SELECT des classe disponible -->
-        
-        <form action="appel.php" method="post">
-            <label>Choisissez une classe</label>
-            <select class="form-select" name="classe" aria-label="Default select example">
-                <?php
-                foreach($classes as $classe)
-                {
-                    ?>
-                        <option value="<?=$classe["idEtude"];?>"><?=$classe["nom"];?> <?=$classe["classe"];?></option>
+        <div class="container">
+            <form action="appel.php" method="post">
+                <label>Choisissez une classe</label>
+                <select class="form-select" name="classe" aria-label="Default select example">
                     <?php
-                }
-                ?>
-            </select>
-            <br>
-            <button type="submit" name="envoie" value="1" class="btn">Valider</button>
-        </form>
+                    foreach($classes as $classe)
+                    {
+                        ?>
+                            <option value="<?=$classe["idEtude"];?>"><?=$classe["nom"];?> <?=$classe["classe"];?></option>
+                        <?php
+                    }
+                    ?>
+                </select>
+                <br>
+                <button type="submit" name="envoie" value="1" class="btn">Valider</button>
+            </form>
+        </div>
     
         <?php
     }
@@ -78,82 +79,86 @@ if($_SESSION["statut"] == "Professeur" || $_SESSION["statut"] == "Administration
               <div>
                   <h5>Emploi du temps</h5>
                   
-                  <h6 >Semaine du <?=$jourDebut?> au <?=$jourFin?> </h6>
+                  <h6 >Semaine du <?=substr($jourDebut, 0,5)?> au <?=substr($jourFin, 0,5)?> </h6>
               </div>
               <input type=hidden name="classe" value="<?=$_POST["classe"]?>">
           </form>
       </div>
-    <div class="etu-index-edt">
+      <div class="etu-index-edt">
         <div id=j1 class="etu-index-edt-jour">
             <div class="enteteAccueil">    
-                <p>Lundi <?=$jourDebut?></p>
+                <p>Lundi <?=substr($jourDebut, 0,5)?></p>
             </div>                
             <?php
-              $jourDebut = date("Y-m-d", strtotime("+".($jour)." day"));
-
-                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant', $firstWeek = 1);
-            ?>
+            $jourDebut = date("Y-m-d", strtotime("+".($jour)." day"));
+            
+            affichageEDT($_POST["classe"], $jourDebut, 'Etudiant', $firstWeek = 1);?>
         </div>
-        <div id=j2 class="etu-index-edt-jour">                    
+        <div id=j2 class="etu-index-edt-jour">
             <?php
-                $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
-                $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+1)." day"));
+            $jourDebut = date("Y-m-d", strtotime("+".($jour+1)." day"));
+            $jourDebutAffichage = date("d-m", strtotime("+".($jour+1)." day"));
             ?>
             <div class="enteteAccueil">    
                 <p>Mardi <?=$jourDebutAffichage?></p>
             </div>
-            <?php  
-                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
-            ?>
+             <?php  
+
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');?>
+
         </div>
-        <div id=j3 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+2)." day"));
-                    $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+2)." day"));
-                    
-                    ?>
-                    <div class="enteteAccueil">    
-                    <p>Mercredi <?=$jourDebutAffichage?></p>
-                    </div>
-                     <?php   
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
-                    ?></div>
-        <div id=j4 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+3)." day"));
-                    $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+3)." day"));
+        <div id=j3 class="etu-index-edt-jour">
+        <?php
+            $jourDebut = date("Y-m-d", strtotime("+".($jour+2)." day"));
+            $jourDebutAffichage = date("d-m", strtotime("+".($jour+2)." day"));
+            
+            ?>
+            <div class="enteteAccueil">    
+                <p>Mercredi <?=$jourDebutAffichage?></p>
+            </div>
+             <?php   
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');?>
+        </div>
+        <div id=j4 class="etu-index-edt-jour">
+        <?php
+            $jourDebut = date("Y-m-d", strtotime("+".($jour+3)." day"));
+            $jourDebutAffichage = date("d-m", strtotime("+".($jour+3)." day"));
 
-                    ?>
-                    <div class="enteteAccueil">    
-                    <p>Jeudi <?=$jourDebutAffichage?></p>
-                    </div>
-                     <?php    
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
+            ?>
+            <div class="enteteAccueil">    
+                <p>Jeudi <?=$jourDebutAffichage?></p>
+            </div>
+             <?php    
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');?>
 
-                    ?></div>
-        <div id=j5 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+4)." day"));
-                    $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+4)." day"));
+        </div>
+        <div id=j5 class="etu-index-edt-jour">
+        <?php
+            $jourDebut = date("Y-m-d", strtotime("+".($jour+4)." day"));
+            $jourDebutAffichage = date("d-m", strtotime("+".($jour+4)." day"));
 
-                    ?>
-                    <div class="enteteAccueil">    
-                    <p>Vendredi <?=$jourDebutAffichage?></p>
-                    </div>
-                     <?php  
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
-                    ?></div>
-        <div id=j6 class="etu-index-edt-jour">                    <?php
-                    $jourDebut = date("Y-m-d", strtotime("+".($jour+5)." day"));
-                    $jourDebutAffichage = date("d-m-Y", strtotime("+".($jour+5)." day"));
+            ?>
+            <div class="enteteAccueil">    
+                <p>Vendredi <?=$jourDebutAffichage?></p>
+            </div>
+             <?php  
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');?>
+        </div>
+        <div id=j6 class="etu-index-edt-jour">
+        <?php
+            $jourDebut = date("Y-m-d", strtotime("+".($jour+5)." day"));
+            $jourDebutAffichage = date("d-m", strtotime("+".($jour+5)." day"));
 
-                    ?>
-                    <div class="enteteAccueil">    
-                    <p>Samedi <?=$jourDebut?></p>
-                    </div>
-                     <?php  
-                        affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');
-                    ?></div>
+            ?>
+            <div class="enteteAccueil">    
+                <p>Samedi <?=$jourDebutAffichage?></p>
+            </div>
+             <?php  
+                affichageEDT($_POST["classe"], $jourDebut, 'Etudiant');?>
+        </div>
 
-        
-    </div>
+
+</div>
 </div>
         
 <div class="modal fade" id="CourDetail" tabindex="-1" role="dialog" aria-labelledby="FormClassCenterTitle" aria-hidden="true">

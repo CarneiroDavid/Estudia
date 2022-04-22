@@ -73,9 +73,9 @@ if(!empty($_SESSION))
                             <a class="nav-link navbar-lien"  href="appel.php"  class="navbar-lien">Fiche d'appel des classes</a>
                         </li>
 
-                        <li class="nav-item">
+                        <!-- <li class="nav-item">
                             <a class="nav-link navbar-lien"  href="noteProf.php"  class="navbar-lien">Note des eleves</a>
-                        </li> 
+                        </li>  -->
 
                         <li class="nav-item">
                             <a class="nav-link navbar-lien" href="modifClasse.php"  class="navbar-lien">Information des élèves</a>
@@ -124,7 +124,7 @@ if(!empty($_SESSION))
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link navbar-lien" id="VieScolaire" href="vieScolaire.php?id=<?=$_SESSION["idUtilisateur"];?>">Vie Scolaires</a>
+                            <a class="nav-link navbar-lien" id="VieScolaire" href="vieScolaire.php?id=<?=$_SESSION["idUtilisateur"];?>">Vie Scolaire</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link navbar-lien" id="noteEleve" href="noteEleve.php<?=($_SESSION["statut"] == "Etudiant") ? "" : "?id=" . $_SESSION['idUtilisateur'];?>" >Notes</a>

@@ -5,7 +5,7 @@ class Modele
 {
     public function getBdd()
     {
-        return new PDO('mysql:host=localhost;dbname=estudia2;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        return new PDO('mysql:host=localhost;dbname=estudia4;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         // return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
     }
@@ -54,7 +54,6 @@ require_once "messVieSco.php";
 require_once "punitions.php";
 require_once "edts.php";
 require_once "absence.php";
-require_once "presence.php";
 require_once "retard.php";
 require_once "examen.php";
 require_once "log.php";

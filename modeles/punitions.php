@@ -28,10 +28,16 @@ Class Punition extends Modele {
 
     public function punitionEleve($idEleve)
     {
-        $requete = getBdd() -> prepare("SELECT motif,punition,ladate,idPunition,nom,prenom,statut,punition.idUtilisateur FROM punition INNER JOIN utilisateur USING(idUtilisateur) WHERE idEleve = ? ORDER BY ladate DESC");
-        $requete -> execute([$idEleve]);
-        $punitions = $requete -> fetchAll(PDO::FETCH_ASSOC);
-        return $punitions;
+        try{
+            $requete = $this->getBdd() -> prepare("SELECT motif,punition,ladate,punition.idPunition,nom,prenom,statut,punition.idUtilisateur FROM punition INNER JOIN utilisateur USING(idUtilisateur) WHERE idEleve = ? ORDER BY ladate DESC");
+            $requete -> execute([$idEleve]);
+            $punitions = $requete -> fetchAll(PDO::FETCH_ASSOC);
+            return $punitions;
+        }
+        catch(Exception $e){
+            return $e->getMessage();
+        }
+
     }
     
     public function insertionPunition($idEleve, $idUtilisateur, $motif, $punition , $date)
@@ -51,7 +57,6 @@ Class Punition extends Modele {
 
     public function modificationPunition($idPunition, $motif, $date, $punition)
         {
-            echo $idPunition."<br>".$motif."<br>".$date."<br>".$punition."<br>";
             try
             {
                 $requete = $this -> getBdd()-> prepare("UPDATE punition SET  motif = ? , ladate = ? , punition = ? WHERE idPunition = ? ");
