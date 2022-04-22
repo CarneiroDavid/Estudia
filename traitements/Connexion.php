@@ -2,7 +2,7 @@
 require_once "../modeles/modeles.php";
 
 $utilisateur = new User();
-$objetLogs = new Log();
+// $objetLogs = new Log();
 
 if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
 {
@@ -17,7 +17,7 @@ if(empty($_COOKIE["cookie-id"]) && empty($_COOKIE["cookie-token"]))
                 {                   
                     if($utilisateur -> connexion($_POST["identifiant"], $_POST["mdp"]) === true)
                     {
-                        $objetLogs -> insertionLog($_SESSION["idUtilisateur"], $_SERVER["REMOTE_ADDR"]);
+                        // $objetLogs -> insertionLog($_SESSION["idUtilisateur"], $_SERVER["REMOTE_ADDR"]);
                         // if($_SESSION["statut"] == "Administration")
                         // {
                         //     $objetLog = new ipAdmin();

@@ -5,8 +5,7 @@ class Modele
 {
     public function getBdd()
     {
-        return new PDO('mysql:host=localhost;dbname=estudia4;charset=UTF8', 'root', '',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        // return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        return new PDO('mysql:host=ipssisqestudia.mysql.db;dbname=ipssisqestudia;charset=UTF8', 'ipssisqestudia', 'Ipssi2022estudia',  array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 
     }
 
